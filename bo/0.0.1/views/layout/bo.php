@@ -274,7 +274,7 @@ and open the template in the editor.
 		</div>
 
 
-		<script src="<?php echo base_url('lib/bootstrap/js/bootstrap.js') ?>"></script>
+		<script src="<?php echo base_url('js/bo/bootstrap/js/bootstrap.js') ?>"></script>
 		<script type="text/javascript">
 					$("[rel=tooltip]").tooltip();
 					$(function () {
