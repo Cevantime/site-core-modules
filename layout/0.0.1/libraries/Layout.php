@@ -143,7 +143,7 @@ class Layout {
 	 * @param string $layoutName The name of the layout to be set
 	 */
 	public function setLayout($layoutName) {
-		$this->layout_view = 'layout/' . $layoutName;
+		$this->layout_view = $layoutName;
 	}
 
 	function addSyntaxHighlighting() {
