@@ -23,3 +23,4 @@ INSERT INTO `users_admin` (`id`, `name`, `forname`) VALUES
 --
 ALTER TABLE `users_admin`
   ADD CONSTRAINT `users_admin_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
