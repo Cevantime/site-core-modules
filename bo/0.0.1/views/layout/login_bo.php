@@ -15,7 +15,7 @@ and open the template in the editor.
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('js/bo/bootstrap/css/bootstrap.css') ?>">
 		<link rel="stylesheet" href="<?php echo base_url('js/bo/font-awesome/css/font-awesome.css'); ?>">
 
-		<script src="<?php echo base_url('lib/jquery-1.11.1.min.js') ?>" type="text/javascript"></script>
+		<script src="<?php echo base_url('js/bo/jquery-1.11.1.min.js') ?>" type="text/javascript"></script>
 
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/theme.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/premium.css') ?>">
@@ -23,7 +23,6 @@ and open the template in the editor.
 		<script type="text/javascript">
 			var baseURL = "<?php echo base_url(); ?>";
 		</script>
-		<script type="text/javascript" src="<?php echo base_url() ?>js/pagination.js"></script>
 
 		<?php echo $css_for_layout ?>
 
@@ -102,8 +101,8 @@ and open the template in the editor.
       </div>
 
 	  <?php echo $content_for_layout ?>
-
-    <script src="<?php echo base_url('lib/bootstrap/js/bootstrap.js') ?>"></script>
+	<?php echo Modules::run('flashmessages/flashMessages/slidedownstyle'); ?>
+    <script src="<?php echo base_url('js/bo/bootstrap/js/bootstrap.js') ?>"></script>
     <script type="text/javascript">
         $("[rel=tooltip]").tooltip();
         $(function() {

@@ -39,16 +39,33 @@ class Login extends MX_Controller {
 					if($this->user->can('access','backoffice')){
 						redirect('bo/home');
 					} else {
-						$this->addErrors('you can\'t access backoffice');
+						$this->addError('vous ne pouvez pas accéder au back office');
 					}
 				} else {
-					$this->addErrors('login or password not found');
+					$this->addError('login ou mot de passe non trouvé');
 				}
 			} else {
-				die($this->form_validation->error_string());
+				$this->addError($this->form_validation->error_string());
 			}
 			
 		}
 		$this->layout->view('bo/login');
+	}
+	
+	private function addMessage($type, $message){
+		$this->load->library('flashmessages/flashMessagesManager');
+		$this->flashmessagesmanager->pushNewMessage($message,$type);
+	}
+
+	protected function addError($message) {
+		$this->addMessage('error', $message);
+	}
+
+	protected function addSuccess($message) {
+		$this->addMessage('succes', $message);
+	}
+
+	protected function addWarnings($message) {
+		$this->addMessage('warning', $message);
 	}
 }

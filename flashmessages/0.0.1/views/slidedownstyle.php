@@ -78,7 +78,7 @@
 
 <?php foreach ($flashMessages as $flashMessage): ?>
 
-			showAdminMessage('<?php echo trim(addslashes($flashMessage['content'])) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
+			showAdminMessage('<?php echo str_replace("\n", "\\", trim(addslashes($flashMessage['content']))) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
 
 <?php endforeach; ?>
 
