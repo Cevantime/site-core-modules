@@ -12,7 +12,7 @@
  * @author thibault
  */
 
-require_once APP_PATH.'/modules/memberspace/models/User.php';
+require_once APPPATH.'/modules/memberspace/models/User.php';
 
 
 class Admin extends User {
