@@ -12,6 +12,9 @@
  * @author thibault
  */
 
+require_once APP_PATH.'/modules/memberspace/models/User.php';
+
+
 class Admin extends User {
 	
 	public static $TABLE_NAME = 'users_admin';

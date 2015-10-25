@@ -7,6 +7,10 @@
 		{
 			"name" : "flashmessages",
 			"version" : "0.0.1"
+		},
+		{
+			"name" : "memberspace",
+			"version" : "0.0.1"
 		}
 	]
 	
