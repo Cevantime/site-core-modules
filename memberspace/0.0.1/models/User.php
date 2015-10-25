@@ -52,7 +52,7 @@ class User extends DATA_Model {
 			if(!$this->getData('id')) {
 				$this->rights = array();
 			} else {
-				$this->load->model('right');
+				$this->load->model('memberspace/right');
 				$this->rights = $this->right->getUserRights($this->id);
 			}
 		}
