@@ -75,12 +75,13 @@
 <script>
 
 	$(function () {
-
+<?php if(isset($flashMessages) && $flashMessages): ?>
 <?php foreach ($flashMessages as $flashMessage): ?>
 
 			showAdminMessage('<?php echo str_replace("\n", "\\", trim(addslashes($flashMessage['content']))) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
 
 <?php endforeach; ?>
+<?php endif; ?>
 
 	});
 

@@ -42,8 +42,10 @@ class FlashMessages extends MX_Controller {
 	
 	private function groupMessagesByType($messages) {
 		$groups = array();
-		foreach($messages as $message) {
-			$groups[$message['type']][] = $message;
+		if($messages){
+			foreach($messages as $message) {
+				$groups[$message['type']][] = $message;
+			}
 		}
 		return $groups;
 	}

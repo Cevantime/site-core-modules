@@ -81,23 +81,22 @@ class BO_Controller extends MX_Controller {
 	}
 	
 	private function addMessage($type, $message){
-		$messages = $this->layout->getAssignedValue($type);
-		if(!$messages) $messages = array();
-		$messages[] = $message;
-		$this->layout->assign($type, $messages);
+		$this->load->library('flashmessages/flashMessagesManager');
+		$this->flashmessagesmanager->pushNewMessage($message,$type);
 	}
 
-	protected function addErrors($message) {
-		$this->addMessage('errors', $message);
+	protected function addError($message) {
+		$this->addMessage('error', $message);
 	}
 
 	protected function addSuccess($message) {
-		$this->addMessage('success', $message);
+		$this->addMessage('succes', $message);
 	}
 
 	protected function addWarnings($message) {
 		$this->addMessage('warning', $message);
 	}
+	
 	
 	protected function checkIfUserCan($action,$object='*',$value='*'){
 		if(!$this->user->can($action,$object,$value)){
