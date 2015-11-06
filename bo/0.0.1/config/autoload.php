@@ -5,3 +5,4 @@ if (!defined('BASEPATH'))
 
 
 $autoload['libraries'] = array('layout/layout');
+$autoload['models'] = array('memberspace/user');

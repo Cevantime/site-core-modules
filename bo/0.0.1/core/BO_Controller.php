@@ -28,6 +28,7 @@ class BO_Controller extends MX_Controller {
 		} else {
 			redirect('bo/login');
 		}
+		$this->load->library('mypagination');
 		$this->load->helper('pagination');
 		$this->layout->assign('user', $this->admin);
 		$this->breadcrumb();

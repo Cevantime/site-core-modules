@@ -19,11 +19,13 @@ class Administrators extends BO_Controller {
 		$this->all();
 	}
 	
-	public function all($limit = 0,$offset=10){
+	public function all($type = 'start',$limit=0){
 		$this->checkIfUserCan('see','admin','*');
 		$this->load->model('admin');
-		$admins = $this->pagination('admin', $limit, $offset);
+		$id_pagination = 'administrators-list';
+		$admins = $this->mypagination->paginate($id_pagination,$this->admin, $limit, 10);
 		$this->layout->assign('administrators', $admins);
+		$this->layout->assign('id_pagination_administrators_list', $id_pagination);
 		$this->layout->view('bo/administrators/all');
 	}
 	

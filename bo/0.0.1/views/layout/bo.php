@@ -17,6 +17,7 @@ and open the template in the editor.
 
 		<script src="<?php echo base_url('js/bo/jquery-1.11.1.min.js') ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url('js/bo/theme.js'); ?>" type="text/javascript"></script>
+
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/theme.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/premium.css') ?>">
 
@@ -175,7 +176,7 @@ and open the template in the editor.
 					</ul></li>
 
 				<li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
-				<li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"  ></i> Faq</a></li>
+				<li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
 				<li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i class="fa fa-fw fa-heart"></i> Get Premium</a></li>
 			</ul>
 		</div>
@@ -188,10 +189,10 @@ and open the template in the editor.
 					<p class="stat"><span class="label label-danger">15</span> Overdue</p>
 				</div>
 
-				<h1 class="page-title"><?php echo $title_for_layout ?></h1>
+				<h1 class="page-title">Dashboard</h1>
 				<ul class="breadcrumb">
 					<?php foreach ($breadcrumb as $segment => $uri) : ?>
-						<li><a href="<?php echo base_url($uri) ?>"><?php echo $segment ?></a> </li>
+						<li><a href="<?php echo $uri ?>"><?php echo $segment ?></a> </li>
 					<?php endforeach; ?>
 				</ul>
 

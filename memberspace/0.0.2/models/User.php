@@ -78,6 +78,7 @@ class User extends DATA_Model {
 		return $ret;
 	}
 	
+	
 	public function exists($userId = null){
 		if(!$userId){
 			$userId = $this->getData('id');

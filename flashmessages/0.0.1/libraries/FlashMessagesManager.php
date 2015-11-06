@@ -22,7 +22,6 @@ class FlashMessagesManager implements Iterator {
 		$CI =& get_instance();
 		$this->_ci = $CI;
 		$this->_ci->load->model('flashmessages/flashmessage');
-
 		if ($this->_ci->session->userdata('flashmessage')) {
 
 			$this->session_id = $this->_ci->session->userdata('flashmessage');

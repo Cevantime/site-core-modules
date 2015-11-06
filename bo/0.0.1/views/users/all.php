@@ -35,5 +35,5 @@
 
 	</tbody>
 </table>
-<?php echo pagination($max, 'bo/users/all', $start, $offset); ?>
+<?php echo pagination($id_pagination_users_list,  base_url('bo/users/all')); ?>
 

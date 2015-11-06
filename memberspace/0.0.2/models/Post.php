@@ -40,4 +40,8 @@ class Post extends DATA_Model {
 		$datas['update_time'] = $time;
 		return parent::update($datas, $where);
 	}
+	
+	public function exists($id){
+		return $this->getId($id) != false;
+	}
 }

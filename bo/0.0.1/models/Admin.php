@@ -14,7 +14,6 @@
 
 require_once APPPATH.'/modules/memberspace/models/User.php';
 
-
 class Admin extends User {
 	
 	public static $TABLE_NAME = 'users_admin';
