@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL,
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
+  `creation_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
