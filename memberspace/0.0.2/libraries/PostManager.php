@@ -22,6 +22,7 @@ class PostManager {
 		$this->_ci_form_validation = $this->_ci->form_validation;
 		$this->_ci->load->library('upload');
 		$this->_ci_upload = $CI->upload;
+		$this->_ci->load->library('flashmessages/flashMessagesManager');
 		$this->_validation_rules = Modules::load_multiple('form_validation', 'memberspace', 'config/', 'config');
 		$this->_upload_paths = Modules::load_multiple('upload_paths','memberspace', 'config/', 'config');
 		$this->setCurrentPostModel($basemodel);
@@ -47,13 +48,17 @@ class PostManager {
 		$files = $_FILES;
 		if($run){
 			$path = $this->getCurrentUploadPath();
-			$this->_ci_upload->initialize(array('upload_path' => './'.$path));
+			$this->_ci_upload->initialize(array('upload_path' => './'.$path,'allowed_types'=>'*', 'file_name'=>  uniqid()));
 			foreach ($files as $key => $filedata){
-				$this->_ci_upload->do_upload($key);
-				if($datas){
-					$datas[$key] = $path.'/'.$this->_ci_upload->file_name;
-				} else {
-					$_POST[$key] = $path.'/'.$this->_ci_upload->file_name;
+				if($this->_ci_upload->do_upload($key)) {
+					if($datas){
+						$datas[$key] = $path.'/'.$this->_ci_upload->file_name;
+					} else {
+						$_POST[$key] = $path.'/'.$this->_ci_upload->file_name;
+					}
+				}
+				else {
+					$this->_ci->flashmessagesmanager->pushNewMessage($this->_ci_upload->display_errors(), FlashMessage::TYPE_WARNING);
 				}
 			}
 		}
@@ -63,7 +68,7 @@ class PostManager {
 	}
 	
 	public function saveDatas($datas) {
-		$this->postmodel->save($datas);
+		return $this->postmodel->save($datas);
 	}
 	
 	public function getLastValidationErrors() {
