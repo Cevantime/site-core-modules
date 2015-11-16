@@ -31,8 +31,12 @@ class User extends DATA_Model {
 		$this->loadRow(array('id'=>$id));
 	}
 	
-	public function checkUser($login, $password){
-		return $this->getRow(array('login'=>$login,'password'=>$password));
+	public function checkUser($username, $password){
+		if(!filter_var($username, FILTER_VALIDATE_EMAIL)){
+			return $this->getRow(array('login'=>$username,'password'=>$password));
+		} else {
+			return $this->getRow(array('email'=>$username,'password'=>$password));
+		}
 	}
 
 	public function can($action, $type='*', $value='*'){
