@@ -44,7 +44,9 @@ class PostManager {
 		$this->_ci_form_validation->set_rules($rules);
 		
 		$run = $this->_ci_form_validation->run();
-		
+		if(!$datas){
+			unset($_POST['save-post']);
+		}
 		$files = $_FILES;
 		if($run){
 			$path = $this->getCurrentUploadPath();

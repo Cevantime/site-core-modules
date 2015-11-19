@@ -9,7 +9,6 @@ $CI->load->model('memberspace/post');
 
 $is_update = isset($post['id'], $post['save-post']);
 
-
 $config = array(
 	'memberspace/post' => array(
 		array(

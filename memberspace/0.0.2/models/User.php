@@ -28,7 +28,7 @@ class User extends DATA_Model {
 
 
 	public function load($id){
-		$this->loadRow(array('id'=>$id));
+		$this->loadRow(array('users.id'=>$id));
 	}
 	
 	public function checkUser($username, $password){
@@ -88,6 +88,15 @@ class User extends DATA_Model {
 			$userId = $this->getData('id');
 		}
 		return $this->getId($userId) != false;
+	}
+	
+	
+	public function notExistingLogin($login){
+		return !$this->getRow(array('login',$login));
+	}
+	
+	public function notExistingEmail($login){
+		return !$this->getRow(array('email',$login));
 	}
 
 }
