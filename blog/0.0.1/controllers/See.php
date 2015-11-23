@@ -26,6 +26,10 @@ class See extends BLOG_Controller {
 	public function bo($id = null) {
 		$this->load->view('see/bo',array('blogpost'=> $this->getId($id)));
 	}
+	
+	public function front($id = null) {
+		$this->load->view('see/front',array('blogpost'=> $this->getId($id)));
+	}
 
 	public function delete($id = null){
 		if(!$id){

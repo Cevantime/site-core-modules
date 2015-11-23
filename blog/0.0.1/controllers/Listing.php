@@ -29,6 +29,10 @@ class Listing extends BLOG_Controller {
 		$this->load->view('listing/bo',array('blogposts'=>$blogposts));
 	}
 
+	public function front($type='start', $limit = 0) {
+		$blogposts = $this->pagination('pagination-blogposts-basic-list',$type, $limit);
+		$this->load->view('listing/front',array('blogposts'=>$blogposts));
+	}
 
 	public function pagination($id_pagination,$type='start',$limit=0){
 		$start = $limit;
