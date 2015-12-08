@@ -29,5 +29,5 @@
 	<?php endforeach; ?>
 	<?php endif; ?>
 	<?php $model_pagination = implode('-', explode('/', $model)); ?>
-	<?php echo pagination_ajax('pagination-blogposts-basic-list','#blog-posts',base_url('blog/listing/front/'.$model_pagination)); ?>
+	<?php echo pagination_ajax('pagination-blogposts-front-list','#blog-posts',base_url('blog/listing/front/'.$model_pagination)); ?>
 </div>

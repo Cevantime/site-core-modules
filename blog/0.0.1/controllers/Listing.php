@@ -22,19 +22,19 @@ class Listing extends BLOG_Controller {
 	public function basic($model,$type='start',$limit=0) {
 		$model = $this->filterModel($model);
 		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
-		$this->load->view('listing/basic',array('blogposts'=>$blogposts, 'model'=>$model));
+		$this->load->view('blog/listing/basic',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
 	public function bo($model,$type='start',$limit=0) {
 		$model = $this->filterModel($model);
 		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
-		$this->load->view('listing/bo',array('blogposts'=>$blogposts, 'model'=>$model));
+		$this->load->view('blog/listing/bo',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
 	public function front($model,$type='start',$limit=0) {
 		$model = $this->filterModel($model);
-		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
-		$this->load->view('listing/front',array('blogposts'=>$blogposts, 'model'=>$model));
+		$blogposts = $this->pagination('pagination-blogposts-front-list',$model,$type, $limit);
+		$this->load->view('blog/listing/front',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 
 	private function filterModel($model) {
