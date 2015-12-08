@@ -60,8 +60,6 @@ class FlashMessagesManager implements Iterator {
 
 		$this->_ci->flashmessage->deleteSessionsFlashMessages($this->session_id);
 
-		$this->_msgs = array();
-
 		$this->session_id = uniqid();
 
 		$this->_ci->session->set_userdata($this->session_id);

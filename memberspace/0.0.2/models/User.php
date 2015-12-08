@@ -90,13 +90,12 @@ class User extends DATA_Model {
 		return $this->getId($userId) != false;
 	}
 	
-	
 	public function notExistingLogin($login){
-		return !$this->getRow(array('login',$login));
+		return !$this->getRow(array('login'=>$login));
 	}
 	
-	public function notExistingEmail($login){
-		return !$this->getRow(array('email',$login));
+	public function notExistingEmail($email){
+		return !$this->getRow(array('email'=>$email));
 	}
 
 }

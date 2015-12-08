@@ -31,8 +31,8 @@ class Right extends DATA_Model {
 	
 	public function checkInRights($rights, $type, $value) {
 		foreach($rights as $right) {
-			$rightValue = $right->$type;
-			if($rightValue === '*' || $rightValue === $value) {
+			$rightValue = explode(',',$right->$type);
+			if($rightValue === '*' || in_array($value, $rightValue)) {
 				return true;
 			}
 		}
@@ -73,11 +73,31 @@ class Right extends DATA_Model {
 			return false;
 		}
 		$this->load->model('memberspace/right');
+		return $this->rightsAllowsTo($rights, $action, $type, $value);
+	}
+	
+	public function rightsAllowsTo($rights,$action,$type = '*',$value='*'){
 		return $this->checkInRights($rights, 'name', $action) &&
 		$this->checkInRights($rights, 'type', $type) &&
 		$this->checkInRights($rights, 'object_key', $value);
 	}
 	
+	public function checkValues($rights, $type = '*', $value= '*') {
+		if ($type == '*' || $value == '*') {
+			return $this->checkInRights($rights, $type, $value);
+		}
+		foreach ($rights as $right) {
+			if($this->checkValue($right->object_key, $type, $value)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private function checkValue($rightValue, $type, $value){
+		
+		if(preg_match('#^(.+)->(.+)?\((.*?)\)$#', $value, $matches))
+	}
 	
 	public function groupCan($groupId,  $action, $type='*', $value='*') {
 		$rights = $this->getGroupRights($groupId);
@@ -85,8 +105,7 @@ class Right extends DATA_Model {
 			return false;
 		}
 		$this->load->model('memberspace/right');
-		return $this->checkInRights($rights, 'name', $action) &&
-		$this->checkInRights($rights, 'type', $type) &&
-		$this->checkInRights($rights, 'object_key', $value);
+		return $this->rightsAllowsTo($rights, $action, $type, $value);
 	}
+	
 }
