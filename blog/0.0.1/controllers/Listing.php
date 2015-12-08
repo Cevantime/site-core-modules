@@ -43,12 +43,14 @@ class Listing extends BLOG_Controller {
 	}
 
 	public function pagination($id_pagination, $model,$type='start',$limit=0){
+		$explode = explode('/', $model) ;
+		$modelName = end($explode);
 		$start = $limit;
 		$offset = 10;
 		$this->load->library('mypagination');
 		$this->load->helper('pagination');
 		$this->load->model('blog/blogpost');
-		return $this->mypagination->paginate($id_pagination, $this->blogpost,$start,$offset,'getListWithAuthors');
+		return $this->mypagination->paginate($id_pagination, $this->$modelName,$start,$offset,'getListWithAuthors');
 	}
 
 }
