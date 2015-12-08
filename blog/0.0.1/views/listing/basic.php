@@ -36,4 +36,5 @@
 	<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
-<?php echo pagination('pagination-blogposts-basic-list'); ?>
+<?php $model_pagination = implode('-', explode('/', $model)); ?>
+<?php echo pagination('pagination-blogposts-basic-list/'.$model_pagination); ?>

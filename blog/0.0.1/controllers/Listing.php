@@ -15,22 +15,28 @@ if (!defined('BASEPATH'))
  */
 class Listing extends BLOG_Controller {
 
-	public function index($type='start',$limit=0) {
-		$this->basic($type, $limit);
+	public function index($model, $type='start',$limit=0) {
+		$this->basic($model,$type, $limit);
 	}
 	
-	public function basic($type='start',$limit=0) {
-		$blogposts = $this->pagination('pagination-blogposts-basic-list',$type, $limit);
-		$this->load->view('listing/basic',array('blogposts'=>$blogposts));
+	public function basic($model,$type='start',$limit=0) {
+		$model = $this->filterModel($model);
+		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
+		$this->load->view('listing/basic',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
-	public function bo($type='start',$limit=0) {
-		$blogposts = $this->pagination('pagination-blogposts-basic-list',$type, $limit);
-		$this->load->view('listing/bo',array('blogposts'=>$blogposts));
+	public function bo($model,$type='start',$limit=0) {
+		$model = $this->filterModel($model);
+		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
+		$this->load->view('listing/bo',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 
+	private function filterModel($model) {
+		$explode = explode('-', $model);
+		return implode('/', $explode);
+	}
 
-	public function pagination($id_pagination,$type='start',$limit=0){
+	public function pagination($id_pagination, $model,$type='start',$limit=0){
 		$start = $limit;
 		$offset = 10;
 		$this->load->library('mypagination');

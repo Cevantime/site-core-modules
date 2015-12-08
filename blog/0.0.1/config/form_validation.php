@@ -5,10 +5,8 @@ if (!defined('BASEPATH'))
 
 $CI =& get_instance();
 $post = $CI->input->post();
-$CI->load->model('blog/blogpost');
 
 $is_update = isset($post['id'], $post['save-post']);
-
 
 $config = array(
 	'blog/blogpost' => array(
@@ -37,6 +35,7 @@ $config = array(
 );
 
 if($is_update){
+	$CI->load->model('blog/blogpost');
 	$config['blog/blogpost'][] = array(
 			'field' => 'id',
 			'label' => 'Id',
