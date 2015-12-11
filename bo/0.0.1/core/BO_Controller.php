@@ -16,6 +16,7 @@ class BO_Controller extends MX_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->library('layout/layout');
 		$this->layout->setLayout('bo/layout/bo');
 		$this->load->model('memberspace/user');
 		if($this->session->user_id){
