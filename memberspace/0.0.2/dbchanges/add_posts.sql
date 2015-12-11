@@ -6,7 +6,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 --
 
 CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `creation_time` int(11) NOT NULL,
