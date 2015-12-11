@@ -15,23 +15,23 @@ if (!defined('BASEPATH'))
  */
 class Listing extends BLOG_Controller {
 
-	public function index($model, $type='start',$limit=0) {
+	public function index($model = 'blog/blogpost', $type='start',$limit=0) {
 		$this->basic($model,$type, $limit);
 	}
 	
-	public function basic($model,$type='start',$limit=0) {
+	public function basic($model = 'blog/blogpost',$type='start',$limit=0) {
 		$model = $this->filterModel($model);
 		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
 		$this->load->view('blog/listing/basic',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
-	public function bo($model,$type='start',$limit=0) {
+	public function bo($model = 'blog/blogpost',$type='start',$limit=0) {
 		$model = $this->filterModel($model);
 		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
 		$this->load->view('blog/listing/bo',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
-	public function front($model,$type='start',$limit=0) {
+	public function front($model = 'blog/blogpost',$type='start',$limit=0) {
 		$model = $this->filterModel($model);
 		$blogposts = $this->pagination('pagination-blogposts-front-list',$model,$type, $limit);
 		$this->load->view('blog/listing/front',array('blogposts'=>$blogposts, 'model'=>$model));
