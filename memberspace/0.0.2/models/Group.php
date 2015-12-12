@@ -64,6 +64,13 @@ class Group extends DATA_Model {
 		if(!$groupId){
 			$groupId = $this->getData('id');
 		}
+		if(!is_int($groupId) && is_string($groupId)){
+			$group = $this->getByName($groupId);
+			if(!$group){
+				return FALSE;
+			}
+			$groupId = $group->id;
+		}
 		$this->load->model('memberspace/linkusergroup');
 		$ret = $this->linkusergroup->link($userId, $groupId);
 		

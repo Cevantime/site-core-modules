@@ -82,7 +82,6 @@ class User extends DATA_Model {
 		return $ret;
 	}
 	
-	
 	public function exists($userId = null){
 		if(!$userId){
 			$userId = $this->getData('id');
@@ -97,5 +96,15 @@ class User extends DATA_Model {
 	public function notExistingEmail($email){
 		return !$this->getRow(array('email'=>$email));
 	}
+	
+	public function addToGroup($groupId, $userId = null) {
+		if(!$userId){
+			$userId = $this->getData('id');
+		}
+		$this->load->model('group');
+		$this->group->addUser($userId,$groupId);
+	}
+	
+	
 
 }
