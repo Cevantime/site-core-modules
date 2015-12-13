@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 $CI =& get_instance();
 $post = $CI->input->post();
 
-$is_update = isset($post['id'], $post['save-post']);
+$is_update = isset($post['id'], $post['save-blogpost']);
 
 $config = array(
 	'blog/blogpost' => array(

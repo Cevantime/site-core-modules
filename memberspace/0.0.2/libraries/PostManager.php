@@ -13,7 +13,7 @@ class PostManager {
 	private $_ci_upload;
 	private $_ci;
 	
-	private $postmodel,$basepostmodel;
+	private $postmodel,$basepostmodel,$postmodelname;
 	
 	public function __construct($basemodel = 'memberspace/post') {
 		$CI =& get_instance();
@@ -45,7 +45,7 @@ class PostManager {
 		
 		$run = $this->_ci_form_validation->run();
 		if(!$datas){
-			unset($_POST['save-post']);
+			if(isset($_POST['save-'.$this->postmodelname]))unset($_POST['save-'.$this->postmodelname]);
 		}
 		$files = $_FILES;
 		if($run){
@@ -91,18 +91,19 @@ class PostManager {
 	}
 	
 	public function getCurrentUploadPath() {
-		
 		return isset($this->_upload_paths[$this->basepostmodel]) ? $this->_upload_paths[$this->basepostmodel] : 'uploads/posts';
 	}
-
-
 	
+	public function getPostModelName() {
+		return $this->postmodelname;
+	}
+
 	public function setCurrentPostModel($basemodel) {
 		$this->_ci->load->model($basemodel);
 		$this->basepostmodel = $basemodel;
 		$explode = explode('/', $basemodel);
-		$model = end($explode);
-		$this->postmodel = $this->_ci->$model;
+		$this->postmodelname = end($explode);
+		$this->postmodel = $this->_ci->{$this->postmodelname};
 	}
 	
 	public function getAPostModelAsArray($id) {
