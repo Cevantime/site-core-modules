@@ -41,7 +41,4 @@ class Post extends DATA_Model {
 		return parent::update($datas, $where);
 	}
 	
-	public function exists($id){
-		return $this->getId($id) != false;
-	}
 }
