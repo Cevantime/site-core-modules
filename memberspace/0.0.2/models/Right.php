@@ -31,8 +31,8 @@ class Right extends DATA_Model {
 	
 	public function checkInRights($rights, $type, $value) {
 		foreach($rights as $right) {
-			$rightValue = $right->$type;
-			if($rightValue === '*' || $rightValue === $value) {
+			$rightValue = explode(',',$right->$type);
+			if($rightValue === '*' || in_array($value, $rightValue)) {
 				return true;
 			}
 		}
@@ -75,9 +75,50 @@ class Right extends DATA_Model {
 		$this->load->model('memberspace/right');
 		return $this->checkInRights($rights, 'name', $action) &&
 		$this->checkInRights($rights, 'type', $type) &&
+		$this->checkValues($userId, $rights, $value);
+	}
+	
+	public function rightsAllowsTo($rights,$action,$type = '*',$value='*'){
+		return $this->checkInRights($rights, 'name', $action) &&
+		$this->checkInRights($rights, 'type', $type) &&
 		$this->checkInRights($rights, 'object_key', $value);
 	}
 	
+	public function checkValues($userId, $rights, $value= '*') {
+		if ($value == '*' || ctype_digit($value)) {
+			return $this->checkInRights($rights, $type, $value);
+		}
+		foreach ($rights as $right) {
+			if($this->checkValue($userId, $right->object_key, $value)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private function checkValue($userId, $object_key, $value){
+		$varreg = '([0-9a-zA-Z]+)';
+		$regex = '#^'.$varreg.'?\['.$varreg.'\]::'.$varreg.'\((.*?)\)$#';
+		if(preg_match($regex, $object_key, $matches)){
+			$type = $matches[1];
+			$class = $matches[2];
+			$method = $matches[3];
+			$args = explode(',', $matches[4]);
+			foreach ($args as $k => $v){
+				if($v === '{object}'){
+					$args[$k] = $value;
+				} else if($v === '{user}') {
+					$args[$k] = $userId;
+				}
+			}
+			$this->load->$type($class);
+			$obj = $this->$class;
+			if(call_user_func_array(array($obj,$method), $args) === TRUE) {
+				return TRUE;
+			} 
+		}
+		return FALSE;
+	}
 	
 	public function groupCan($groupId,  $action, $type='*', $value='*') {
 		$rights = $this->getGroupRights($groupId);
@@ -85,16 +126,7 @@ class Right extends DATA_Model {
 			return false;
 		}
 		$this->load->model('memberspace/right');
-		return $this->checkInRights($rights, 'name', $action) &&
-		$this->checkInRights($rights, 'type', $type) &&
-		$this->checkInRights($rights, 'object_key', $value);
+		return $this->rightsAllowsTo($rights, $action, $type, $value);
 	}
 	
-	public function filterValue($userId,$type, $value){
-		
-	}
-	
-	public function own($userId, $value,$args=array()){
-		
-	}
 }
