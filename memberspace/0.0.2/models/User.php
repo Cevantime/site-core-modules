@@ -105,6 +105,23 @@ class User extends DATA_Model {
 		$this->group->addUser($userId,$groupId);
 	}
 	
+	public function isConnected($id = null) {
+		$CI =& get_instance();
+		if(!$id){
+			$id = $this->getData('id');
+		}
+		$user_id_in_session = $CI->session->userdata('user_id');
+		return $user_id_in_session && $user_id_in_session == $id && $this->getData('id') == $id;
+	}
+	
+	public function connect($id = null) {
+		$CI =& get_instance();
+		if(!$id){
+			$id = $this->getData('id');
+		}
+		$this->load($id);
+		$CI->session->set_userdata('user_id', $id);
+	}
 	
 
 }

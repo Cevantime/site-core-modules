@@ -112,7 +112,9 @@ class Right extends DATA_Model {
 				}
 			}
 			$this->load->$type($class);
-			$obj = $this->$class;
+			$exploded = explode('/', $class);
+			$classRad = end($exploded);
+			$obj = $this->$classRad;
 			if(call_user_func_array(array($obj,$method), $args) === TRUE) {
 				return TRUE;
 			} 
