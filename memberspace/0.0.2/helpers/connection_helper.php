@@ -3,7 +3,6 @@ if (!function_exists('is_connected')) {
 
 	function is_connected($user_id = null) {
 		$CI =& get_instance();
-		var_dump($CI->user);
 		return isset($CI->user) && $CI->user->isConnected($user_id);
 	}
 
