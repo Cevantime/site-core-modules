@@ -20,7 +20,7 @@ class Connection extends MY_Controller {
 	}
 
 	public function tryLogin() {
-		$this->load->library('loginmanager');
+		$this->load->library('memeberspace/loginManager');
 		$this->loginmanager->connectUserFromPost();
 	}
 }

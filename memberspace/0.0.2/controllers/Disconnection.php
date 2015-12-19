@@ -17,7 +17,7 @@ class Disconnection extends MY_Controller {
 	
 	private function doDisconnect($redirect = null) {
 		if(isset($_POST['disconnect']) && $_POST['disconnect']){
-			$this->load->library('loginManager');
+			$this->load->library('memberspace/loginManager');
 			$this->loginmanager->disconnect();
 			if($redirect) {
 				redirect($redirect);
