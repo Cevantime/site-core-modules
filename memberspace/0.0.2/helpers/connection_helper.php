@@ -12,7 +12,7 @@ if (!function_exists('require_login')) {
 
 	function require_login() {
 		$CI =& get_instance();
-		$CI->load->library('loginManager');
+		$CI->load->library('memberspace/loginManager');
 		return $CI->loginManager->requireLogin();
 	}
 
