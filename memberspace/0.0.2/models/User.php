@@ -41,6 +41,7 @@ class User extends DATA_Model {
 
 	public function can($action, $type='*', $value='*'){
 		if(!$this->isConnected()) return false;
+		$this->load->model('memberspace/right');
 		return $this->right->userCan($this, $action, $type, $value);
 		
 	}
