@@ -40,7 +40,7 @@ class Right extends DATA_Model {
 	public function checkInRights($rights, $type, $value) {
 		foreach($rights as $right) {
 			$rightValue = explode(',',$right->$type);
-			if($rightValue === '*' || in_array($value, $rightValue)) {
+			if(in_array('*', $rightValue) || in_array($value, $rightValue)) {
 				return true;
 			}
 		}
