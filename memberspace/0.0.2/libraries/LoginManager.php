@@ -29,6 +29,10 @@ class LoginManager {
 		return true;
 	}
 	
+	public function getUser() {
+		return $this->_user;
+	}
+	
 	public function connectUserIfAny() {
 		if($this->isConnected()) return;
 		$user_id = $this->_ci->session->userdata('user_id');
