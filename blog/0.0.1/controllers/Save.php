@@ -67,14 +67,13 @@ class Save extends BLOG_Controller {
 		
 		$is_update = isset($post['id']);
 
-		if($is_update && !user_can('update', 'post', $post['id'])){
+		if($is_update && !user_can('update', $model, $post['id'])){
 			$this->addError(translate('Vous ne pouvez pas modifier ce post.'));
 			return $pop;
-		} else if(!user_can('insert','post')){
+		} else if(!user_can('insert',$model)){
 			$this->addError(translate('Vous ne pouvez pas ajouter de post.'));
 			return $pop;
 		}
-		
 		
 		if (!$this->postmanager->validateDatas()) {
 			$this->addError($this->postmanager->getLastValidationErrors());
@@ -87,7 +86,7 @@ class Save extends BLOG_Controller {
 		
 		$new_id = $this->postmanager->saveDatas($datas);
 		
-		$this->user->allowTo('*', 'blogpost', $new_id);
+		$this->user->allowTo('*', $model, $new_id);
 		
 		$this->addSuccess(translate('Le post a bien été '.(($is_update?'mis à jour':'ajouté'))));  
 		

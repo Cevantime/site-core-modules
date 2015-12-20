@@ -40,13 +40,8 @@ class User extends DATA_Model {
 	}
 
 	public function can($action, $type='*', $value='*'){
-		$this->loadRights();
-		$rights = $this->rights;
-		if(!$rights) return false;
-		$this->load->model('memberspace/right');
-		return $this->right->checkInRights($rights, 'name', $action) &&
-		$this->right->checkInRights($rights, 'type', $type) &&
-		$this->right->checkInRights($rights, 'object_key', $value);
+		if(!$this->isConnected()) return false;
+		return $this->right->userCan($this, $action, $type, $value);
 		
 	}
 
@@ -65,6 +60,7 @@ class User extends DATA_Model {
 	public function getRights($userId=null){
 		if(!$userId){
 			$userId = $this->getData('id');
+			if($this->rights) return $this->rights;
 		}
 		$this->load->model('memberspace/right');
 		return $this->right->getUserRights($userId);

@@ -14,14 +14,21 @@
 class Right extends DATA_Model {
 	
 	public static $TABLE_NAME = 'rights';
+	
+	private $_rights = array();
 
 	public function getTableName() {
 		return self::$TABLE_NAME;
 	}
 	
 	public function getUserRights($userId) {
-		$this->load->model('memberspace/linkuserright');
-		return $this->getTrough(Linkuserright::$TABLE_NAME, 'user', $userId);
+		if(!isset($this->_rights[$userId])){
+			$this->load->model('memberspace/linkuserright');
+			$this->_rights[$userId] = $this->getTrough(Linkuserright::$TABLE_NAME, 'user', $userId);
+		}
+	
+		return $this->_rights[$userId];
+		
 	}
 	
 	public function getGroupRights($groupId) {
@@ -67,15 +74,15 @@ class Right extends DATA_Model {
 		}
 	}
 	
-	public function userCan($userId, $action, $type='*', $value='*'){
-		$rights = $this->getUserRights($userId);
+	public function userCan($user, $action, $type='*', $value='*'){
+		$rights = $this->getUserRights($user);
 		if (!$rights) {
 			return false;
 		}
 		$this->load->model('memberspace/right');
 		return $this->checkInRights($rights, 'name', $action) &&
 		$this->checkInRights($rights, 'type', $type) &&
-		$this->checkValues($userId, $rights, $value);
+		$this->checkValues($user, $rights, $value);
 	}
 	
 	public function rightsAllowsTo($rights,$action,$type = '*',$value='*'){
@@ -84,19 +91,19 @@ class Right extends DATA_Model {
 		$this->checkInRights($rights, 'object_key', $value);
 	}
 	
-	public function checkValues($userId, $rights, $value= '*') {
+	public function checkValues($user, $rights, $value= '*') {
 		if ($value == '*' || ctype_digit($value)) {
 			return $this->checkInRights($rights, $type, $value);
 		}
 		foreach ($rights as $right) {
-			if($this->checkValue($userId, $right->object_key, $value)){
+			if($this->checkValue($user, $right->object_key, $value)){
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	private function checkValue($userId, $object_key, $value){
+	private function checkValue($user, $object_key, $value){
 		$varreg = '([0-9a-zA-Z]+)';
 		$regex = '#^'.$varreg.'?\['.$varreg.'\]::'.$varreg.'\((.*?)\)$#';
 		if(preg_match($regex, $object_key, $matches)){
@@ -108,7 +115,7 @@ class Right extends DATA_Model {
 				if($v === '{object}'){
 					$args[$k] = $value;
 				} else if($v === '{user}') {
-					$args[$k] = $userId;
+					$args[$k] = $user;
 				}
 			}
 			$this->load->$type($class);
