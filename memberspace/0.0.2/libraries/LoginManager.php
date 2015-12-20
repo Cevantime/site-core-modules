@@ -13,10 +13,10 @@ class LoginManager {
 		$this->_ci =& get_instance();
 		$this->_ci->load->helper('cookie');
 		$this->_ci->load->helper('flashmessages/flashmessages');
-		$this->load->model($userModel);
+		$this->_ci->load->model($userModel);
 		$exp = explode('/', $userModel);
 		$modelName = end($exp);
-		$this->_user = $this->{$modelName};
+		$this->_user = $this->_ci->{$modelName};
 		$this->connectUserIfAny();
 	}
 	
