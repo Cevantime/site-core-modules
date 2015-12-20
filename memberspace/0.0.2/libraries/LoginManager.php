@@ -7,11 +7,16 @@ class LoginManager {
 	
 	private $_ci;
 	private $_cookie;
+	private $_user;
 	
-	public function __construct() {
+	public function __construct($userModel = 'memberspace/user') {
 		$this->_ci =& get_instance();
 		$this->_ci->load->helper('cookie');
 		$this->_ci->load->helper('flashmessages/flashmessages');
+		$this->load->model($userModel);
+		$exp = explode('/', $userModel);
+		$modelName = end($exp);
+		$this->_user = $this->{$modelName};
 		$this->connectUserIfAny();
 	}
 	
@@ -31,8 +36,8 @@ class LoginManager {
 			$user_id = get_cookie('user_id');
 		}
 		if($user_id) {
-			$this->_ci->load->model('memberspace/user');
-			$this->_ci->user->connect($user_id);
+			$this->_ci->load->model('');
+			$this->_user->connect($user_id);
 		}
 	}
 	
@@ -70,13 +75,13 @@ class LoginManager {
 			$post = $_POST;
 		}
 		$this->_ci->load->model('user');
-		$user = $this->_ci->user->checkUser($post['login'],$post['password']);
+		$user = $this->_user->checkUser($post['login'],$post['password']);
 		if(!$user) {
 			add_error(translate('Le nom d\'utilisateur entré est invalide (email ou pseudo).'));
 			return ;
 		}
 		
-		$this->_ci->user->connect($user->id);
+		$this->_user->connect($user->id);
 		
 		add_success(translate('Vous vous êtes connecté avec succès !'));
 		
