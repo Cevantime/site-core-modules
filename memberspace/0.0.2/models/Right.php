@@ -21,10 +21,11 @@ class Right extends DATA_Model {
 		return self::$TABLE_NAME;
 	}
 	
-	public function getUserRights($userId) {
+	public function getUserRights($user) {
+		$userId = $user->id;
 		if(!isset($this->_rights[$userId])){
 			$this->load->model('memberspace/linkuserright');
-			$this->_rights[$userId] = $this->getTrough(Linkuserright::$TABLE_NAME, 'user', $userId);
+			$this->_rights[$userId] = $this->getTrough(Linkuserright::$TABLE_NAME, 'user', $user);
 		}
 	
 		return $this->_rights[$userId];
