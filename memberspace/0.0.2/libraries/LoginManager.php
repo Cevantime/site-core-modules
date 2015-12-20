@@ -22,7 +22,7 @@ class LoginManager {
 	
 	public function requireLogin() {
 		$this->connectUserIfAny();
-		if(!is_connected()){
+		if(!$this->isConnected()){
 			$this->_ci->session->set_userdata('login_redirect_url', current_url());
 			redirect('login');
 		}
@@ -30,7 +30,7 @@ class LoginManager {
 	}
 	
 	public function connectUserIfAny() {
-		if(is_connected()) return;
+		if($this->isConnected()) return;
 		$user_id = $this->_ci->session->userdata('user_id');
 		if(!$user_id){
 			$user_id = get_cookie('user_id');
