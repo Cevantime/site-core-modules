@@ -41,8 +41,12 @@ class LoginManager {
 		}
 	}
 	
-	public function isConnected($user_id) {
-		return $user_id && $this->_user->isConnected() && $this->_user->id == $user_id;
+	public function isConnected($user_id=null) {
+		$connected = $this->_user->isConnected();
+		if($user_id !== null) {
+			$connected &= $this->_user->id == $user_id;
+		}
+		return $connected;
 	}
 
 	public function getCookie() {
