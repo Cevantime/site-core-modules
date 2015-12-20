@@ -94,7 +94,7 @@ class Right extends DATA_Model {
 	
 	public function checkValues($user, $rights, $value= '*') {
 		if ($value == '*' || ctype_digit($value)) {
-			return $this->checkInRights($rights, $type, $value);
+			return $this->checkInRights($rights, 'object_key', $value);
 		}
 		foreach ($rights as $right) {
 			if($this->checkValue($user, $right->object_key, $value)){
