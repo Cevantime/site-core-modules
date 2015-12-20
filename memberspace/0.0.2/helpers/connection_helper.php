@@ -1,9 +1,10 @@
 <?php 
 if (!function_exists('is_connected')) {
 
-	function is_connected($user_id = null) {
+	function is_connected($user_id) {
 		$CI =& get_instance();
-		return isset($CI->user) && $CI->user->isConnected($user_id);
+		$CI->load->library('memberspace/loginManager');
+		return $CI->loginmanager->isConnected($user_id);;
 	}
 
 }

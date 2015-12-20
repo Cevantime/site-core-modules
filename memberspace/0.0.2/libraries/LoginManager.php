@@ -41,6 +41,10 @@ class LoginManager {
 		}
 	}
 	
+	public function isConnected($user_id) {
+		return $user_id && $this->_user->isConnected() && $this->_user->id == $user_id;
+	}
+
 	public function getCookie() {
 		if(!$this->_cookie){
 			$this->_cookie = Modules::load_multiple('login_cookie', 'memberspace', 'config/', 'config');
