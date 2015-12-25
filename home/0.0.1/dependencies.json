@@ -1,0 +1,14 @@
+{
+	"composer" : [
+		{
+			"name" : "monolog/monolog",
+			"version" : "*"
+		}
+	],
+	"spark" : [
+		{
+			"name" : "restclient",
+			"version" : "2.1.0"
+		}
+	]
+}
