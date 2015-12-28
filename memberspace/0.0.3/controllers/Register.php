@@ -11,9 +11,15 @@ class Register extends MY_Controller {
 		$this->load->helper('form');
 	}
 
-	public function bootstrap($mailRedirect = 'memberspace/confirmation/confirm', $redirect = null) {
-		$datas = $this->save($mailRedirect, $redirect);
-		$this->load->view('memberspace/register/bootstrap', array('pop'=>$datas));
+	public function bootstrap($userModel = 'memberspace/user', $mailRedirect = 'memberspace/confirmation/confirm', $redirect = null) {
+		$datas = $this->save($userModel,$mailRedirect, $redirect);
+		$modelName = $modelName = pathinfo($userModel)['filename'];
+		$this->load->view('memberspace/register/bootstrap', array('pop'=>$datas,'modelName'=>$modelName));
+	}
+	public function basic($userModel = 'memberspace/user', $mailRedirect = 'memberspace/confirmation/confirm', $redirect = null) {
+		$datas = $this->save($userModel,$mailRedirect, $redirect);
+		$modelName = $modelName = pathinfo($userModel)['filename'];
+		$this->load->view('memberspace/register/basic', array('pop'=>$datas,'modelName'=>$modelName));
 	}
 
 	public function save($userModel = 'memberspace/user',$mailRedirect = 'memberspace/confirmation/confirm', $redirect = null) {

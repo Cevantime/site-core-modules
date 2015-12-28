@@ -22,6 +22,7 @@
 			</div>
 		</div>
 	</div>
+	<input type="hidden" name="save-<?php echo $modelName ;?>" value="1"/>
 	<div class="form-group">
 		<button type="submit" class="btn btn-ar btn-primary pull-right">Se connecter</button>
 	</div>

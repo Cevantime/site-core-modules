@@ -17,6 +17,8 @@
 		<label for="InputConfirmPassword">Confirmation du mot de passe<sup>*</sup></label>
 		<input type="password" class="form-control" id="InputConfirmPassword" name="passwordconfirm">
 	</p>
+	<input type="hidden" name="save-<?php echo $modelName ;?>" value="1"/>
+
 	<p>
 		<button type="submit">Se connecter</button>
 	</p>
