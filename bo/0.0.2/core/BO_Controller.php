@@ -20,7 +20,7 @@ class BO_Controller extends MX_Controller {
 		$this->load->library('memberspace/loginManager', 'bo/admin');
 		$this->layout->setLayout('bo/layout/bo');
 		
-		if(!$this->admin->isConnected()) {
+		if(!$this->admin->isConnected() || !user_can('access','backoffice')) {
 			redirect('bo/login');
 		}
 		$this->load->library('mypagination');
