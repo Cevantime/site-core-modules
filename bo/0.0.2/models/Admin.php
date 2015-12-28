@@ -21,4 +21,41 @@ class Admin extends User {
 	public function getTableName() {
 		return self::$TABLE_NAME;
 	}
+	
+	public function validationRulesForInsert($datas) {
+		$rules = parent::validationRulesForInsert($datas);
+		return array_merge(
+				$rules,
+				array(
+					array(
+						'field' => 'name',
+						'label' => translate('Nom'),
+						'rules' => 'required|min_length[2]'
+					),
+					array(
+						'field' => 'forname',
+						'label' => translate('Prenom'),
+						'rules' => 'required|min_length[2]'
+					)
+				)
+		);
+	}
+	public function validationRulesForUpdate($datas) {
+		$rules = parent::validationRulesForUpdate($datas);
+		return array_merge(
+				$rules,
+				array(
+					array(
+						'field' => 'name',
+						'label' => translate('Nom'),
+						'rules' => 'required|min_length[2]'
+					),
+					array(
+						'field' => 'forname',
+						'label' => translate('Prenom'),
+						'rules' => 'required|min_length[2]'
+					)
+				)
+		);
+	}
 }

@@ -17,16 +17,10 @@ class BO_Controller extends MX_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->library('layout/layout');
+		$this->load->library('memberspace/loginManager', 'bo/admin');
 		$this->layout->setLayout('bo/layout/bo');
-		$this->load->model('memberspace/user');
-		if($this->session->user_id){
-			$this->user->load($this->session->user_id);
-			if(!$this->user->can('access','backoffice')){
-				redirect('bo/login');
-			}
-			$this->load->model('bo/admin');
-			$this->admin->loadRow('users.id = '.$this->user->id);
-		} else {
+		
+		if(!$this->admin->isConnected()) {
 			redirect('bo/login');
 		}
 		$this->load->library('mypagination');
@@ -101,7 +95,7 @@ class BO_Controller extends MX_Controller {
 	
 	
 	protected function checkIfUserCan($action,$object='*',$value='*'){
-		if(!$this->user->can($action,$object,$value)){
+		if(!$this->admin->can($action,$object,$value)){
 			redirect('bo/home');
 		}
 	}

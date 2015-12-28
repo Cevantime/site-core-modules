@@ -19,9 +19,9 @@ class Administrators extends BO_Controller {
 		$this->all();
 	}
 	
-	public function all($type = 'start',$limit=0){
+	public function all($type = 'start',$limit=0)  {
 		$this->checkIfUserCan('see','admin','*');
-		$this->load->model('admin');
+		$this->load->model('bo/admin');
 		$id_pagination = 'administrators-list';
 		$admins = $this->mypagination->paginate($id_pagination,$this->admin, $limit, 10);
 		$this->layout->assign('administrators', $admins);
@@ -30,18 +30,56 @@ class Administrators extends BO_Controller {
 	}
 	
 	public function add() {
-		$this->save();
+		$datas = $this->save();
+		$this->layout->view('bo/administrators/save', array('popSaveAdmin'=> $datas));
 	}
 	
 	public function edit($id) {
-		$this->save($id);
+		$datas = $this->save($id);
+		$this->layout->view('bo/administrators/save', array('popSaveAdmin'=> $datas, 'isEditAdmin'=>true));
+	}
+	
+	public function delete($id) {
+		$this->load->helper('memberspace/authorization');
+		if(user_can('delete','admin',$id)){
+			$this->load->model('bo/admin');
+			$this->admin->deleteId($id);
+			add_success(translate('L\'administrateur a bien été supprimé'));
+		} else {
+			add_error(translate('Vous n\'avez pas le droit de supprimer cet administrateur'));
+		}
+		redirect('bo/administrators/all');
 	}
 	
 	public function save($id = null) {
-		
-		if($this->input->post()){
+		$this->load->helper('memberspace/authorization');
+		$this->load->helper('flashmessages/flashmessages');
+		$this->load->model('bo/admin');
+		$this->load->helper('form');
+		$datas = array();
+		if(isset($_POST) && isset($_POST['save-admin'])) {
+			$datas = $_POST;
+			unset($_POST['save-admin']);
+			if(isset($_POST['id']) && $_POST['id']) {
+				if(!user_can('update','admin', $_POST['id'])){
+					add_error(translate('Vous ne pouvez pas modifier cet administrateur'));
+				}
+			} else {
+				if(!user_can('add','admin', $_POST['id'])) {
+					add_error(translate('Vous ne pouvez pas ajouter d\'administrateur'));
+				}
+			}
+			if($this->admin->fromPost() !== false) {
+				add_success(translate('L\'administrateur a bien été ajouté'));
+				redirect('bo/administrators/all');
+			} else {
+				add_error($this->form_validation->error_string());
+			}
 			
+		} else if($id){
+			$datas = $this->admin->getId($id,'array');
 		}
+		return $datas;
 	}
 
 }

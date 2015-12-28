@@ -1,5 +1,5 @@
 <div class="btn-toolbar list-toolbar">
-    <a class="btn btn-primary" href="bo/users/add"><i class="fa fa-plus"></i> Nouvel utilisateur</a>
+    <a class="btn btn-primary" href="<?php echo base_url('bo/users/add') ;?>"><i class="fa fa-plus"></i> Nouvel utilisateur</a>
 	<!--    <button class="btn btn-default">Import</button>
 		<button class="btn btn-default">Export</button>-->
 	<div class="btn-group">
@@ -21,7 +21,7 @@
 				<td><?php echo $user->login ?></td>
 				<td><?php echo $user->email ?></td>
 				<td>
-					<a href="user.html"><i class="fa fa-pencil"></i></a>
+					<a href="<?php echo base_url('bo/users/edit/'.$user->id) ?>"><i class="fa fa-pencil"></i></a>
 					<a href="#" class="confirm" 
 					   data-url="<?php echo base_url('bo/users/delete/'.$user->id) ?>" 
 					   data-header="Suppression d'un utilisateur" 

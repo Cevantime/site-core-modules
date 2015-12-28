@@ -1,5 +1,5 @@
 <div class="btn-toolbar list-toolbar">
-    <a class="btn btn-primary" href="bo/administrators/add"><i class="fa fa-plus"></i> Nouvel administrateur</a>
+    <a class="btn btn-primary" href="<?php echo base_url('bo/administrators/add') ;?>"><i class="fa fa-plus"></i> Nouvel administrateur</a>
 	<!--    <button class="btn btn-default">Import</button>
 		<button class="btn btn-default">Export</button>-->
 	<div class="btn-group">
