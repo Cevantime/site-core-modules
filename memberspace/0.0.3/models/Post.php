@@ -24,7 +24,7 @@ class Post extends DATA_Model {
 		if(!$user_id) {
 			$user_id = $this->getData('user_id');
 		}
-		$this->where('user_id = '.$user_id);
+		$this->db->where('user_id = '.$user_id);
 		return $this->getList();
 	}
 	
