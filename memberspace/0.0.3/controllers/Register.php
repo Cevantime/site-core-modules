@@ -67,7 +67,7 @@ class Register extends MY_Controller {
 	private function sendMailConfirmation($userId, $mailRedirect) {
 		$this->load->model('user');
 		$this->load->library('mailManager');
-		$this->load->library('configuration');
+		$this->load->model('configuration');
 		$subject = $this->configuration->getValue('mail_confirmation_subject','Confirmation de votre inscription');
 		$user = $this->user->getId($userId);
 		if(!$user) {

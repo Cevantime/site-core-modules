@@ -20,6 +20,14 @@ class Post extends DATA_Model {
 		return self::$TABLE_NAME;
 	}
 	
+	public function getOwnedBy($user_id = null) {
+		if(!$user_id) {
+			$user_id = $this->getData('user_id');
+		}
+		$this->where('user_id = '.$user_id);
+		return $this->getList();
+	}
+	
 	public function insert($datas = null) {
 		if ($datas == null) {
 			$datas = $this->toArray();
