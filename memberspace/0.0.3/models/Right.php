@@ -38,16 +38,6 @@ class Right extends DATA_Model {
 		return $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupId);
 	}
 
-	public function checkInRights($rights, $type, $value) {
-		foreach ($rights as $right) {
-			$rightValue = explode(',', $right->$type);
-			if (in_array('*', $rightValue) || in_array($value, $rightValue)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public function allowUserTo($userId, $action, $type = '*', $value = '*') {
 		$right_id = $this->createAndSaveRight($action, $type, $value);
 		$this->load->model('memberspace/linkuserright');
@@ -72,44 +62,33 @@ class Right extends DATA_Model {
 
 	public function userCan($user, $action, $type = '*', $value = '*') {
 		$rights = $this->getUserRights($user);
-		if (!$rights) {
-			return false;
-		}
-		$this->load->model('memberspace/right');
-		return $this->checkInRights($rights, 'name', $action) &&
-				$this->checkInRights($rights, 'type', $type) &&
-				$this->checkValues($user, $rights, $value);
-	}
-
-	public function rightsAllowsTo($rights, $action, $type = '*', $value = '*') {
-		return $this->checkInRights($rights, 'name', $action) &&
-				$this->checkInRights($rights, 'type', $type) &&
-				$this->checkInRights($rights, 'object_key', $value);
-	}
-
-	public function checkValues($user, $rights, $value = '*') {
-		if ($value == '*' || ctype_digit($value)) {
-			return $this->checkInRights($rights, 'object_key', $value);
-		}
-		foreach ($rights as $right) {
-			if ($this->checkValue($user, $right->object_key, $value)) {
+		foreach($rights as $right) {
+			if($this->rightAllows($user,$right,$action,$type,$value)){
 				return true;
 			}
 		}
+		
 		return false;
 	}
+
+	public function rightAllows($user, $right,$action,$type,$value) {
+		return in_array($action, explode(',', $right->name))
+				&& in_array($type, explode(',', $type))
+				&& $this->checkValue($user, $value, $right->object_key);
+	}
+	
 
 	private function checkValue($user, $object_key, $value) {
 		$varreg = '([0-9a-zA-Z]+)';
 		$regex = '#^' . $varreg . '?\[' . $varreg . '\]::' . $varreg . '\((.*?)\)$#';
-		if (preg_match($regex, $object_key, $matches)) {
+		if (preg_match($regex, $value, $matches)) {
 			$type = $matches[1];
 			$class = $matches[2];
 			$method = $matches[3];
 			$args = explode(',', $matches[4]);
 			foreach ($args as $k => $v) {
 				if ($v === '{object}') {
-					$args[$k] = $value;
+					$args[$k] = $object_key;
 				} else if ($v === '{user}') {
 					$args[$k] = $user;
 				}
@@ -121,17 +100,16 @@ class Right extends DATA_Model {
 			if (call_user_func_array(array($obj, $method), $args) === TRUE) {
 				return TRUE;
 			}
+		} else {
+			$primaries = $value->getPrimaryColumns();
+			if(count($primaries)>1) {
+				$object_key = '{'.  implode(';', array_map(function($r) use ($object_key) {return $object_key->$r;}, $primaries)).'}';
+			} else {
+				$object_key = $object_key->$primaries;
+			}
+			return in_array($object_key, explode(',', $value));
 		}
 		return FALSE;
-	}
-
-	public function groupCan($groupId, $action, $type = '*', $value = '*') {
-		$rights = $this->getGroupRights($groupId);
-		if (!$rights) {
-			return false;
-		}
-		$this->load->model('memberspace/right');
-		return $this->rightsAllowsTo($rights, $action, $type, $value);
 	}
 
 }
