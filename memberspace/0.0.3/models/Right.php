@@ -76,16 +76,16 @@ class Right extends DATA_Model {
 	}
 
 	public function rightAllows($user, $right,$action,$type,$value) {
-		return $this->checkAction($action, explode(',', $right->name))
-				&& $this->checkType($type, explode(',', $type))
+		return $this->checkAction($action, $right->name)
+				&& $this->checkType($type, $right->type)
 				&& $this->checkValue($user, $value, $right->object_key);
 	}
 	
-	public function checkAction($action, $rightValue) {
-		return $rightValue == '*' OR in_array($action, explode(',', $rightValue));
+	public function checkAction($action, $rightAction) {
+		return $rightAction == '*' OR in_array($action, explode(',', $rightAction));
 	}
-	public function checkType($type, $rightValue) {
-		return $this->checkAction($type, $rightValue);
+	public function checkType($type, $rightType) {
+		return $this->checkAction($type, $rightType);
 	}
 
 	private function checkValue($user, $object_key, $right_value) {
