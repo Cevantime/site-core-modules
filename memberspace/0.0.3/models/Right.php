@@ -29,7 +29,11 @@ class Right extends DATA_Model {
 		foreach ($userGroups as $group) {
 			$groupIds[] = $group->id;
 		}
-		$rights = array_merge($this->getThrough(Linkuserright::$TABLE_NAME, 'user', $userId), $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupIds));
+		$userOwnRights = $this->getThrough(Linkuserright::$TABLE_NAME, 'user', $userId);
+		$userGroupRights = $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupIds);
+		if(!$userOwnRights) $userOwnRights = array();
+		if(!$userGroupRights) $userGroupRights = array();
+		$rights = array_merge($userOwnRights, $userGroupRights);
 		return $rights;
 	}
 
