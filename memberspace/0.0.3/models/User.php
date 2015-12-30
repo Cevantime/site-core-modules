@@ -15,6 +15,7 @@ class User extends DATA_Model {
 
 	public static $TABLE_NAME = 'users';
 	protected $rights = array();
+	protected $groups = array();
 
 	public function getTableName() {
 		return self::$TABLE_NAME;
@@ -69,9 +70,18 @@ class User extends DATA_Model {
 		return $this->right->getUserRights($userId);
 	}
 	
+	public function is($role, $userId = null) {
+		$groups = $this->getGroups($userId);
+		return in_array($role,  array_map(function($r){$r->name;}, $groups));
+	}
+	
 	public function getGroups($userId = null) {
 		if (!$userId) {
 			$userId = $this->getData('id');
+			if(!$this->groups) {
+				$this->groups = $this->getGroups($userId);
+			}
+			return $this->groups;
 		}
 		$this->load->model('memberspace/group');
 		$this->load->model('memberspace/linkusergroup');
