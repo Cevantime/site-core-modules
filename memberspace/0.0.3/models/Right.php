@@ -78,10 +78,11 @@ class Right extends DATA_Model {
 	}
 	
 
-	private function checkValue($user, $object_key, $value) {
+	private function checkValue($user, $object_key, $right_value) {
+		if($right_value =='*')  return true;
 		$varreg = '([0-9a-zA-Z]+)';
 		$regex = '#^' . $varreg . '?\[' . $varreg . '\]::' . $varreg . '\((.*?)\)$#';
-		if (preg_match($regex, $value, $matches)) {
+		if (preg_match($regex, $right_value, $matches)) {
 			$type = $matches[1];
 			$class = $matches[2];
 			$method = $matches[3];
@@ -101,13 +102,13 @@ class Right extends DATA_Model {
 				return TRUE;
 			}
 		} else {
-			$primaries = $value->getPrimaryColumns();
+			$primaries = $right_value->getPrimaryColumns();
 			if(count($primaries)>1) {
 				$object_key = '{'.  implode(';', array_map(function($r) use ($object_key) {return $object_key->$r;}, $primaries)).'}';
 			} else {
 				$object_key = $object_key->$primaries;
 			}
-			return in_array($object_key, explode(',', $value));
+			return in_array($object_key, explode(',', $right_value));
 		}
 		return FALSE;
 	}
