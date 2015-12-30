@@ -14,39 +14,36 @@ if (!defined('BASEPATH'))
  * @author thibault
  */
 class See extends BLOG_Controller {
-
-	public function index($type='start',$limit=0) {
-		$this->basic($type, $limit);
+	
+	public function basic($id = null,$postModel = 'blog/blogpost') {
+		$this->load->view('blog/see/basic',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
 	}
 	
-	public function basic($id = null) {
-		$this->load->view('blog/see/basic',array('blogpost'=> $this->getId($id)));
+	public function bo($id,$postModel = 'blog/blogpost') {
+		$this->load->view('blog/see/bo',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
 	}
 	
-	public function bo($id = null) {
-		$this->load->view('blog/see/bo',array('blogpost'=> $this->getId($id)));
-	}
-	
-	public function front($id = null) {
-		$this->load->view('blog/see/front',array('blogpost'=> $this->getId($id)));
+	public function front($id = null,$postModel = 'blog/blogpost') {
+		$this->load->view('blog/see/front',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
 	}
 
-	public function delete($id = null){
+	public function delete($id = null,$postModel = 'blog/blogpost'){
 		if(!$id){
 			show_404();
 		}
-		$this->load->model('blog/blogpost');
-		$this->blogpost->deleteId($id);
-		$this->addSuccess('Le post a bien été supprimé');
+		$this->load->model($postModel);
+		$modelName = pathinfo($postModel)['filename'];
+		$this->$modelName->deleteId($id);
 		$this->load->view('blog/see/delete');
 	}
 	
-	public function getId($id = null){
+	public function getId($id = null,$postModel = 'blog/blogpost'){
 		if(!$id){
 			show_404();
 		}
-		$this->load->model('blog/blogpost');
-		$blog_post =  $this->blogpost->getByIdWithAuthor($id);
+		$this->load->model($postModel);
+		$modelName = pathinfo($postModel)['filename'];
+		$blog_post =  $this->$modelName->getByIdWithAuthor($id);
 		if(!$blog_post){
 			show_404();
 		}

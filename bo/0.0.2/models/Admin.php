@@ -22,6 +22,13 @@ class Admin extends User {
 		return self::$TABLE_NAME;
 	}
 	
+	public function insert($datas = null) {
+		$id = parent::insert($datas);
+		$this->load->model('memberspace/right');
+		$this->user->addToGroup('users', $userId);
+		return $id;
+	}
+	
 	public function validationRulesForInsert($datas) {
 		$rules = parent::validationRulesForInsert($datas);
 		return array_merge(
