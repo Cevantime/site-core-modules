@@ -65,7 +65,7 @@ class Administrators extends BO_Controller {
 					add_error(translate('Vous ne pouvez pas modifier cet administrateur'));
 				}
 			} else {
-				if(!user_can('add','admin', $_POST['id'])) {
+				if(!user_can('add','admin')) {
 					add_error(translate('Vous ne pouvez pas ajouter d\'administrateur'));
 				}
 			}

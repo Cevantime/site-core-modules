@@ -25,7 +25,7 @@ class Admin extends User {
 	public function insert($datas = null) {
 		$id = parent::insert($datas);
 		$this->load->model('memberspace/right');
-		$this->user->addToGroup('users', $userId);
+		$this->user->addToGroup('administrators', $id);
 		return $id;
 	}
 	
