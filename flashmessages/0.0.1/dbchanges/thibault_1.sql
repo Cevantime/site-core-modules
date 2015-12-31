@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS `flash_messages` (
   `content` text NOT NULL,
   `type` varchar(45) NOT NULL DEFAULT 'info',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
