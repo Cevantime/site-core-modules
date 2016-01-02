@@ -18,3 +18,14 @@ if (!function_exists('require_login')) {
 	}
 
 }
+
+
+if (!function_exists('user_id')) {
+
+	function user_id() {
+		$CI =& get_instance();
+		$CI->load->library('memberspace/loginManager');
+		return $CI->loginmanager->getUser()->id;
+	}
+
+}

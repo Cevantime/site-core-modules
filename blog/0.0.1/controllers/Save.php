@@ -21,12 +21,12 @@ class Save extends BLOG_Controller {
 
 	public function basic($id = null, $model = 'blog/blogpost', $redirect = false) {
 		$datas = $this->doSave($id, $model, $redirect);
-		$this->load->view('blog/forms/basic-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['dirname']));
+		$this->load->view('blog/forms/basic-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename']));
 	}
 	
 	public function bootstrap($id = null, $model = 'blog/blogpost', $redirect = false) {
 		$datas = $this->doSave($id, $model, $redirect);
-		$this->load->view('blog/forms/bo-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['dirname']));
+		$this->load->view('blog/forms/bo-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename']));
 	}
 
 	protected function doSave($id = null, $model = 'blog/blogpost', $redirect = false) {
