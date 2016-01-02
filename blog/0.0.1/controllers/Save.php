@@ -82,7 +82,7 @@ class Save extends BLOG_Controller {
 		
 		$datas = $this->input->post();
 		
-		$datas['user_id'] = $this->user->getData('id');
+		$datas['user_id'] = user_id();
 		
 		$new_id = $this->postmanager->saveDatas($datas);
 		

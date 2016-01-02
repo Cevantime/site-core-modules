@@ -36,5 +36,4 @@
 <?php if (isset($blogpost_add_pop['id'])): ?>
 	<input type="hidden" value="<?php echo $blogpost_add_pop['id'] ?>" name="id"/>
 <?php endif; ?>
-<input type="hidden" name="user_id" value="<?php echo user_id();?>"/>
 <input type="hidden" name="save-<?php echo $model_name ?>" value="1"/>
