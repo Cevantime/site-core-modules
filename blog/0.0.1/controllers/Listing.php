@@ -49,7 +49,7 @@ class Listing extends BLOG_Controller {
 		$offset = 10;
 		$this->load->library('mypagination');
 		$this->load->helper('pagination');
-		$this->load->model('blog/blogpost');
+		$this->load->model($model);
 		return $this->mypagination->paginate($id_pagination, $this->$modelName,$start,$offset,'getListWithAuthors');
 	}
 
