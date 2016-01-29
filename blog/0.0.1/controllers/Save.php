@@ -70,7 +70,7 @@ class Save extends BLOG_Controller {
 		if($is_update && !user_can('update', $model, $post['id'])){
 			$this->addError(translate('Vous ne pouvez pas modifier ce post.'));
 			return $pop;
-		} else if(!user_can('insert',$model)){
+		} else if(!user_can('add',$model)){
 			$this->addError(translate('Vous ne pouvez pas ajouter de post.'));
 			return $pop;
 		}
