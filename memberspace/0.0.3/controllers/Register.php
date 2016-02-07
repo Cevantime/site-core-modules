@@ -37,7 +37,7 @@ class Register extends MY_Controller {
 		$this->load->library('form_validation');
 		
 		
-		if(isset($post['id']) && !user_can('update', 'user', $post['id'])){
+		if(isset($post['id']) && !user_can('update', $userModel, $post['id'])){
 			return $post;
 		}
 		
