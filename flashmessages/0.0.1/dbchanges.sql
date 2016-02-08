@@ -1,7 +1,3 @@
---
--- Structure de la table `flash_messages`
---
-
 CREATE TABLE IF NOT EXISTS `flash_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `session_id` varchar(255) NOT NULL,
