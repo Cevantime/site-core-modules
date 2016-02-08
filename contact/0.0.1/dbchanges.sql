@@ -7,3 +7,4 @@ INSERT INTO `configurations` (`key`, `value`, `description`) VALUES
 ('contact_phone', '06 12 44 03 50', 'numéro de téléphone du contact'),
 ('contact_street', '5 rue sus carrieras', 'numéro et nomp de la rue/avenue');
 
+

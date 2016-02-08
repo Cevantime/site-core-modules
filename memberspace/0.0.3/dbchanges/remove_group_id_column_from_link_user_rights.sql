@@ -1,1 +1,0 @@
-ALTER TABLE `links_users_rights` DROP `group_id`;
