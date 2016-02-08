@@ -11,11 +11,14 @@ if (!defined('BASEPATH'))
  */
 class Contactbo extends BO_Controller {//Attention si on extends BO_controller au lieu de MY_Controller...on a des dépendances 
 
+	public function index() {
+		$this->seeInfos();
+	}
 	/**** pour le back ***/
 	//layout est forcément chargé car dépendant !!
 	public function seeInfos(){
 		$this->load->model('configuration');		
-		$values = $this->configurations->getValues();
+		$values = $this->configuration->getValues();
 		echo 'voici la table '.var_dump($values);
 		echo '<br/> une valeur '.$values["contact_city"];		
 		
@@ -27,7 +30,7 @@ class Contactbo extends BO_Controller {//Attention si on extends BO_controller a
 		$this->load->model('configuration');		
 		
 		//var_dump($_POST);
-		$this->configurations->setValues($_POST);
+		$this->configuration->setValues($_POST);
 		
 		$mapEncode = $_POST['contact_name'].' '.$_POST['contact_street'].' '.$_POST['contact_city'];
 		//$mapEncode = str_replace('%20',' ', $mapEncode);
@@ -36,7 +39,7 @@ class Contactbo extends BO_Controller {//Attention si on extends BO_controller a
 		$mapAdress = array('contact_map_adress'=>$mapEncode);
 		
 		//echo 'adress '.var_dump($mapEncode);die();
-		$this->configurations->setValues($mapAdress);
+		$this->configuration->setValues($mapAdress);
 		
 		redirect('contact/contactbo/seeInfos');
 		

@@ -22,13 +22,13 @@ class Contact extends MY_Controller {//Attention si on extends BO_controller au 
 		//$this->load->view('see/basic',array('blogpost'=> $this->getId($id)));
 		$this->load->model('configuration');
 		
-		$contact_map_adress = $this->configurations->getValue('contact_map_adress');
-		$contact_map_zoom = $this->configurations->getValue('contact_map_zoom');
-		$contact_mail = $this->configurations->getValue('contact_mail');
-		$contact_phone = $this->configurations->getValue('contact_phone');		
-		$contact_street = $this->configurations->getValue('contact_street');
-		$contact_city = $this->configurations->getValue('contact_city');
-		$contact_name = $this->configurations->getValue('contact_name');
+		$contact_map_adress = $this->configuration->getValue('contact_map_adress');
+		$contact_map_zoom = $this->configuration->getValue('contact_map_zoom');
+		$contact_mail = $this->configuration->getValue('contact_mail');
+		$contact_phone = $this->configuration->getValue('contact_phone');		
+		$contact_street = $this->configuration->getValue('contact_street');
+		$contact_city = $this->configuration->getValue('contact_city');
+		$contact_name = $this->configuration->getValue('contact_name');
 		
 		/**** décomposition de l'adresse *****/
 		//$infos = explode("/", uri_string());
