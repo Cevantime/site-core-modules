@@ -5,6 +5,7 @@ INSERT INTO `configurations` (`key`, `value`, `description`) VALUES
 ('contact_map_zoom', '15', 'la valeur du zoom sur la carte'),
 ('contact_name', 'Taurisano Alexandre', 'nom du contact'),
 ('contact_phone', '06 12 44 03 50', 'numéro de téléphone du contact'),
-('contact_street', '5 rue sus carrieras', 'numéro et nomp de la rue/avenue');
+('contact_street', '5 rue sus carrieras', 'numéro et nom de la rue/avenue');
+
 
 
