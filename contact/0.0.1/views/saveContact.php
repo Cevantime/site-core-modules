@@ -3,7 +3,7 @@
 
 <h1> Editer les informations du contact </h1><br/><br/>
 
-<form role="form" method="post" action="<?php echo base_url('contact/contact/save'); ?>">
+<form role="form" method="post" action="<?php echo base_url('contact/contactbo/save'); ?>">
 	<div class="row">
 		<div class="col-md-6">
 			<?php //$this->load->view('bo/expeditions/includes/expedition-details') ;?>
