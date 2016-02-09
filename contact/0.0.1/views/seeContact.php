@@ -1,5 +1,5 @@
 <script type="text/javascript" src=<?php echo base_url("/js/contact/jqBootstrapValidation.js"); ?> ></script>
- <script type="text/javascript" src=<?php echo base_url("/js/concact/contact_me.js"); ?> ></script>
+ <script type="text/javascript" src=<?php echo base_url("/js/contact/contact_me.js"); ?> ></script>
 
 <br/><br/>
 <div class="container">
