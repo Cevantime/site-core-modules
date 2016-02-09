@@ -17,7 +17,7 @@ class FlashMessage extends DATA_Model {
 	}
 	
 	public function getSessionsMessages($session_id) {
-		return $this->get(array('session_id' => $session_id));
+		return $this->get(array('session_id' => $session_id),'array');
 	}
 	
 	public function createNewMessage($session_id, $msg, $type = null) {
