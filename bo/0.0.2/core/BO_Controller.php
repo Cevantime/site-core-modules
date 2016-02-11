@@ -17,6 +17,7 @@ class BO_Controller extends MX_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->library('layout/layout');
+		$this->load->helper('memberspace/authorization');
 		$this->load->library('memberspace/loginManager', 'bo/admin');
 		$this->layout->setLayout('bo/layout/bo');
 		

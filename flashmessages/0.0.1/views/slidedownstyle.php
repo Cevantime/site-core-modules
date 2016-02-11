@@ -49,7 +49,7 @@
 		background-color: #26A21B
 
 	}
-	
+
 	.admin-message button {
 		float: right;
 		border: none;
@@ -61,7 +61,7 @@
 	}
 
 </style>
-<div class="admin-message">
+<div class="admin-message template">
 
 	<button onclick="var $p = $(this).parent().removeClass('displayed');
 			window.setTimeout(function () {
@@ -75,13 +75,13 @@
 <script>
 
 	$(function () {
-<?php if(isset($flashMessages) && $flashMessages): ?>
-<?php foreach ($flashMessages as $flashMessage): ?>
-
-			showAdminMessage('<?php echo str_replace("\n", "\\", trim(addslashes($flashMessage['content']))) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
-
-<?php endforeach; ?>
-<?php endif; ?>
+		<?php if (isset($flashMessages) && $flashMessages): ?>
+			<?php $nbFlashMessage = count($flashMessages); ?>
+			<?php for ($i = $nbFlashMessage - 1; $i >= 0; $i--): ?>
+				<?php $flashMessage = $flashMessages[$i]; ?>
+				showAdminMessage('<?php echo str_replace("\n", "\\", trim(addslashes($flashMessage['content']))) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
+			<?php endfor; ?>
+		<?php endif; ?>
 
 	});
 
@@ -91,7 +91,7 @@
 
 	function showAdminMessage(message, type) {
 
-		var $adminMessage = $('.admin-message').clone();
+		var $adminMessage = $('.admin-message.template').clone().removeClass('template');
 
 		$adminMessage.find('.admin-message-content').html(message);
 
