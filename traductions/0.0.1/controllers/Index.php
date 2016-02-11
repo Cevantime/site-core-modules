@@ -28,6 +28,7 @@ class Index extends BO_Controller {
 		if(!$lang) {
 			$lang = locale();
 		}
+		$this->layout->css('css/traductions/trads.css');
 		$this->load->helper('form');
 		$this->traductor->export();
 		$fullTrads = $this->traductor->getFull();
