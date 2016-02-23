@@ -32,6 +32,7 @@ class Save extends BLOG_Controller {
 	protected function doSave($id = null, $model = 'blog/blogpost', $redirect = false) {
 		
 		$this->load->helper('memberspace/authorization');
+		$this->load->helper('memberspace/connection');
 		
 		$post = $this->input->post();
 		
