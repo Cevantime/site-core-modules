@@ -43,6 +43,10 @@ class Blogpost extends Post {
 		}
 	}
 	
+	public function uploadPaths() {
+		return 'uploads/posts';
+	}
+	
 	public function getListWithAuthors($limit = 0, $offset = 10) {
 		$this->load->model('memberspace/user');
 		$usersTableName = $this->user->getTableName();
