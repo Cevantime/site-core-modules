@@ -11,22 +11,21 @@
  *
  * @author thibault
  */
-
-require_once APPPATH.'/modules/memberspace/models/Post.php';
+require_once APPPATH . '/modules/memberspace/models/Post.php';
 
 class Blogpost extends Post {
-	
+
 	public static $TABLE_NAME = 'posts_blog';
 
 	public function getTableName() {
 		return self::$TABLE_NAME;
 	}
-	
+
 	public function update($datas = null, $where = null) {
 		$this->unlink('image', $datas);
 		parent::update($datas, $where);
 	}
-	
+
 	public function delete($where = null) {
 		if ($where === null) {
 			$where = array();
@@ -36,31 +35,85 @@ class Blogpost extends Post {
 			$this->clear();
 		}
 		$rows = $this->get($where);
-		if($rows) {
+		if ($rows) {
 			foreach ($rows as $row) {
-				$this->unlink('image',(array)$row);
+				$this->unlink('image', (array) $row);
 			}
 		}
 	}
+
+	public function validationRulesForInsert($datas) {
+		$rules = parent::validationRulesForInsert($datas);
+		$newRules = array(
+			array(
+				'field' => 'title',
+				'label' => translate('Titre'),
+				'rules' => 'required'
+			),
+			array(
+				'field' => 'description',
+				'label' => translate('Description'),
+				'rules' => 'required|min_length[20]',
+			),
+			array(
+				'field' => 'content',
+				'label' => translate('Contenu'),
+				'rules' => 'required|min_length[20]',
+			),
+			array(
+				'field' => 'image',
+				'label' => translate('Image'),
+				'rules' => 'file_required|file_image_maxdim[2000,1500]|file_allowed_type[image]'
+			)
+		);
+		return array_merge($rules,$newRules);
+	}
 	
+	public function validationRulesForUpdate($datas) {
+		$rules = parent::validationRulesForUpdate($datas);
+		$newRules = array(
+			array(
+				'field' => 'title',
+				'label' => translate('Titre'),
+				'rules' => ''
+			),
+			array(
+				'field' => 'description',
+				'label' => translate('Description'),
+				'rules' => 'min_length[20]',
+			),
+			array(
+				'field' => 'content',
+				'label' => translate('Contenu'),
+				'rules' => 'min_length[20]',
+			),
+			array(
+				'field' => 'image',
+				'label' => translate('Image'),
+				'rules' => 'file_image_maxdim[2000,1500]|file_allowed_type[image]'
+			)
+		);
+		return array_merge($rules,$newRules);
+	}
+
 	public function uploadPaths() {
 		return 'uploads/posts';
 	}
-	
+
 	public function getListWithAuthors($limit = 0, $offset = 10) {
 		$this->load->model('memberspace/user');
 		$usersTableName = $this->user->getTableName();
-		$this->join($usersTableName, $usersTableName.'.id=user_id');
-		$this->db->select($this->db->dbprefix('users').'.login as author');
+		$this->join($usersTableName, $usersTableName . '.id=user_id');
+		$this->db->select($this->db->dbprefix('users') . '.login as author');
 		return $this->getList($limit, $offset);
 	}
-	
-	public function getByIdWithAuthor($id){
+
+	public function getByIdWithAuthor($id) {
 		$this->load->model('memberspace/user');
 		$usersTableName = $this->user->getTableName();
-		$this->join($usersTableName, $usersTableName.'.id=user_id');
+		$this->join($usersTableName, $usersTableName . '.id=user_id');
 		$this->db->select('users.login as author');
 		return $this->getId($id);
 	}
-	
+
 }
