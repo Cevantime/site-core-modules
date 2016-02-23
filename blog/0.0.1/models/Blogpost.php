@@ -22,6 +22,11 @@ class Blogpost extends Post {
 		return self::$TABLE_NAME;
 	}
 	
+	public function update($datas = null, $where = null) {
+		$this->unlink('image');
+		parent::update($datas, $where);
+	}
+	
 	public function getListWithAuthors($limit = 0, $offset = 10) {
 		$this->load->model('memberspace/user');
 		$usersTableName = $this->user->getTableName();
