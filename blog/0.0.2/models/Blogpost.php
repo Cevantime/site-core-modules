@@ -40,6 +40,7 @@ class Blogpost extends Post {
 				$this->unlink('image', (array) $row);
 			}
 		}
+		return parent::delete($where);
 	}
 
 	public function validationRulesForInsert($datas) {
