@@ -57,11 +57,6 @@ class Blogpost extends Post {
 				'rules' => 'required|min_length[20]',
 			),
 			array(
-				'field' => 'content',
-				'label' => translate('Contenu'),
-				'rules' => 'required|min_length[20]',
-			),
-			array(
 				'field' => 'image',
 				'label' => translate('Image'),
 				'rules' => 'file_required|file_image_maxdim[2000,1500]|file_allowed_type[image]'
@@ -81,11 +76,6 @@ class Blogpost extends Post {
 			array(
 				'field' => 'description',
 				'label' => translate('Description'),
-				'rules' => 'min_length[20]',
-			),
-			array(
-				'field' => 'content',
-				'label' => translate('Contenu'),
 				'rules' => 'min_length[20]',
 			),
 			array(

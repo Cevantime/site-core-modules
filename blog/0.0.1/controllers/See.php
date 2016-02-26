@@ -16,15 +16,15 @@ if (!defined('BASEPATH'))
 class See extends BLOG_Controller {
 	
 	public function basic($id = null,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/basic',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
+		$this->load->view('blog/see/basic',array('blogpost'=> $this->getId($id, $postModel)));
 	}
 	
 	public function bo($id,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/bo',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
+		$this->load->view('blog/see/bo',array('blogpost'=> $this->getId($id, $postModel)));
 	}
 	
 	public function front($id = null,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/front',array(pathinfo($postModel)['filename']=> $this->getId($id, $postModel)));
+		$this->load->view('blog/see/front',array('blogpost'=> $this->getId($id, $postModel)));
 	}
 
 	public function delete($id = null,$postModel = 'blog/blogpost'){
