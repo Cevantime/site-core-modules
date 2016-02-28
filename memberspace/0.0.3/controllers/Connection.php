@@ -8,6 +8,11 @@ class Connection extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 	}
+	
+	public function basic() {
+		$this->tryLogin();
+		$this->load->view('memberspace/connection/basic');
+	}
 
 	public function bootstrap() {
 		$this->tryLogin();
