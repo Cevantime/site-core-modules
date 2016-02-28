@@ -32,3 +32,26 @@ if($is_update){
 	);
 }
 
+// config login
+
+$is_login = isset($post['login-user']);
+
+if ($is_login) {
+	$config['login'] = array(
+		array(
+			'field' => 'login',
+			'label' => translate('Nom d\'Utilisateur'),
+			'rules' => 'required'
+		),
+		array(
+			'field' => 'password',
+			'label' => translate('Mot de passe'),
+			'rules' => 'required|md5',
+		),
+		array(
+			'field' => 'rememberme',
+			'label' => translate('Se souvenir de moi'),
+			'rules' => 'in_list[0,1]',
+		)
+	);
+}
