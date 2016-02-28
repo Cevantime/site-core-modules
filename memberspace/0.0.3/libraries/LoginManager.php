@@ -10,6 +10,9 @@ class LoginManager {
 	private $_user;
 	
 	public function __construct($userModel = 'memberspace/user') {
+		if(!$userModel) {
+			$userModel = 'memberspace/user';
+		}
 		$this->_ci =& get_instance();
 		$this->_ci->load->helper('cookie');
 		$this->_ci->load->helper('flashmessages/flashmessages');

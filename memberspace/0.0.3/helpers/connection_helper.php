@@ -29,3 +29,13 @@ if (!function_exists('user_id')) {
 	}
 
 }
+
+if (!function_exists('user')) {
+
+	function user() {
+		$CI =& get_instance();
+		$CI->load->library('memberspace/loginManager');
+		return $CI->loginmanager->getUser();
+	}
+
+}
