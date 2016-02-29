@@ -47,6 +47,22 @@ class Traductor {
 		return $this->jarTranslate('export');
 	}
 	
+	public function cleanup() {
+		return $this->jarTranslate('cleanup');
+	}
+	
+	public function merge($jsonFile) {
+		$jsonFile = realpath($jsonFile);
+		$toMerge = json_decode(file_get_contents($jsonFile), true);
+		foreach ($toMerge as $filename => $value) {
+			unset($toMerge[$filename]);
+			$newfilename = preg_replace('#(.*)application/(.*)#', APPPATH.'application/$2', $filename);
+			$toMerge[$newfilename] = $value;
+		}
+		file_put_contents(json_encode($toMerge, JSON_FORCE_OBJECT), $jsonFile);
+		return $this->jarTranslate('merge', $jsonFile);
+	}
+	
 	public function translation($lang) {
 		$CI =& get_instance();
 		$db = $CI->db;
