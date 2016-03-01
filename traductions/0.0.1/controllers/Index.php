@@ -78,6 +78,11 @@ class Index extends BO_Controller {
 		redirect('traductions/index');
 		
 	}
+	
+	public function cleanup() {
+		$this->traductor->cleanup();
+		redirect('traductions/index');
+	}
 
 }
 
