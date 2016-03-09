@@ -37,9 +37,13 @@ class Traductor {
 	}
 	
 	public function getDico($lang) {
-		$jsonDico = $this->jarTranslate('dico', $lang);
-		$dico = json_decode(file_get_contents($jsonDico),true);
-		unlink($jsonDico);
+		$fullDico = $this->getFull();
+		$dico = array();
+		foreach ($fullDico as $file) {
+			foreach ($file as $idtrad => $trad) {
+				$dico[$trad['origin']] = $trad['traductions'][$lang];
+			}
+		}
 		return $dico;
 	}
 	
@@ -84,7 +88,7 @@ class Traductor {
 	}
 	
 	public function translate($exp){
-		return isset($this->_trads[$exp]) ? $this->_trads[$exp] : $exp;
+		return isset($this->_trads[$exp]) && $this->_trads[$exp] ? $this->_trads[$exp] : $exp;
 	}
 	
 	private function jarTranslate() {
