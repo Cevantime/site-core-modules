@@ -57,7 +57,7 @@ class Layout {
 	function assign($datas, $value = null) {
 		if (is_array($datas)) {
 			$this->datas = array_merge($this->datas, $datas);
-		} else if ($value !== null && is_string($datas)) {
+		} else if (is_string($datas)) {
 			$this->datas[$datas] = $value;
 		}
 	}
