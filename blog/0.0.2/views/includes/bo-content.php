@@ -1,3 +1,14 @@
+<?php if(is_module_installed('traductions')): ?>
+<div class="form-group">
+	<label>Langue</label>
+	<?php echo form_dropdown(array('class'=>'form-control', 'id'=>'lang', 'name'=>'lang'), array('fr'=>'Français','en'=>'Anglais','ru'=>'Russe'), $lang) ;?>
+	<script type="text/javascript">
+		$('#lang').change(function(){
+			window.location = "<?php echo current_url(); ?>?lang="+$(this).val();
+		});
+	</script>
+</div>
+<?php endif; ?>
 <div class="form-group">
 	<label>Titre</label>
 	<input type="text" 

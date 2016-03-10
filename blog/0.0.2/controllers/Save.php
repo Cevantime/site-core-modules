@@ -21,34 +21,55 @@ class Save extends BLOG_Controller {
 
 	public function basic($id = null, $model = 'blog/blogpost', $redirect = false) {
 		$datas = $this->doSave($id, $model, $redirect);
-		$this->load->view('blog/forms/basic-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename']));
+		$this->load->view('blog/forms/basic-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename'], 'lang'=> $this->getLang()));
 	}
 	
 	public function bootstrap($id = null, $model = 'blog/blogpost', $redirect = false) {
 		$datas = $this->doSave($id, $model, $redirect);
-		$this->load->view('blog/forms/bo-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename']));
+		$this->load->view('blog/forms/bo-style', array('blogpost_add_pop' => $datas,'model_name'=> pathinfo($model)['filename'], 'lang'=> $this->getLang()));
+	}
+	
+	private function getLang() {
+		$lang = $this->input->post_get('lang');
+		if($lang) return $lang;
+		return locale();
 	}
 
-	protected function doSave($id = null, $model = 'blog/blogpost', $redirect = false) {
-		
-		$this->load->helper('memberspace/authorization');
-		$this->load->helper('memberspace/connection');
-		
-		$post = $this->input->post();
-		
+	public function doSave($id = null, $model = 'blog/blogpost', $redirect = false) {
 		$this->load->model($model);
 		
 		$modelName = pathinfo($model)['filename'];
 		
 		$modelInst = $this->$modelName;
+		$modelLocale = $modelInst->getLocale();
+		$lang = $this->input->post_get('lang');
+		if($lang){
+			$modelInst->setLocale($lang);
+		}
+		$this->processSave($modelInst, $id, $model, $redirect);
+		$this->setLocale($modelLocale);
+	}
+	
+	private function processSave($modelInst, $id = null, $model = 'blog/blogpost', $redirect = false) {
 		
+		$this->load->helper('memberspace/authorization');
+		$this->load->helper('memberspace/connection');
+		
+		$post = $this->input->post();
+				
+		if(is_module_installed('traductions')) {
+			$lang = $this->input->post_get('lang');
+			$modelInst->setLocale($lang);
+		}
 		if($id) {
 			$pop = $modelInst->getId($id,'array');
 		} else {
 			$pop = array();
 		}
 		
-		if(!isset($post['save-'.$modelName])) return $pop;
+		if(!isset($post['save-'. strtolower(get_class($modelInst))])){
+			return $pop;
+		}
 		
 		$pop = $post;
 		
@@ -70,12 +91,10 @@ class Save extends BLOG_Controller {
 		
 		$datas['user_id'] = user_id();
 		
-		$this->load->library('form_validation');
-		
 		$new_id = $modelInst->fromDatas($datas);
 		
 		if($new_id === false) {
-			$this->addError($this->form_validation->error_string());
+			$this->addError($modelInst->getLastErrorsString());
 			return $pop;
 		}
 		

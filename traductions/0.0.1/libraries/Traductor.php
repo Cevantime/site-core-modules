@@ -38,10 +38,9 @@ class Traductor {
 	
 	public function getDico($lang) {
 		$fullDico = $this->getFull();
-		$dico = array();
 		foreach ($fullDico as $file) {
 			foreach ($file as $idtrad => $trad) {
-				$dico[$trad['origin']] = $trad['traductions'][$lang];
+				$dico[$trad['origin']] = isset($trad['traductions'][$lang]) ? $trad['traductions'][$lang] : $trad['origin'];
 			}
 		}
 		return $dico;
