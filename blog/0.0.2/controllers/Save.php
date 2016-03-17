@@ -46,8 +46,9 @@ class Save extends BLOG_Controller {
 		if($lang){
 			$modelInst->setLocale($lang);
 		}
-		$this->processSave($modelInst, $id, $model, $redirect);
+		$ret = $this->processSave($modelInst, $id, $model, $redirect);
 		$modelInst->setLocale($modelLocale);
+		return $ret;
 	}
 	
 	private function processSave($modelInst, $id = null, $model = 'blog/blogpost', $redirect = false) {
