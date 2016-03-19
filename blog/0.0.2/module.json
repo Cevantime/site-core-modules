@@ -1,0 +1,16 @@
+{
+    "dependencies": {
+        "module": [
+            {
+                "name": "memberspace",
+                "version": "0.0.3"
+            },
+            {
+                "name": "flashmessages",
+                "version": "0.0.1"
+            }
+        ]
+    },
+    
+    "version": "0.0.2"
+}
