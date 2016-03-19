@@ -1,4 +1,10 @@
 {
-	"dependencies": [
-	]
+	"dependencies": {
+		"module": [
+			{
+				"name": "bo",
+				"version": "0.0.2"
+			}
+		]
+	}
 }
