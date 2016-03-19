@@ -135,17 +135,16 @@ and open the template in the editor.
 
 		<div class="sidebar-nav">
 			<ul>
-				<li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-				<li><ul class="dashboard-menu nav nav-list collapse in">
-						<li><a href="<?php echo base_url('bo/home') ?>"><span class="fa fa-caret-right"></span> Main</a></li>
-						<li ><a href="<?php echo base_url('bo/users') ?>"><span class="fa fa-caret-right"></span> Liste des utilisateurs</a></li>
-						<li ><a href="<?php echo base_url('bo/administrators') ?>"><span class="fa fa-caret-right"></span> Liste des administrateurs</a></li>
-						<li ><a href="user.html"><span class="fa fa-caret-right"></span> User Profile</a></li>
-						<li ><a href="media.html"><span class="fa fa-caret-right"></span> Media</a></li>
-						<li ><a href="calendar.html"><span class="fa fa-caret-right"></span> Calendar</a></li>
-					</ul></li>
+				<?php $this->load->helper('directory');
+				$modulesPath = './application/modules';
+				$modules = array_reverse(directory_map($modulesPath,1));
+				foreach($modules as $module){
+					if(file_exists($modulesPath.'/'.$module.'views/_bo_menus.php')){
+						$this->load->view($module.'_bo_menus');
+					}
+				}?>
 
-				<li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
+<!--				<li data-popover="true" data-content="Items in this group require a <strong><a href='http://portnine.com/bootstrap-themes/aircraft' target='blank'>premium license</a><strong>." rel="popover" data-placement="right"><a href="#" data-target=".premium-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-fighter-jet"></i> Premium Features<i class="fa fa-collapse"></i></a></li>
 				<li><ul class="premium-menu nav nav-list collapse">
 						<li class="visible-xs visible-sm"><a href="#">- Premium features require a license -</a></span>
 						<li ><a href="premium-profile.html"><span class="fa fa-caret-right"></span> Enhanced Profile</a></li>
@@ -177,17 +176,17 @@ and open the template in the editor.
 
 				<li><a href="help.html" class="nav-header"><i class="fa fa-fw fa-question-circle"></i> Help</a></li>
 				<li><a href="faq.html" class="nav-header"><i class="fa fa-fw fa-comment"></i> Faq</a></li>
-				<li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i class="fa fa-fw fa-heart"></i> Get Premium</a></li>
+				<li><a href="http://portnine.com/bootstrap-themes/aircraft" class="nav-header" target="blank"><i class="fa fa-fw fa-heart"></i> Get Premium</a></li>-->
 			</ul>
 		</div>
 
 		<div class="content">
 			<div class="header">
-				<div class="stats">
-					<p class="stat"><span class="label label-info">5</span> Tickets</p>
-					<p class="stat"><span class="label label-success">27</span> Tasks</p>
-					<p class="stat"><span class="label label-danger">15</span> Overdue</p>
-				</div>
+				<!--				<div class="stats">
+									<p class="stat"><span class="label label-info">5</span> Tickets</p>
+									<p class="stat"><span class="label label-success">27</span> Tasks</p>
+									<p class="stat"><span class="label label-danger">15</span> Overdue</p>
+								</div>-->
 
 				<h1 class="page-title">Dashboard</h1>
 				<ul class="breadcrumb">
