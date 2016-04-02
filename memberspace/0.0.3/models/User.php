@@ -128,6 +128,7 @@ class User extends DATA_Model {
 		if (!$id) {
 			$id = $this->getData('id');
 		}
+		$CI->load->library('session');
 		$user_id_in_session = $CI->session->userdata('user_id');
 		return $user_id_in_session && $user_id_in_session == $id && $this->getData('id') == $id;
 	}
@@ -138,6 +139,7 @@ class User extends DATA_Model {
 			$id = $this->getData('id');
 		}
 		$this->load($id);
+		$CI->load->library('session');
 		$CI->session->set_userdata('user_id', $id);
 	}
 

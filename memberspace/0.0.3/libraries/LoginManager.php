@@ -16,6 +16,8 @@ class LoginManager {
 		$this->_ci =& get_instance();
 		$this->_ci->load->helper('cookie');
 		$this->_ci->load->helper('flashmessages/flashmessages');
+		$this->_ci->load->library('session');
+		
 		$this->setUserModel($userModel);
 	}
 	

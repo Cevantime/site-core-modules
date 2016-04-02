@@ -18,7 +18,6 @@ class Index extends MX_Controller {
 				if(!$redirect) {
 					$redirect = current_url();
 				}
-				$this->load->library('session');
 				$this->session->set_userdata('login_redirect_url', $redirect);
 				redirect('maintenance/index/login');
 			}
