@@ -98,10 +98,11 @@ class Save extends BLOG_Controller {
 		$this->addSuccess(translate('Le post a bien été ' . (($is_update ? 'mis à jour' : 'ajouté'))));
 
 		if ($redirect) {
+			$lastRow = $modelInst->getLastSavedDatas();
 			$regex = '/\{row:(.+?)\}/';
 			if (preg_match_all($regex, $redirect, $matches)) {
 				for ($j = 0; $j < count($matches[0]); $j++) {
-					$redirect = str_replace($matches[0][$j], $datas[$matches[1][$j]], $redirect);
+					$redirect = str_replace($matches[0][$j], $lastRow[$matches[1][$j]], $redirect);
 				}
 			}
 			redirect($redirect);

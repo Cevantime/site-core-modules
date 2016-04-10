@@ -19,7 +19,6 @@ class BLOG_Controller extends MX_Controller {
 		parent::__construct();
 	}
 	
-	
 	private function addMessage($type, $message){
 		$this->load->library('flashmessages/flashMessagesManager');
 		$this->flashmessagesmanager->pushNewMessage($message,$type);
@@ -30,7 +29,7 @@ class BLOG_Controller extends MX_Controller {
 	}
 
 	protected function addSuccess($message) {
-		$this->addMessage('succes', $message);
+		$this->addMessage('success', $message);
 	}
 
 	protected function addWarnings($message) {

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `translator_files` (
 CREATE TABLE IF NOT EXISTS `translator_traductions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lang` varchar(6) NOT NULL,
-  `content` text NOT NULL,
+  `content` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=382 ;
 
