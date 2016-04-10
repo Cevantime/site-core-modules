@@ -11,7 +11,7 @@ class Configure extends BO_Controller {
 	}
 	
 	public function index() {
-		$this->load->view('maintenance/edit');
+		$this->layout->view('maintenance/edit');
 	}
 
 	public function turnOff() {
