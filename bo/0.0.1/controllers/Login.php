@@ -15,6 +15,7 @@ class Login extends MX_Controller {
 	
 	public function __construct() {
 		parent::__construct();
+		$this->load->library('session');
 		$this->load->library('layout/layout');
 		$this->load->model('memberspace/user');
 		$this->layout->setLayout('bo/layout/login_bo');
