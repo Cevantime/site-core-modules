@@ -6,7 +6,7 @@
 	</p>
 	<?php else: ?>
 	<p>
-		Le site est actuellement en mode public. <a class="btn btn-danger" href="<?php echo base_url('maintenance/configure/turnon'); ?>"><i class="fa fa-lock"></i> Activer le mode privé</a>
+		Le site est actuellement en mode public. <a class="btn btn-danger" href="<?php echo base_url('maintenance/configure/turnon'); ?>"><i class="fa fa-users"></i> Activer le mode privé</a>
 	</p>
 	
 	<?php endif; ?>

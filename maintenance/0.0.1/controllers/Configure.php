@@ -26,6 +26,8 @@ class Configure extends BO_Controller {
 		if(user_can('edit', 'maintenance')) {
 			$this->configuration->setValue('maintenance', $on);
 		}
+		$this->layout->view('maintenance/edit');
+		
 	}
 	
 	
