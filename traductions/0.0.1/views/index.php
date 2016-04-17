@@ -44,10 +44,10 @@
 		var $formGroup = $this.closest('.form-group.translate');
 		$formGroup.removeClass('ignored');
 		if(isChecked) {
-			$formGroup.addClass('excluded');
+			$formGroup.addClass('excluded').slideUp();
 			$formGroup.find('.ignorer').prop('checked', false);
 		} else {
-			$formGroup.removeClass('excluded');
+			$formGroup.removeClass('excluded').slideDown();
 		}
 	});
 	$('.ignorer').change(function() {
@@ -58,40 +58,28 @@
 		$formGroup.removeClass('excluded')
 		if(isChecked) {
 			$formGroup.find('textarea').text('');
-			$formGroup.addClass('ignored').addClass('slided');
+			$formGroup.addClass('ignored').slideUp();
 			$formGroup.find('.excluder').prop('checked', false);
 		} else {
-			$formGroup.removeClass('ignored');
+			$formGroup.removeClass('ignored').slideDown();;
 		}
 	});
 	$('#display-excluded').change(function(){
 		var $this = $(this);
 		var isChecked = $this.is(':checked');
 		if(isChecked) {
-			$('.form-group.translate.excluded').css({
-				maxHeight: 'inherit',
-				marginBottom: '15px'
-			});
+			$('.form-group.translate.excluded').slideDown();
 		} else {
-			$('.form-group.translate.excluded').css({
-				maxHeight: 0,
-				marginBottom: 0
-			});
+			$('.form-group.translate.excluded').slideUp();
 		}
 	});
 	$('#display-ignored').change(function(){
 		var $this = $(this);
 		var isChecked = $this.is(':checked');
 		if(isChecked) {
-			$('.form-group.translate.ignored').css({
-				maxHeight: 'inherit',
-				marginBottom: '15px'
-			});
+			$('.form-group.translate.ignored').slideDown();
 		} else {
-			$('.form-group.translate.ignored').css({
-				maxHeight: 0,
-				marginBottom: 0
-			});
+			$('.form-group.translate.ignored').slideUp();
 		}
 	});
 </script>

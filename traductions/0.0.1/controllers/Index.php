@@ -39,7 +39,7 @@ class Index extends BO_Controller {
 	public function save() {
 		$post = $this->input->post();
 		if(!$post || !$this->input->post('translate')) {
-			add_error('Une erreur est survenue');
+			add_error(translate('Une erreur est survenue'));
 			redirect('traductions/index');
 		}
 		
@@ -73,7 +73,7 @@ class Index extends BO_Controller {
 		
 		$this->traductor->translation($lang);
 		
-		add_success('La traduction a bien été effectuée');
+		add_success(translate('La traduction a bien été effectuée'));
 		
 		redirect('traductions/index');
 		
