@@ -44,10 +44,14 @@
 		var $formGroup = $this.closest('.form-group.translate');
 		$formGroup.removeClass('ignored');
 		if(isChecked) {
-			$formGroup.addClass('excluded').slideUp();
+			$formGroup.slideUp(function(){
+				$(this).addClass('excluded')
+			});
 			$formGroup.find('.ignorer').prop('checked', false);
 		} else {
-			$formGroup.removeClass('excluded').slideDown();
+			$formGroup.slideDown(function(){
+				$(this).removeClass('excluded')
+			});
 		}
 	});
 	$('.ignorer').change(function() {
@@ -58,10 +62,14 @@
 		$formGroup.removeClass('excluded')
 		if(isChecked) {
 			$formGroup.find('textarea').text('');
-			$formGroup.addClass('ignored').slideUp();
+			$formGroup.slideUp(function(){
+				$(this).addClass('ignored')
+			});
 			$formGroup.find('.excluder').prop('checked', false);
 		} else {
-			$formGroup.removeClass('ignored').slideDown();;
+			$formGroup.slideDown(function(){
+				$(this).removeClass('ignored')
+			});
 		}
 	});
 	$('#display-excluded').change(function(){
