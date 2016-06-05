@@ -16,6 +16,7 @@ if (!defined('BASEPATH'))
 class Blogadmin extends BO_Controller {
 
 	public function index($type = 'start', $limit = 0) {
+		$this->checkIfUserCan('see', 'admin');
 		$this->load->model('blog/blogpost');
 		$this->load->library('mypagination');
 		$id_pagination = 'blogadmin_pagination';
@@ -23,11 +24,13 @@ class Blogadmin extends BO_Controller {
 		$this->layout->view('blog/admin/index', array('model'=>'blog/blogpost','blogposts'=>$blogposts));
 	}
 	
-	public function edit($id = null) {
+	public function edit($id) {
+		$this->checkIfUserCan('update', 'admin', $id);
 		$this->layout->view('blog/admin/edit', array('id'=>$id));
 	}
 	
 	public function delete($id=null){
+		$this->checkIfUserCan('delete', 'admin', $id);
 		Modules::run('blog/see/delete',$id,'blog/blogpost');
 	}
 
