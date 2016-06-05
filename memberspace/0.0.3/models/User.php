@@ -72,7 +72,7 @@ class User extends DATA_Model {
 	
 	public function is($role, $userId = null) {
 		$groups = $this->getGroups($userId);
-		return in_array($role,  array_map(function($r){$r->name;}, $groups));
+		return in_array($role,  array_map(function($r){return $r->name;}, $groups));
 	}
 	
 	public function getGroups($userId = null) {

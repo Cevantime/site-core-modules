@@ -64,7 +64,7 @@ class Group extends DATA_Model {
 		if(!$groupId){
 			$groupId = $this->getData('id');
 		}
-		if(!is_int($groupId) && is_string($groupId)){
+		if(!ctype_digit($groupId) && is_string($groupId)){
 			$group = $this->getByName($groupId);
 			if(!$group){
 				return FALSE;
@@ -73,15 +73,6 @@ class Group extends DATA_Model {
 		}
 		$this->load->model('memberspace/linkusergroup');
 		$ret = $this->linkusergroup->link($userId, $groupId);
-		
-		$groupRights = $this->getGroupRights($groupId);
-		
-		$this->load->model('memberspace/right');
-		if($groupRights){
-			foreach ($groupRights as $right) {
-				$this->right->allowUserTo($userId, $right->name, $right->type, $right->object_key, $groupId);
-			}
-		}
 				
 		return $ret;
 	}
