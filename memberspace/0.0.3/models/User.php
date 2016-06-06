@@ -253,11 +253,4 @@ class User extends DATA_Model {
 		);
 	}
 
-	public function insert($datas = null) {
-		$userId = parent::insert($datas);
-		$this->load->model('memberspace/right');
-		$this->user->addToGroup('users', $userId);
-		return $userId;
-	}
-
 }
