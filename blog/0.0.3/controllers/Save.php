@@ -95,7 +95,7 @@ class Save extends BLOG_Controller {
 		}
 		$this->user->allowTo('*', $model, $new_id);
 
-		$this->addSuccess(translate('Le post a bien été ' . (($is_update ? 'mis à jour' : 'ajouté'))));
+		$this->addSuccess(translate('Le post a bien été ') . ($is_update ? translate('mis à jour') : translate('ajouté')));
 
 		if ($redirect) {
 			$lastRow = $modelInst->getLastSavedDatas();

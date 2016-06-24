@@ -9,23 +9,23 @@ class Connection extends MY_Controller {
 		parent::__construct();
 	}
 	
-	public function basic() {
-		$this->tryLogin();
+	public function basic($userModel = 'memberspace/user') {
+		$this->tryLogin($userModel);
 		$this->load->view('memberspace/connection/basic');
 	}
 
-	public function bootstrap() {
-		$this->tryLogin();
+	public function bootstrap($userModel = 'memberspace/user') {
+		$this->tryLogin($userModel);
 		$this->load->view('memberspace/connection/bootstrap');
 	}
 	
-	public function bootstrapFull() {
-		$this->tryLogin();
+	public function bootstrapFull($userModel = 'memberspace/user') {
+		$this->tryLogin($userModel);
 		$this->load->view('memberspace/connection/bootstrap-full');
 	}
 
-	public function tryLogin() {
-		$this->load->library('memberspace/loginManager');
+	public function tryLogin($userModel = 'memberspace/user') {
+		$this->load->library('memberspace/loginManager', $userModel);
 		$this->loginmanager->connectUserFromPost();
 	}
 }

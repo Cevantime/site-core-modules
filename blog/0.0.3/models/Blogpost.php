@@ -103,7 +103,7 @@ class Blogpost extends Post {
 		$this->load->model('memberspace/user');
 		$usersTableName = $this->user->getTableName();
 		$this->join($usersTableName, $usersTableName . '.id=user_id');
-		$this->db->select('users.login as author');
+		$this->db->select($this->db->dbprefix('users').'.login as author');
 		return $this->getId($id);
 	}
 

@@ -15,16 +15,23 @@ if (!defined('BASEPATH'))
  */
 class See extends BLOG_Controller {
 	
+	private function _seeAction($view, $id = null,$postModel = 'blog/blogpost') {
+		if(!$id || !user_can('see', $postModel, $id)) {
+			$this->addError(translate('Vous ne pouvez pas voir ce post.'));
+		}
+		$this->load->view('blog/see/'.$view,array('blogpost'=> $this->getId($id, $postModel)));
+	}
+	
 	public function basic($id = null,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/basic',array('blogpost'=> $this->getId($id, $postModel)));
+		$this->_seeAction('basic', $id, $postModel);
 	}
 	
 	public function bo($id,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/bo',array('blogpost'=> $this->getId($id, $postModel)));
+		$this->_seeAction('bo', $id, $postModel);
 	}
 	
 	public function front($id = null,$postModel = 'blog/blogpost') {
-		$this->load->view('blog/see/front',array('blogpost'=> $this->getId($id, $postModel)));
+		$this->_seeAction('front', $id, $postModel);
 	}
 
 	public function delete($id = null,$postModel = 'blog/blogpost'){
@@ -38,9 +45,6 @@ class See extends BLOG_Controller {
 	}
 	
 	public function getId($id = null,$postModel = 'blog/blogpost'){
-		if(!$id){
-			show_404();
-		}
 		$this->load->model($postModel);
 		$modelName = pathinfo($postModel)['filename'];
 		$blog_post =  $this->$modelName->getByIdWithAuthor($id);
