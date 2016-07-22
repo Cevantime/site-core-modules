@@ -6,6 +6,7 @@
 				<th>#</th>
 				<th>Titre</th>
 				<th>Texte</th>
+				<th>Lien</th>
 				<th>Image</th>
 				<th style="width: 3.5em;">Actions</th>
 			</tr>
@@ -16,6 +17,7 @@
 				<tr>
 					<td><?php echo $slide->id; ?></td>
 					<td><?php echo $slide->title; ?> </td>
+					<td><?php echo $slide->link; ?> </td>
 					<td><?php echo $slide->desc; ?> </td>
 					<td ><?php echo '<img src="'.  imageresize(base_url($slide->imageName),300,200).'">'; ?></td>					
 					<td>						
