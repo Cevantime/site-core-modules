@@ -21,7 +21,7 @@ class Sliderbo extends BO_Controller {
 		parent::__construct();
 	}
 	
-	public function index($modelName = 'slide', $redirect = 'slider/sliderbo') {
+	public function index($modelName = 'slider/slide', $redirect = 'slider/sliderbo') {
 		$this->all($modelName);
 	}
 	
@@ -36,7 +36,7 @@ class Sliderbo extends BO_Controller {
 		$this->layout->view('slider/admin/all');		
 	}
 	
-	public function edit($id, $modelName = 'slide', $redirect = 'slider/sliderbo'){
+	public function edit($id, $modelName = 'slider/slide', $redirect = 'slider/sliderbo'){
 		
 		$this->layout->title("Édition d'un slide");
 		$this->load->model($modelName);
