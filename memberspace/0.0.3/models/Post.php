@@ -51,7 +51,7 @@ class Post extends DATA_Model {
 	
 	public function validationRulesForInsert($datas) {
 		return array(
-			array(
+			'content'=>array(
 				'field' => 'content',
 				'label' => translate('Contenu'),
 				'rules' => 'required|min_length[20]',
@@ -61,12 +61,12 @@ class Post extends DATA_Model {
 	
 	public function validationRulesForUpdate($datas) {
 		return array(
-			array(
+			'content'=>array(
 				'field' => 'content',
 				'label' => translate('Contenu'),
 				'rules' => 'min_length[20]',
 			),
-			array(
+			'id'=>array(
 				'field' => 'id',
 				'label' => 'Id',
 				'rules' => array(

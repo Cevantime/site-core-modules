@@ -46,17 +46,17 @@ class Blogpost extends Post {
 	public function validationRulesForInsert($datas) {
 		$rules = parent::validationRulesForInsert($datas);
 		$newRules = array(
-			array(
+			'title' => array(
 				'field' => 'title',
 				'label' => translate('Titre'),
 				'rules' => 'required'
 			),
-			array(
+			'description' => array(
 				'field' => 'description',
 				'label' => translate('Description'),
 				'rules' => 'required|min_length[20]',
 			),
-			array(
+			'image' => array(
 				'field' => 'image',
 				'label' => translate('Image'),
 				'rules' => 'file_required|file_image_maxdim[2000,1500]|file_allowed_type[image]'
@@ -68,17 +68,17 @@ class Blogpost extends Post {
 	public function validationRulesForUpdate($datas) {
 		$rules = parent::validationRulesForUpdate($datas);
 		$newRules = array(
-			array(
+			'title' => array(
 				'field' => 'title',
 				'label' => translate('Titre'),
 				'rules' => ''
 			),
-			array(
+			'description' => array(
 				'field' => 'description',
 				'label' => translate('Description'),
 				'rules' => 'min_length[20]',
 			),
-			array(
+			'image' => array(
 				'field' => 'image',
 				'label' => translate('Image'),
 				'rules' => 'file_image_maxdim[2000,1500]|file_allowed_type[image]'
