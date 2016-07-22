@@ -31,6 +31,7 @@ class Sliderbo extends BO_Controller {
 		$this->load->model($modelName);
 		$slides = $this->$modelName->get();
 		$this->layout->assign('slides', $slides);	
+		$this->layout->assign('modelName', $modelName);	
 		$this->layout->view('slider/admin/all');		
 	}
 	
@@ -73,6 +74,11 @@ class Sliderbo extends BO_Controller {
 			return $this->load->view('includes/save', array('datas'=>$pop, 'lang'=>$lang, 'redirect'=>$redirect));
 		}
 		$pop = $post;
+		$isUpdate = isset($post['id']) && $post['id'];
+		if(!user_can($isUpdate ? 'update': 'add', $modelName, $isUpdate ? $post['id'] : '*')){
+			add_error(translate('Vous n\'avez pas le droit requis pour ').($isUpdate ? 'mettre à jour': 'ajouter').translate(' ce slide.'));
+			redirect($redirect);
+		}
 		$success = $this->$modelName->fromPost();
 		locale($oldLang);
 		if($success === false) {
