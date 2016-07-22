@@ -73,7 +73,7 @@ class Sliderbo extends BO_Controller {
 				$pop = $this->$modelName->getId($id,'array');
 			}
 			locale($oldLang);
-			return $this->load->view('includes/save', array('datas'=>$pop, 'lang'=>$lang, 'redirect'=>$redirect));
+			return $this->load->view('slider/includes/save', array('datas'=>$pop, 'lang'=>$lang, 'redirect'=>$redirect));
 		}
 		$pop = $post;
 		$isUpdate = isset($post['id']) && $post['id'];
@@ -85,7 +85,7 @@ class Sliderbo extends BO_Controller {
 		locale($oldLang);
 		if($success === false) {
 			add_error($this->$modelName->getLastErrorsString());
-			return $this->load->view('includes/save', array('datas'=>$pop, 'lang'=>$lang, 'redirect'=>$redirect));
+			return $this->load->view('slider/includes/save', array('datas'=>$pop, 'lang'=>$lang, 'redirect'=>$redirect));
 		}
 		add_success(translate('Le slide a bien été mis à jour.'));
 		
