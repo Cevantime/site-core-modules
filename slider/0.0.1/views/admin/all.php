@@ -17,8 +17,8 @@
 				<tr>
 					<td><?php echo $slide->id; ?></td>
 					<td><?php echo $slide->title; ?> </td>
-					<td><?php echo $slide->link; ?> </td>
 					<td><?php echo $slide->desc; ?> </td>
+					<td><?php echo $slide->link; ?> </td>
 					<td ><?php echo '<img src="'.  imageresize(base_url($slide->imageName),300,200).'">'; ?></td>					
 					<td>						
 						<a href="<?php echo base_url('slider/sliderbo/edit').'/'.$slide->id ?>"><i class="fa fa-pencil"></i></a>						
