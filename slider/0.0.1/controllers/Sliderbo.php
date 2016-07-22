@@ -49,12 +49,12 @@ class Sliderbo extends BO_Controller {
 		
 	}
 	
-	public function add($modelName = 'slide', $redirect = 'slider/sliderbo') {
+	public function add($modelName = 'slider/slide', $redirect = 'slider/sliderbo') {
 		$this->layout->title("Ajout d'un slide");
 		$this->layout->view('slider/admin/add', array('modelName'=>$modelName));
 	}
 	
-	public function save($id = null,$modelName = 'slide', $redirect = 'slider/sliderbo'){
+	public function save($id = null,$modelName = 'slider/slide', $redirect = 'slider/sliderbo'){
 		
 		$this->load->model($modelName);
 		$post = $this->input->post();
@@ -62,7 +62,7 @@ class Sliderbo extends BO_Controller {
 		$this->load->helper('locale');
 		$oldLang = locale();
 		$lang = $this->input->post_get('lang');
-		
+		$modelName = pathinfo($modelName)['filename'];
 		if($lang) {
 			locale($lang); 
 		}
