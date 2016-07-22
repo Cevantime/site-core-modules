@@ -27,7 +27,7 @@ class Sliderbo extends BO_Controller {
 	
 	/**** pour le back ***/
 	//layout est forcément chargé car dépendant !!
-	public function all($modelName = 'slide'){
+	public function all($modelName = 'slider/slide'){
 		$this->load->model($modelName);
 		$model = pathinfo($modelName)['filename'];
 		$slides = $this->$model->get();
