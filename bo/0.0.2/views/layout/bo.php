@@ -244,8 +244,7 @@ and open the template in the editor.
 					</div>
 				</div>
 				<script type="text/javascript">
-					$(function () {
-
+					function parseModal() {
 						$('.confirm').click(function (e) {
 							var url = $(this).data('url');
 							var body = $(this).data('body');
@@ -260,8 +259,12 @@ and open the template in the editor.
 							
 							var $header = $modal.find(".modal-header h3");
 							$header.html(header);
-
+							return false;
 						});
+					}
+					$(function () {
+						parseModal();
+						$(document).ajaxComplete(parseModal);
 					});
 				</script>
 				<footer>

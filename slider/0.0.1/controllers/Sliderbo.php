@@ -29,7 +29,8 @@ class Sliderbo extends BO_Controller {
 	//layout est forcément chargé car dépendant !!
 	public function all($modelName = 'slide'){
 		$this->load->model($modelName);
-		$slides = $this->$modelName->get();
+		$model = pathinfo($modelName)['filename'];
+		$slides = $this->$model->get();
 		$this->layout->assign('slides', $slides);	
 		$this->layout->assign('modelName', $modelName);	
 		$this->layout->view('slider/admin/all');		
@@ -39,7 +40,8 @@ class Sliderbo extends BO_Controller {
 		
 		$this->layout->title("Édition d'un slide");
 		$this->load->model($modelName);
-		$slide = $this->$modelName->getId($id);
+		$model = pathinfo($modelName)['filename'];
+		$slide = $this->$model->getId($id);
 		$this->layout->view('slider/admin/edit',array('slide'=>$slide,'modelName'=>$modelName));
 //		$slideInfos = $this->slide->get(array('id' => $id));
 //		$this->layout->assign('slideInfos', $slideInfos);
