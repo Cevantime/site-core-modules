@@ -8,10 +8,6 @@ class Slide extends DATA_Model {
 		return self::TABLE_NAME;
 	}
 	
-	public function columnsToTranslate() {
-		return array('desc','title');
-	}
-	
 	public function validationRulesForInsert($datas) {
 		return array(
 			array(
