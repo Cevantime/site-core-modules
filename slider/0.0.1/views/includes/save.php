@@ -28,6 +28,10 @@
 				<input class="form-control" type="text" name="desc" value="<?php echo sliderVal($datas,'desc') ?>" />
 			</div>
 			<div class="form-group">
+				<label for="InputPosition">Lien</label>
+				<input class="form-control" type="text" name="link" value="<?php echo sliderVal($datas,'link') ?>" />
+			</div>
+			<div class="form-group">
 
 				<label for="InputImage">Image <small class="bg-info">les dimensions doivent être comprises entre 500 et 2000 pixels</small></label>
 				<span class="input-group">

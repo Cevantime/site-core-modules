@@ -21,6 +21,11 @@ class Slide extends DATA_Model {
 				'rules' => 'required|min_length[10]|max_length[1000]'
 			),
 			array(
+				'field' => 'link',
+				'label' => translate('Link'),
+				'rules' => 'valid_url'
+			),
+			array(
 				'field' => 'imageName',
 				'label' => translate('Image'),
 				'rules' => 'file_required|file_image_mindim[500,500]|file_image_maxdim[2500,2500]|file_size_max[500KB]|file_allowed_type[image]'
