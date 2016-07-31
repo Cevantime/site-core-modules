@@ -1,6 +1,6 @@
 {
     "version": "1.0.0",
-    "dependencies": [
+    "dependencies": {
 		"module": [
 			{
 				"name": "layout",
@@ -16,7 +16,7 @@
 			}
 		]
 
-    ],
+	},
     "map": {
         "dbchanges": [
             "0_init.sql"
