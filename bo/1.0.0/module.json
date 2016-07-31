@@ -1,0 +1,18 @@
+{
+	"module" : [
+		{
+			"name" : "layout",
+			"version" : "1.0.0"
+		},
+		{
+			"name" : "flashmessages",
+			"version" : "1.0.0"
+		},
+		{
+			"name" : "memberspace",
+			"version" : "1.0.0"
+		}
+	],
+	"version": "1.0.0"
+	
+}

@@ -1,0 +1,10 @@
+.form-group.translate.excluded {
+	display: none;
+}
+.form-group.translate.ignored {
+	display: none;
+}
+
+.form-group.translate {
+	overflow: hidden;
+}

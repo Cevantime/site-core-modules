@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"module": [
+			{
+				"name": "bo",
+				"version": "1.0.0"
+			}
+		]
+	}
+}

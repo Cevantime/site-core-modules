@@ -1,0 +1,17 @@
+{
+	"module" : [
+		{
+			"name" : "layout",
+			"version" : "1.0.0"
+		},
+		{
+			"name" : "bo",
+			"version" : "1.0.0"
+		},
+		{
+			"name" : "memberspace",
+			"version" : "1.0.0"
+		}
+	]
+	
+}
