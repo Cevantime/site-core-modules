@@ -18,8 +18,8 @@ and open the template in the editor.
 		<script src="<?php echo base_url('assets/vendor/js/bo/jquery-1.11.1.min.js') ?>" type="text/javascript"></script>
 		<script src="<?php echo base_url('assets/vendor/js/bo/theme.js'); ?>" type="text/javascript"></script>
 
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/theme.css') ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('css/bo/premium.css') ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/css/bo/theme.css') ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/css/bo/premium.css') ?>">
 
 		<script type="text/javascript">
 			var baseURL = "<?php echo base_url(); ?>";
