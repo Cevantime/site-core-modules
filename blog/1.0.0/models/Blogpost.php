@@ -88,7 +88,7 @@ class Blogpost extends Post {
 	}
 
 	public function uploadPaths() {
-		return 'uploads/posts';
+		return array('image' => 'uploads/posts');
 	}
 
 	public function getListWithAuthors($limit = 0, $offset = 10) {

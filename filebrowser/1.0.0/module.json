@@ -1,0 +1,28 @@
+{
+	"dependencies": {
+		"module": [
+			{
+				"name" : "layout",
+				"version" : "1.0.0"
+			},
+			{
+				"name" : "flashmessages",
+				"version" : "1.0.0"
+			},
+			{
+				"name" : "memberspace",
+				"version" : "1.0.0"
+			},
+			{
+				"name" : "font-awesome",
+				"version": "1.0.0"
+			},
+			{
+				"name" : "images",
+				"version": "1.0.0"
+			}
+		]
+		
+	}
+	
+}

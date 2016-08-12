@@ -78,7 +78,7 @@ class Right extends DATA_Model {
 	public function rightAllows($user, $right,$action,$type,$value) {
 		return $this->checkAction($action, $right->name)
 				&& $this->checkType($type, $right->type)
-				&& $this->checkValue($user, $value, $right->object_key);
+				&& $this->checkValue($user, $type, $value, $right->object_key);
 	}
 	
 	public function checkAction($action, $rightAction) {
@@ -88,7 +88,7 @@ class Right extends DATA_Model {
 		return $this->checkAction($type, $rightType);
 	}
 
-	private function checkValue($user, $object_key, $right_value) {
+	private function checkValue($user, $type, $object_key, $right_value) {
 		if($right_value =='*')  return true;
 		$varreg = '([0-9a-zA-Z]+)';
 		$regex = '#^' . $varreg . '?\[' . $varreg . '\]::' . $varreg . '\((.*?)\)$#';
@@ -112,11 +112,14 @@ class Right extends DATA_Model {
 				return TRUE;
 			}
 		} else {
-			$primaries = $right_value->getPrimaryColumns();
+			$this->load->model($type);
+			$exploded = explode('/', $type);
+			$classRad = end($exploded);
+			$primaries = $this->$classRad->getPrimaryColumns();
 			if(count($primaries)>1) {
 				$object_key = '{'.  implode(';', array_map(function($r) use ($object_key) {return $object_key->$r;}, $primaries)).'}';
 			} else {
-				$object_key = $object_key->$primaries;
+				$object_key = $object_key->{$primaries[0]};
 			}
 			return in_array($object_key, explode(',', $right_value));
 		}

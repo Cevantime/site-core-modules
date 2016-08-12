@@ -54,7 +54,7 @@ class Slide extends DATA_Model {
 	}
 	 public function uploadPaths() {
 
-                return 'uploads/slides';
+			return array('imageName' => 'uploads/slides');
         }
 
 }
