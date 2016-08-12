@@ -77,7 +77,7 @@ class File extends DATA_Model {
 			'rules' => array(
 				'required',
 				'is_natural',
-				array('exists', array($model,'exists'))
+				array('exists', array($model, 'exists'))
 			)
 		);
 		$rules['name'] = array(
@@ -90,11 +90,11 @@ class File extends DATA_Model {
 						$parentId = isset($datas['parent_id']) ? $datas['parent_id'] : null;
 						if (!isset($datas['parent_id']))
 							return $parentId = null;
-						
+
 						else {
 							$parentId = $datas['parent_id'];
 						}
-						
+
 						if (!$parentId) {
 							$parentId = null;
 						}
@@ -108,22 +108,23 @@ class File extends DATA_Model {
 			'label' => translate('Dossier parent'),
 			'rules' => array(
 				array('is_natural_or_empty', function($v) {
-					$this->load->library('form_validation');
-					return $this->form_validation->is_natural($v) || $v === '';
-				}),
+						$this->load->library('form_validation');
+						return $this->form_validation->is_natural($v) || $v === '';
+					}),
 				array('is_not_self_containing', function($v) use($datas) {
-					if($v === $datas['id']) {
-						return false;
-					}
-					$parent = $this->getId($v);
-					if(!$parent) return true;
-					$hierarchy = explode('/', $parent->hierarchy);
-					if(in_array($datas['id'], $hierarchy)){
-						return false;
-					}
-					
-					return true;
-				})
+						if ($v === $datas['id']) {
+							return false;
+						}
+						$parent = $this->getId($v);
+						if (!$parent)
+							return true;
+						$hierarchy = explode('/', $parent->hierarchy);
+						if (in_array($datas['id'], $hierarchy)) {
+							return false;
+						}
+
+						return true;
+					})
 			)
 		);
 		return $rules;
@@ -164,11 +165,15 @@ class File extends DATA_Model {
 	}
 
 	protected function beforeInsert(&$to_insert = null) {
-		if (isset($to_insert['parent_id']) && !$to_insert['parent_id'])
+		if (array_key_exists('parent_id', $to_insert) && !$to_insert['parent_id'])
 			$to_insert['parent_id'] = null;
 
-		$parent = $this->getId($to_insert['parent_id']);
-		$to_insert['hierarchy'] = $parent ? $parent->hierarchy.'/'.$parent->id : '';
+		if (array_key_exists('parent_id', $to_insert)) {
+			$parent = $this->getId($to_insert['parent_id']);
+		} else {
+			$parent = null;
+		}
+		$to_insert['hierarchy'] = $parent ? $parent->hierarchy . '/' . $parent->id : '';
 		if (!isset($to_insert['is_folder']) || !$to_insert['is_folder']) {
 			$to_insert['infos'] = $this->infos['file'];
 			$to_insert['name'] = $this->infos['file']['file_name'];
@@ -177,33 +182,39 @@ class File extends DATA_Model {
 			$to_insert['file'] = null;
 			$to_insert['infos'] = null;
 		}
-		
-		
+
+
 		parent::beforeInsert($to_insert);
 	}
 
 	protected function beforeUpdate(&$datas = null, $where = null) {
-		if (isset($datas['parent_id']) && !$datas['parent_id'])
-			$datas['parent_id'] = null;
+		if (array_key_exists('parent_id', $to_insert) && !$to_insert['parent_id'])
+			$to_insert['parent_id'] = null;
+
+		if (array_key_exists('parent_id', $to_insert)) {
+			$parent = $this->getId($to_insert['parent_id']);
+		} else {
+			$parent = null;
+		}
 		unset($datas['is_folder']);
 		unset($datas['infos']);
 		unset($datas['file']);
-		if(array_key_exists('parent_id', $datas)) {
+		if (array_key_exists('parent_id', $datas)) {
 			$parent = $this->getId($datas['parent_id']);
-			$datas['hierarchy'] = $parent ? $parent->hierarchy.'/'.$parent->id : '';
+			$datas['hierarchy'] = $parent ? $parent->hierarchy . '/' . $parent->id : '';
 		}
 		parent::beforeUpdate($datas, $where);
 	}
 
 	public function getGrouped($where = null, $filters = null, $type = 'object', $columns = null) {
 		$this->db->order_by('is_folder DESC, name ASC');
-		if($filters && !in_array('all',$filters)) {
+		if ($filters && !in_array('all', $filters)) {
 			$this->db->group_start()
-				->where_in('type', $filters)
-				->or_where('type', null)
-			->group_end();
+					->where_in('type', $filters)
+					->or_where('type', null)
+					->group_end();
 		}
-		if($where) {
+		if ($where) {
 			$this->db->where($where);
 		}
 		return parent::get(NULL, $type, $columns);
