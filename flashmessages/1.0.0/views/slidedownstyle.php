@@ -61,50 +61,21 @@
 	}
 
 </style>
-<div class="admin-message template">
+<div style="display: none">
 
-	<button onclick="var $p = $(this).parent().removeClass('displayed');
-			window.setTimeout(function () {
-				$p.remove()
-			}, 1000);">&Cross;</button>
+	<?php if (isset($flashMessages) && $flashMessages): ?>
+		<?php $nbFlashMessage = count($flashMessages); ?>
+		<?php for ($i = $nbFlashMessage - 1; $i >= 0; $i--): ?>
+			<?php $flashMessage = $flashMessages[$i]; ?>
+			<div class="admin-message <?php echo $flashMessage['type']; ?>">
+				<button class="bt-close">&Cross;</button>
 
-	<p class="admin-message-content"></p>
+				<p class="admin-message-content">
+					<?php echo $flashMessage['content']; ?>
+				</p>
+			</div>        
+		<?php endfor; ?>
+	<?php endif; ?>
+</div>
 
-</div>        
-
-<script>
-
-	$(function () {
-		<?php if (isset($flashMessages) && $flashMessages): ?>
-			<?php $nbFlashMessage = count($flashMessages); ?>
-			<?php for ($i = $nbFlashMessage - 1; $i >= 0; $i--): ?>
-				<?php $flashMessage = $flashMessages[$i]; ?>
-				showAdminMessage('<?php echo str_replace("\n", "\\", trim(addslashes($flashMessage['content']))) ?>', '<?php echo addslashes($flashMessage['type']); ?>');
-			<?php endfor; ?>
-		<?php endif; ?>
-
-	});
-
-</script>
-
-<script type="text/javascript">
-
-	function showAdminMessage(message, type) {
-
-		var $adminMessage = $('.admin-message.template').clone().removeClass('template');
-
-		$adminMessage.find('.admin-message-content').html(message);
-
-		$('body').append($adminMessage);
-
-		window.setTimeout(function () {
-
-			$adminMessage.addClass(type);
-
-			$adminMessage.addClass('displayed');
-
-		}, 1);
-
-	}
-
-</script>
+<script type="text/javascript" data-module="modules/flashmessages/slidedown-flashmessages"></script>
