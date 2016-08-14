@@ -15,7 +15,6 @@ and open the template in the editor.
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/css/bootstrap/bootstrap.min.css') ?>">
 		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/css/font-awesome/css/font-awesome.css'); ?>">
 
-
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/css/bo/theme.css') ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/css/bo/premium.css') ?>">
 
