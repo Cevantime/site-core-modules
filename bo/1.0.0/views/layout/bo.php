@@ -107,19 +107,14 @@ and open the template in the editor.
 
 		<div class="sidebar-nav">
 			<ul>
-				<li><a href="#" data-target=".dashboard-menu" class="nav-header" data-toggle="collapse"><i class="fa fa-fw fa-dashboard"></i> Dashboard<i class="fa fa-collapse"></i></a></li>
-				<li><ul class="dashboard-menu nav nav-list collapse in">
-						<li><a href="<?php echo base_url('bo/home') ?>"><span class="fa fa-caret-right"></span> Main</a></li>
-						<li ><a href="<?php echo base_url('bo/users') ?>"><span class="fa fa-caret-right"></span> Liste des utilisateurs</a></li>
-						<li ><a href="<?php echo base_url('bo/administrators') ?>"><span class="fa fa-caret-right"></span> Liste des administrateurs</a></li>
-					</ul></li>
-
-				<li><a href="#" data-target=".tuto-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-graduation-cap"></i> Tutoriels<i class="fa fa-collapse"></i></a></li>
-				<li><ul class="tuto-menu nav nav-list collapse">
-						<li ><a href="<?php echo base_url('bo/tutorials/all'); ?>"><span class="fa fa-caret-right"></span> Tous les tutoriels</a></li>
-						<li ><a href="<?php echo base_url('bo/tutorials/new'); ?>"><span class="fa fa-caret-right"></span> créer un nouveau tutoriel</a></li>
-					</ul></li>
-
+				<?php $this->load->helper('directory');
+				$modulesPath = './application/modules';
+				$modules = array_reverse(directory_map($modulesPath,1));
+				foreach($modules as $module){
+					if(file_exists($modulesPath.'/'.$module.'views/_bo_menus.php')){
+						$this->load->view($module.'_bo_menus');
+					}
+				}?>
 				
 			</ul>
 		</div>
