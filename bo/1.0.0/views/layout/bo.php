@@ -76,7 +76,7 @@ and open the template in the editor.
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="" href="<?php echo base_url('bo'); ?>"><span class="navbar-brand"><span class="fa fa-rss"></span> My rest</span></a></div>
+				<a class="" href="<?php echo base_url('bo'); ?>"><span class="navbar-brand"><span class="fa fa-rss"></span> Admin Core</span></a></div>
 
 			<div class="navbar-collapse collapse" style="height: 1px;">
 				<ul id="main-menu" class="nav navbar-nav navbar-right">
