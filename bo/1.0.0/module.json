@@ -14,12 +14,6 @@
 				"name": "memberspace",
 				"version": "1.0.0"
 			}
-		],
-		"node" : [
-			{
-				"name":"bootstrap",
-				"version":"3"
-			}
 		]
 
 	},
