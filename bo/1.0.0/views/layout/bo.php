@@ -29,7 +29,7 @@ and open the template in the editor.
 
         <title><?php echo $title_for_layout ?></title>
     </head>
-	<body class=" theme-blue" data-module="compiled/bootstrap">
+	<body class="theme-blue">
 
 
 		<!-- Demo page code -->
