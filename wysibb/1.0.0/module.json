@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"node":[
+			{
+				"name" : "wysibb",
+				"version" : "1.0.0"
+			}
+		]
+	}
+}
