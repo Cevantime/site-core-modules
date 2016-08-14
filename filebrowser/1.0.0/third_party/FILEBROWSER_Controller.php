@@ -4,7 +4,7 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class FILEBROWSER_Controller extends MY_Controller {
+class FILEBROWSER_Controller extends MX_Controller {
 	public function __construct() {
 		$this->load->helper('memberspace/connection');
 		if(!is_connected()) {
