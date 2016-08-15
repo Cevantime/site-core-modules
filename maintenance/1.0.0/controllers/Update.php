@@ -11,8 +11,8 @@ class Update extends BO_Controller {
 	
 	public function index() {
 		if(user_can('update', 'site')) {
-			exec('php tools/fullupdate');
-			$this->layout->view('maintenance/update');
+			die(shell_exec('php tools/fullupdate'));
+			
 		} else {
 			show_404();
 		}

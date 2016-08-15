@@ -8,6 +8,7 @@ class Configure extends BO_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('configuration');
+		$this->layout->css('assets/local/css/modules/loaders.css');
 	}
 	
 	public function index() {

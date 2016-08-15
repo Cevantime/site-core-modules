@@ -4,8 +4,15 @@
     border-radius: 50%;
     width: 10px;
     height: 10px;
+	display: inline-block;
     animation: spin 2s linear infinite;
+	
+	&.medium-loader {
+		width: 20px;
+		height: 20px;
+	}
 }
+
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
