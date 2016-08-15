@@ -20,6 +20,10 @@
 			{
 				"name" : "images",
 				"version": "1.0.0"
+			},
+			{
+				"name" : "loaders",
+				"version" : "1.0.0"
 			}
 		]
 		
