@@ -8,6 +8,7 @@ class Configure extends BO_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('configuration');
+		$this->load->library('maintenance/maintenanceManager');
 		$this->layout->css('assets/local/css/modules/loaders.css');
 	}
 	
@@ -25,7 +26,7 @@ class Configure extends BO_Controller {
 
 	private function turn($on) {
 		if(user_can('edit', 'maintenance')) {
-			$this->configuration->setValue('maintenance', $on);
+			$this->maintenanceManager->turn($on);
 		}
 		$this->layout->view('maintenance/edit');
 		
