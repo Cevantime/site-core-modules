@@ -188,11 +188,12 @@ class File extends DATA_Model {
 	}
 
 	protected function beforeUpdate(&$datas = null, $where = null) {
-		if (array_key_exists('parent_id', $to_insert) && !$to_insert['parent_id'])
-			$to_insert['parent_id'] = null;
+		if (array_key_exists('parent_id', $datas) && !$datas['parent_id']) {
+			$datas['parent_id'] = null;
+		}
 
-		if (array_key_exists('parent_id', $to_insert)) {
-			$parent = $this->getId($to_insert['parent_id']);
+		if (array_key_exists('parent_id', $datas)) {
+			$parent = $this->getId($datas['parent_id']);
 		} else {
 			$parent = null;
 		}
