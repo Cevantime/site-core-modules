@@ -1,4 +1,6 @@
 var $ = require('jquery');
+global.jQuery = $;
+require('bootstrap');
 
 function parseModal() {
 	$('.confirm').click(function (e) {
