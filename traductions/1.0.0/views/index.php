@@ -41,7 +41,7 @@
 		<?php foreach ($file as $id => $trad): ?>
 			<div class="form-group translate<?php if (isset($trad['ignored'][$lang]) && $trad['ignored'][$lang]): ?> ignored<?php endif; ?><?php if (isset($trad['excluded'][$lang]) && $trad['excluded'][$lang]): ?> excluded<?php endif; ?>">
 				<label>
-					<?php echo htmlspecialchars(translate($trad['origin']), ENT_QUOTES, 'utf-8', false); ?> <a onclick="displayContext('<?php echo $id; ?>'); return false;">Contexte</a>
+					<?php echo htmlspecialchars(translate($trad['origin']), ENT_QUOTES, 'utf-8', false); ?> <a data-id="<?php echo $id; ?>" class="bt-context">Contexte</a>
 				</label>
 				<script>contexts['<?php echo $id; ?>'] = '<?php echo str_replace("\n",'\\n\\',addslashes($trad['context'])); ?>'</script>
 				<textarea id="<?php echo $id; ?>" class="form-control" name="<?php echo $id; ?>"><?php echo isset($trad['traductions'][$lang]) ? $trad['traductions'][$lang] : (isset($trad['ignored'][$lang]) && $trad['ignored'][$lang] ? '' : $trad['origin']); ?></textarea>

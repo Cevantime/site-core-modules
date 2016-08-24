@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 $('#lang').change(function () {
-	window.location = "<?php echo base_url(); ?>traductions/index/translate/" + $(this).val();
+	window.location = window.baseURL+"traductions/index/translate/" + $(this).val();
 });
 $('.excluder').change(function () {
 	var $this = $(this);
@@ -57,8 +57,12 @@ $('#display-ignored').change(function () {
 	}
 });
 
+$('.bt-context').click(function(){
+	displayContext($(this).data('id'));
+});
+
 function displayContext(contextId) {
-	var $context = $('<div>' + contexts[contextId] + '</div>');
+	var $context = $('<div>' + window.contexts[contextId] + '</div>');
 	$context.find('tradwrap').css('color', 'red');
 	var popup = window.open(null, 'Traduction context', "height=300,width=300");
 
