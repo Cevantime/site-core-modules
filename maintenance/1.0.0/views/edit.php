@@ -10,4 +10,8 @@
 	</p>
 	
 	<?php endif; ?>
+	<p data-module="modules/maintenance/update">
+		Souhaitez vous mettre à jour le site ? <button class="btn btn-primary" id="site-full-update">Mettre à jour le site </button>
+	</p>
+	
 </div>
