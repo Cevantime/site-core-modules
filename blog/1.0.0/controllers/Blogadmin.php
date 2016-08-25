@@ -15,12 +15,13 @@ if (!defined('BASEPATH'))
  */
 class Blogadmin extends BO_Controller {
 
-	public function index($type = 'start', $limit = 0) {
+	public function index() {
+		$start = $this->input->get('page_start');
 		$this->checkIfUserCan('see', 'admin');
 		$this->load->model('blog/blogpost');
 		$this->load->library('mypagination');
 		$id_pagination = 'blogadmin_pagination';
-		$blogposts = $this->mypagination->paginate($id_pagination, $this->blogpost,$limit,5,'getListWithAuthors');
+		$blogposts = $this->mypagination->paginate($id_pagination, $this->blogpost,$start,5,'getListWithAuthors');
 		$this->layout->view('blog/admin/index', array('model'=>'blog/blogpost','blogposts'=>$blogposts));
 	}
 	

@@ -15,25 +15,25 @@ if (!defined('BASEPATH'))
  */
 class Listing extends BLOG_Controller {
 
-	public function index($model = 'blog/blogpost', $type='start',$limit=0) {
-		$this->basic($model,$type, $limit);
+	public function index($model = 'blog/blogpost') {
+		$this->basic($model);
 	}
 	
-	public function basic($model = 'blog/blogpost',$type='start',$limit=0) {
+	public function basic($model = 'blog/blogpost') {
 		$model = $this->filterModel($model);
-		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
+		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model);
 		$this->load->view('blog/listing/basic',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
-	public function bo($model = 'blog/blogpost',$type='start',$limit=0) {
+	public function bo($model = 'blog/blogpost') {
 		$model = $this->filterModel($model);
-		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model,$type, $limit);
+		$blogposts = $this->pagination('pagination-blogposts-basic-list',$model);
 		$this->load->view('blog/listing/bo',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 	
-	public function front($model = 'blog/blogpost',$type='start',$limit=0) {
+	public function front($model = 'blog/blogpost') {
 		$model = $this->filterModel($model);
-		$blogposts = $this->pagination('pagination-blogposts-front-list',$model,$type, $limit);
+		$blogposts = $this->pagination('pagination-blogposts-front-list',$model);
 		$this->load->view('blog/listing/front',array('blogposts'=>$blogposts, 'model'=>$model));
 	}
 
@@ -42,10 +42,10 @@ class Listing extends BLOG_Controller {
 		return implode('/', $explode);
 	}
 
-	public function pagination($id_pagination, $model,$type='start',$limit=0){
+	public function pagination($id_pagination, $model){
 		$explode = explode('/', $model) ;
 		$modelName = end($explode);
-		$start = $limit;
+		$start = $this->input->get('page_start');
 		$offset = 10;
 		$this->load->library('mypagination');
 		$this->load->helper('pagination');
