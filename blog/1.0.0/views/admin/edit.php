@@ -1,3 +1,3 @@
 <div class="container">
-	<?php echo Modules::run('blog/save/bootstrap', $id, 'blog/blogpost', 'blog/blogadmin'); ?>
+	<?php echo Modules::run('blog/save/bootstrap', $id, $modelName, 'blog/blogadmin'); ?>
 </div>

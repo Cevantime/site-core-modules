@@ -44,7 +44,7 @@
 			<?php endforeach; ?>
 		<?php endif; ?>
 		<?php $model_pagination = implode('-', explode('/', $model)); ?>
-		<?php echo pagination('blogadmin_pagination', base_url('blog/blogadmin/index')); ?>
+		<?php echo pagination('blogadmin_pagination', base_url('blog/blogadmin/index/'.$model_pagination)); ?>
 	</div>
 </div>
 
