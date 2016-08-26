@@ -65,7 +65,7 @@ class Administrators extends BO_Controller {
 		$this->load->model($adminModel);
 		$this->load->helper('form');
 		$datas = array();
-		if(isset($_POST) && isset($_POST['save-user'])) {
+		if(isset($_POST) && isset($_POST['save-admin'])) {
 			$datas = $_POST;
 			unset($_POST['save-admin']);
 			$is_update = false;
