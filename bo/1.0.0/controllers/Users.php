@@ -35,26 +35,26 @@ class Users extends BO_Controller {
 	public function add($userModel = 'memberspace/user') {
 		$userModel = $this->filterModel($userModel);
 		$datas = $this->save(null,$userModel);
-		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas));
+		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas,'modelName'=>$userModel));
 	}
 	
 	public function edit($id,$userModel = 'memberspace/user') {
 		$userModel = $this->filterModel($userModel);
 		$datas = $this->save($id,$userModel);
-		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas, 'isEditUser'=>true));
+		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas, 'isEditUser'=>true,'modelName'=>$userModel));
 	}
 	
 	public function delete($id,$userModel = 'memberspace/user') {
 		$userModel = $this->filterModel($userModel);
 		$this->load->helper('memberspace/authorization');
-		if(user_can('delete','user',$id)){
+		if(user_can('delete',$userModel,$id)){
 			$this->load->model($userModel);
 			$this->user->deleteId($id);
 			add_success(translate('L\'utilisateur a bien été supprimé'));
 		} else {
 			add_error(translate('Vous n\'avez pas le droit de supprimer cet utilisateur'));
 		}
-		redirect('bo/administrators/all');
+		redirect('bo/administrators/all/'.  str_replace('/', '-', $userModel));
 	}
 	
 	public function save($id = null,$userModel = 'memberspace/user') {
