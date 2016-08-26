@@ -1,5 +1,5 @@
 <div class="btn-toolbar list-toolbar">
-    <a class="btn btn-primary" href="<?php echo base_url('bo/administrators/add') ;?>"><i class="fa fa-plus"></i> Nouvel administrateur</a>
+    <a class="btn btn-primary" href="<?php echo base_url('bo/administrators/add'.str_replace('/', '-', $modelName)) ;?>"><i class="fa fa-plus"></i> Nouvel administrateur</a>
 	<!--    <button class="btn btn-default">Import</button>
 		<button class="btn btn-default">Export</button>-->
 	<div class="btn-group">
@@ -25,9 +25,9 @@
 				<td><?php echo $administrator->name ?></td>
 				<td><?php echo $administrator->email ?></td>
 				<td>
-					<a href="<?php echo base_url('bo/administrators/edit/'.$administrator->id) ?>"><i class="fa fa-pencil"></i></a>
+					<a href="<?php echo base_url('bo/administrators/edit/'.$administrator->id.'/'.str_replace('/', '-', $modelName)) ?>"><i class="fa fa-pencil"></i></a>
 					<a href="#" class="confirm" 
-					   data-url="<?php echo base_url('bo/administrators/delete/'.$administrator->id) ?>" 
+					   data-url="<?php echo base_url('bo/administrators/delete/'.$administrator->id.'/'.str_replace('/', '-', $modelName)) ?>" 
 					   data-header="Suppression d'un administrateur" 
 					   data-body="<p>Attention!</p><p>Vous êtes sur le point de supprimer un administrateur.</p><p>Continuer?</p> ">
 						<i class="fa fa-trash-o"></i>
