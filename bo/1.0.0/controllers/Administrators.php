@@ -50,9 +50,9 @@ class Administrators extends BO_Controller {
 		if(user_can('delete',$adminModel,$id)){
 			$this->load->model($adminModel);
 			$this->user->deleteId($id);
-			add_success(translate('L\'utilisateur a bien été supprimé'));
+			add_success(translate('L\'administrateur a bien été supprimé'));
 		} else {
-			add_error(translate('Vous n\'avez pas le droit de supprimer cet utilisateur'));
+			add_error(translate('Vous n\'avez pas le droit de supprimer cet administrateur'));
 		}
 		redirect('bo/administrators/all/'.  str_replace('/', '-', $adminModel));
 	}
