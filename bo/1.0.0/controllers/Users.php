@@ -54,7 +54,7 @@ class Users extends BO_Controller {
 		} else {
 			add_error(translate('Vous n\'avez pas le droit de supprimer cet utilisateur'));
 		}
-		redirect('bo/administrators/all/'.  str_replace('/', '-', $userModel));
+		redirect('bo/users/all/'.  str_replace('/', '-', $userModel));
 	}
 	
 	public function save($id = null,$userModel = 'memberspace/user') {
