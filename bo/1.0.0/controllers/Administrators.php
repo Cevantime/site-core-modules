@@ -29,7 +29,7 @@ class Administrators extends BO_Controller {
 		$admins = $this->mypagination->paginate($id_pagination,$this->$model, $start, 10);
 		$this->layout->assign('administrators', $admins);
 		$this->layout->assign('id_pagination_administrators_list', $id_pagination);
-		$this->layout->view('bo/administrators/all');
+		$this->layout->view('bo/administrators/all', array('modelName'=>$userModel));
 	}
 	
 	public function add($adminModel = 'bo/admin') {
