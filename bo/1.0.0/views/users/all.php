@@ -1,5 +1,5 @@
 <div class="btn-toolbar list-toolbar">
-    <a class="btn btn-primary" href="<?php echo base_url('bo/users/add'.str_replace('/', '-', $modelName)) ;?>"><i class="fa fa-plus"></i> Nouvel utilisateur</a>
+    <a class="btn btn-primary" href="<?php echo base_url('bo/users/add/'.str_replace('/', '-', $modelName)) ;?>"><i class="fa fa-plus"></i> Nouvel utilisateur</a>
 	<!--    <button class="btn btn-default">Import</button>
 		<button class="btn btn-default">Export</button>-->
 	<div class="btn-group">
