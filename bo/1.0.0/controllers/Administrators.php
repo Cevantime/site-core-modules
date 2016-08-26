@@ -75,13 +75,13 @@ class Administrators extends BO_Controller {
 					add_error(translate('Vous ne pouvez pas modifier cet administrateur'));
 				}
 			} else {
-				if(!user_can('add',$adminModel, $_POST['id'])) {
+				if(!user_can('add',$adminModel)) {
 					add_error(translate('Vous ne pouvez pas ajouter cet administrateur'));
 				}
 			}
 			if($this->$model->fromPost() !== false) {
 				add_success(translate('L\'administrateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
-				redirect('bo/users/all/'.  str_replace('/', '-', $adminModel));
+				redirect('bo/administrators/all/'.  str_replace('/', '-', $adminModel));
 			} else {
 				add_error($this->form_validation->error_string());
 			}
