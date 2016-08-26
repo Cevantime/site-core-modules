@@ -68,13 +68,15 @@ class Users extends BO_Controller {
 		if(isset($_POST) && isset($_POST['save-user'])) {
 			$datas = $_POST;
 			unset($_POST['save-user']);
+			$is_update = false;
 			if(isset($_POST['id']) && $_POST['id']) {
+				$is_update = true;
 				if(!user_can('update',$userModel, $_POST['id'])){
 					add_error(translate('Vous ne pouvez pas modifier cet utilisateur'));
 				}
 			} else {
 				if(!user_can('add',$userModel, $_POST['id'])) {
-					add_error(translate('Vous ne pouvez pas ajouter d\'utilisateur'));
+					add_error(translate('L\'utilisateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
 				}
 			}
 			if($this->$model->fromPost() !== false) {

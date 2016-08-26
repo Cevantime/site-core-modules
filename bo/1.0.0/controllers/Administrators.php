@@ -80,7 +80,7 @@ class Administrators extends BO_Controller {
 				}
 			}
 			if($this->$model->fromPost() !== false) {
-				add_success(translate('L\'administrateur a bien été').($is_update ? translate('mis à jour') : translate('ajouté')));
+				add_success(translate('L\'administrateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
 				redirect('bo/users/all/'.  str_replace('/', '-', $adminModel));
 			} else {
 				add_error($this->form_validation->error_string());
