@@ -97,6 +97,7 @@ class BO_Controller extends MX_Controller {
 	
 	protected function checkIfUserCan($action,$object='*',$value='*'){
 		if(!$this->admin->can($action,$object,$value)){
+			add_error(translate('Vous n\'avez pas les droits suffisants pour accéder à cette ressource.'));
 			redirect('bo/home');
 		}
 	}

@@ -15,72 +15,84 @@ if (!defined('BASEPATH'))
  */
 class Users extends BO_Controller {
 
-	public function index() {
-		$this->all();
+	public function index($userModel = 'memberspace/user') {
+		$this->all($userModel);
 	}
 	
-	public function all(){
+	public function all($userModel = 'memberspace/user'){
+		$userModel = $this->filterModel($userModel);
 		$start = $this->input->get('page_start');
-		$this->checkIfUserCan('see','user','*');
-		$this->load->model('memberspace/user');
+		$this->checkIfUserCan('see',$userModel,'*');
+		$this->load->model($userModel);
+		$model = pathinfo($userModel)['filename'];
 		$id_pagination = 'users-list';
-		$users = $this->mypagination->paginate($id_pagination,$this->user, $start, 10);
+		$users = $this->mypagination->paginate($id_pagination,$this->$model, $start, 10);
 		$this->layout->assign('users', $users);
 		$this->layout->assign('id_pagination_users_list', $id_pagination);
-		$this->layout->view('bo/users/all');
+		$this->layout->view('bo/users/all', array('modelName'=>$userModel));
 	}
 	
-	public function add() {
-		$datas = $this->save();
+	public function add($userModel = 'memberspace/user') {
+		$userModel = $this->filterModel($userModel);
+		$datas = $this->save(null,$userModel);
 		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas));
 	}
 	
-	public function edit($id) {
-		$datas = $this->save($id);
+	public function edit($id,$userModel = 'memberspace/user') {
+		$userModel = $this->filterModel($userModel);
+		$datas = $this->save($id,$userModel);
 		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas, 'isEditUser'=>true));
 	}
 	
-	public function delete($id) {
+	public function delete($id,$userModel = 'memberspace/user') {
+		$userModel = $this->filterModel($userModel);
 		$this->load->helper('memberspace/authorization');
 		if(user_can('delete','user',$id)){
-			$this->load->model('memberspace/user');
+			$this->load->model($userModel);
 			$this->user->deleteId($id);
-			add_success(translate('L\'administrateur a bien été supprimé'));
+			add_success(translate('L\'utilisateur a bien été supprimé'));
 		} else {
-			add_error(translate('Vous n\'avez pas le droit de supprimer cet administrateur'));
+			add_error(translate('Vous n\'avez pas le droit de supprimer cet utilisateur'));
 		}
 		redirect('bo/administrators/all');
 	}
 	
-	public function save($id = null) {
+	public function save($id = null,$userModel = 'memberspace/user') {
+		$userModel = $this->filterModel($userModel);
+		$model = pathinfo($userModel)['filename'];
 		$this->load->helper('memberspace/authorization');
 		$this->load->helper('flashmessages/flashmessages');
-		$this->load->model('memberspace/user');
+		$this->load->model($userModel);
 		$this->load->helper('form');
 		$datas = array();
 		if(isset($_POST) && isset($_POST['save-user'])) {
 			$datas = $_POST;
 			unset($_POST['save-user']);
 			if(isset($_POST['id']) && $_POST['id']) {
-				if(!user_can('update','user', $_POST['id'])){
+				if(!user_can('update',$userModel, $_POST['id'])){
 					add_error(translate('Vous ne pouvez pas modifier cet utilisateur'));
 				}
 			} else {
-				if(!user_can('add','user', $_POST['id'])) {
+				if(!user_can('add',$userModel, $_POST['id'])) {
 					add_error(translate('Vous ne pouvez pas ajouter d\'utilisateur'));
 				}
 			}
-			if($this->user->fromPost() !== false) {
+			if($this->$model->fromPost() !== false) {
 				add_success(translate('L\'utilisateur a bien été ajouté'));
-				redirect('bo/users/all');
+				redirect('bo/users/all/'.  str_replace('/', '-', $userModel));
 			} else {
 				add_error($this->form_validation->error_string());
 			}
 			
 		} else if($id){
-			$datas = $this->user->getId($id,'array');
+			$datas = $this->$model->getId($id,'array');
 		}
 		return $datas;
+	}
+	
+	private function filterModel($model) {
+		
+		return str_replace('-', '/', $model);
 	}
 
 }
