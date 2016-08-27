@@ -63,7 +63,7 @@ class Traductor {
 			$newfilename = preg_replace('#(.*)application/(.*)#', APPPATH.'application/$2', $filename);
 			$toMerge[$newfilename] = $value;
 		}
-		file_put_contents(json_encode($toMerge, JSON_FORCE_OBJECT), $jsonFile);
+		file_put_contents($jsonFile, json_encode($toMerge, JSON_FORCE_OBJECT));
 		return $this->jarTranslate('merge', $jsonFile);
 	}
 	
