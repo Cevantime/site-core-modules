@@ -76,11 +76,11 @@ class Users extends BO_Controller {
 				}
 			} else {
 				if(!user_can('add',$userModel)) {
-					add_error(translate('L\'utilisateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
+					add_error(translate('Vous ne pouvez pas ajouter cet utilisateur'));
 				}
 			}
-			if($this->$model->fromPost() !== false) {
-				add_success(translate('L\'utilisateur a bien été ajouté'));
+			if($this->$model->fromPost()) {
+				add_success(translate('L\'utilisateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
 				redirect('bo/users/all/'.  str_replace('/', '-', $userModel));
 			} else {
 				add_error($this->form_validation->error_string());
@@ -93,7 +93,6 @@ class Users extends BO_Controller {
 	}
 	
 	private function filterModel($model) {
-		
 		return str_replace('-', '/', $model);
 	}
 
