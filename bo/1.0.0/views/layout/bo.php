@@ -46,6 +46,7 @@ and open the template in the editor.
 		</style>
 
 		<script type="text/javascript" data-module="modules/bo/switchNav"></script>
+		<script type="text/javascript" data-module="modules/bo/fileselect"></script>
 
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
