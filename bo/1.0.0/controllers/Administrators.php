@@ -23,7 +23,7 @@ class Administrators extends BO_Controller {
 		$adminModel = $this->filterModel($adminModel);
 		$start = $this->input->get('page_start');
 		$this->checkIfUserCan('see',$adminModel,'*');
-		$this->load->model('bo/admin');
+		$this->load->model($adminModel);
 		$model = pathinfo($adminModel)['filename'];
 		$id_pagination = 'administrators-list';
 		$admins = $this->mypagination->paginate($id_pagination,$this->$model, $start, 10);
