@@ -202,7 +202,7 @@ function addFile(fileId) {
 }
 
 function moveFile(fileId, targetId) {
-	var $inputCsrf = $('[name|="csrf_"]');
+	var $inputCsrf = $('[name^="csrf_"]');
 	var csrfToken = $inputCsrf.val();
 	var csrfName = $inputCsrf.attr('name');
 	var datas =  {
@@ -214,11 +214,7 @@ function moveFile(fileId, targetId) {
 	
 	$.ajax({
 		url: url('filebrowser/index/save'),
-		data: {
-			id: fileId,
-			parent_id: targetId,
-			csrfName: csrfToken
-		},
+		data: datas,
 		dataType: 'json',
 		method: 'post',
 		success: function (data) {
