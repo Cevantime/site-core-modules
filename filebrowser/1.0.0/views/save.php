@@ -1,5 +1,5 @@
 <?php
-
+$this->load->helper('form');
 function fileVal($key, $datas) {
 	return isset($datas) && isset($datas[$key]) ? $datas[$key] : '';
 }
