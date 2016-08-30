@@ -105,8 +105,8 @@ function renameFile(fileId) {
 		$formToAppend.find('[name="parent_id"]').val(0);
 	}
 	$formToAppend.append(
-			$('<input>').attr('type', 'hidden').attr('name', 'id').attr('value', fileId)
-			);
+		$('<input>').attr('type', 'hidden').attr('name', 'id').attr('value', fileId)
+	);
 //	$formToAppend.click(function(e){e.preventDefault(); return false;})
 	$formToAppend.submit(function (e) {
 		e.preventDefault();
@@ -202,11 +202,22 @@ function addFile(fileId) {
 }
 
 function moveFile(fileId, targetId) {
+	var $inputCsrf = $('[name|="csrf_"]');
+	var csrfToken = $inputCsrf.val();
+	var csrfName = $inputCsrf.attr('name');
+	var datas =  {
+			id: fileId,
+			parent_id: targetId,
+	};
+	
+	datas[csrfName] = csrfToken;
+	
 	$.ajax({
 		url: url('filebrowser/index/save'),
 		data: {
 			id: fileId,
 			parent_id: targetId,
+			csrfName: csrfToken
 		},
 		dataType: 'json',
 		method: 'post',
