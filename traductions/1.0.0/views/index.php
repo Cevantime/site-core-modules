@@ -7,7 +7,7 @@
 	   data-header="Nettoyage des traductions" 
 	   data-body="<p>Attention!</p><p>Cette opération a pour but de supprimer toutes les traductions non utilisées.</p><p>Continuer?</p>" class="btn btn-danger confirm">Nettoyer les traductions</a>
 </p>
-<form action="<?php echo base_url('traductions/index/merge'); ?>" method="post" enctype="multipart/form-data">
+<?php echo form_open_multipart('traductions/index/merge'); ?>
 	<div class="form-group">
 		<label>Ajouter un fichier de traduction</label>
 		<span class="input-group">

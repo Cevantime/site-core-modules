@@ -1,4 +1,4 @@
-<form role="form" method="post" action="<?php echo current_url(); ?>">
+<?php echo form_open(current_url()); ?>
 
 	<div class="form-group">
 		<input type="hidden" name="disconnect" value="1"/>

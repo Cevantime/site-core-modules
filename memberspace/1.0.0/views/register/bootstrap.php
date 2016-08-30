@@ -1,4 +1,4 @@
-<form role="form" method="post" action="<?php echo current_url(); ?>">
+<?php echo form_open(current_url()); ?>
 	<div class="form-group">
 		<label for="InputUserName">Nom d'utilisateur<sup>*</sup></label>
 		<input type="text" class="form-control" id="InputUserName" name="login" value="<?php echo set_value('login') ?>">
