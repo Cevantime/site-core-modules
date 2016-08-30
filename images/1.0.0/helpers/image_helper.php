@@ -56,7 +56,7 @@ if (!function_exists('imageresize')) {
 		$pict = $CI->picture;
 		//emplacement de mise en cache
 		$filename = $pict->makeFilename( str_replace(base_url(), '', $width.'x'.$height.(($crop)?'.crop.':'.').$source )) ;
-		$searchfilename = 'application/cache/' . $filename;
+		$searchfilename = 'assets/cache/' . $filename;
 		
 		if( !file_exists( $searchfilename ) ){
 			$pict->init(array('filename'=>$source,'remote'=>$remote));
