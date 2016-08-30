@@ -1,10 +1,10 @@
 <?php
 
 if (!file_exists('./application/cache')) {
-	mkdir('./application/cache');
+	mkdir('./assets/cache');
 }
 if (!file_exists('./application/cache/pdfthumbs')) {
-	mkdir('./application/cache/pdfsthumbs');
+	mkdir('./assets/cache/pdfsthumbs');
 }
 
 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator('./application/cache'));
