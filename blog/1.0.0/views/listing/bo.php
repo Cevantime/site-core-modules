@@ -9,10 +9,10 @@
 		</div>
 		<div class="col-md-8">
 			<div class="post-summary">      
-				<h3 style="margin-top: 0px;"><a href=""><?php echo $blogpost->title ?></a></h3>
-				<p class="text-sm"><?php echo zero_date($blogpost->creation_time); ?> par <?php echo $blogpost->author ?></p>
+				<h3 style="margin-top: 0px;"><a href=""><?php echo htmlentities($blogpost->title); ?></a></h3>
+				<p class="text-sm"><?php echo zero_date($blogpost->creation_time); ?> par <?php echo htmlentities($blogpost->author); ?></p>
 				<p>
-					<?php echo $blogpost->description; ?>
+					<?php echo htmlentities($blogpost->description); ?>
 				</p>
 				<p>
 					<a href="<?php echo base_url('blog/see/basic/'.$blogpost->id); ?>" class="btn btn-default btn-sm">Lire</a>

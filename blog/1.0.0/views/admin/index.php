@@ -22,8 +22,8 @@
 					</div>
 					<div class="col-md-8">
 						<div class="post-summary">      
-							<h3 style="margin-top: 0px;"><a href=""><?php echo $blogpost->title ?></a></h3>
-							<p class="text-sm"><?php echo zero_date($blogpost->creation_time); ?> par <?php echo $blogpost->author ?></p>
+							<h3 style="margin-top: 0px;"><a href=""><?php echo htmlspecialchars($blogpost->title) ?></a></h3>
+							<p class="text-sm"><?php echo zero_date($blogpost->creation_time); ?> par <?php echo htmlspecialchars($blogpost->author) ?></p>
 							<p>
 								<?php echo $blogpost->description; ?>
 							</p>
@@ -47,13 +47,3 @@
 		<?php echo pagination('blogadmin_pagination', base_url('blog/blogadmin/index/'.$model_pagination)); ?>
 	</div>
 </div>
-
-<script>
-	$topBlogAdmin = $('#top-blogadmin-index');
-	$bottomBlogAdmin = $('#bottom-blogadmin-index');
-	var topContent = $topBlogAdmin.html();
-	var bottomContent = $bottomBlogAdmin.html();
-	$topBlogAdmin.html(bottomContent).fadeIn();
-	$bottomBlogAdmin.html(topContent).fadeIn();
-	
-</script>

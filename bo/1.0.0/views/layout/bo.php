@@ -109,7 +109,7 @@ and open the template in the editor.
 			<ul>
 				<?php $this->load->helper('directory');
 				$modulesPath = './application/modules';
-				$modules = array_reverse(directory_map($modulesPath,1));
+				$modules = array_map(function($r){return str_replace(DIRECTORY_SEPARATOR, '/', $r);},  array_reverse(directory_map($modulesPath,1)));
 				foreach($modules as $module){
 					if(file_exists($modulesPath.'/'.$module.'views/_bo_menus.php')){
 						$this->load->view($module.'_bo_menus');

@@ -1,8 +1,8 @@
 <div class="row save-post">
 	<div class="col-lg-9 col-md-12 main-content">
-		<form class="form_add_blogpost" action="<?php echo current_url(); ?>" method="post" enctype="multipart/form-data">
+		<?php echo form_open_multipart(current_url(),array('class'=>'form_add_blogpost')); ?>
 			<?php $this->load->view('blog/includes/bo-content'); ?>
 			<button class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
-		</form>
+		<?php echo form_close(); ?>
 	</div>
 </div>

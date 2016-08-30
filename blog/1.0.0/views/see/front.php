@@ -7,13 +7,13 @@
 			<p class="muted small">
 				dernière mise à jour 
 				<?php echo zero_date($blogpost->update_time) ?>
-				par <?php echo $blogpost->author; ?>
+				par <?php echo htmlentities($blogpost->author); ?>
 			</p>
 			<a href="#">
 				<img alt="" src="<?php echo base_url($blogpost->image); ?>" class="img-responsive">
 			</a>
 
-			<?php echo $blogpost->content ?>
+			<?php echo htmlentities($blogpost->content); ?>
 			
         </div>
 

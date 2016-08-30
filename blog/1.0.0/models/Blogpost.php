@@ -49,12 +49,12 @@ class Blogpost extends Post {
 			'title' => array(
 				'field' => 'title',
 				'label' => translate('Titre'),
-				'rules' => 'required'
+				'rules' => 'required|trim|min_length[2]|max_length[255]'
 			),
 			'description' => array(
 				'field' => 'description',
 				'label' => translate('Description'),
-				'rules' => 'required|min_length[20]',
+				'rules' => 'required|trim|min_length[20]|max_length[10000]',
 			),
 			'image' => array(
 				'field' => 'image',
@@ -71,12 +71,12 @@ class Blogpost extends Post {
 			'title' => array(
 				'field' => 'title',
 				'label' => translate('Titre'),
-				'rules' => ''
+				'rules' => 'trim|max_length[255]'
 			),
 			'description' => array(
 				'field' => 'description',
 				'label' => translate('Description'),
-				'rules' => 'min_length[20]',
+				'rules' => 'trim|min_length[20]|max_length[10000]',
 			),
 			'image' => array(
 				'field' => 'image',

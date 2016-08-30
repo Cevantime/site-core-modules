@@ -2,7 +2,8 @@
     <div class="panel panel-default">
         <p class="panel-heading no-collapse">Sign In</p>
         <div class="panel-body">
-            <form action="<?php echo base_url('bo/login') ?>" method="POST">
+			<?php $this->load->helper('form'); ?>
+			<?php echo form_open('bo/login'); ?>
                 <div class="form-group">
                     <label>Nom d'utilisateur</label>
                     <input type="text" class="form-control span12" name="login" id="password">

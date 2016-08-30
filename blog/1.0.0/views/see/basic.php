@@ -5,13 +5,13 @@
 		<img style="float: left;" src="<?php echo base_url($blogpost->image); ?>"/>
 	</div>
 	<h3 class="blogpost-title">
-		<?php echo $blogpost->title; ?>
+		<?php echo htmlentities($blogpost->title); ?>
 	</h3>
 	<p class="blogpost-description">
-		<?php echo $blogpost->description; ?>
+		<?php echo htmlentities($blogpost->description); ?>
 	</p>
 	<p class="blogpost-content">
-		<?php echo $blogpost->content; ?>
+		<?php echo htmlentities($blogpost->content); ?>
 	</p>
 	<p class="blogpost-footer">
 		<span class="blogpost-date-add">
