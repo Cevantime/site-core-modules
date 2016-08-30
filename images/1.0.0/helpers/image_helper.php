@@ -69,7 +69,7 @@ if (!function_exists('imageresize')) {
 			$pict->toFile($searchfilename, $quality=90 );
 		}
 
-		$output = base_url() . 'application/cache/'.$filename;
+		$output = base_url() . 'assets/cache/'.$filename;
 		
 		return $output;
 	}
