@@ -14,12 +14,17 @@
 class Right extends DATA_Model {
 
 	public static $TABLE_NAME = 'rights';
+	
+	public $_userRights = array();
 
 	public function getTableName() {
 		return self::$TABLE_NAME;
 	}
 
 	public function getUserRights($user) {
+		if(isset($this->_userRights[$user->id])){
+			return $this->_userRights[$user->id];
+		}
 		$userId = $user->id;
 		$this->load->model('memberspace/linkuserright');
 		$this->load->model('memberspace/linkgroupright');
@@ -34,6 +39,7 @@ class Right extends DATA_Model {
 		if(!$userOwnRights) $userOwnRights = array();
 		if(!$userGroupRights) $userGroupRights = array();
 		$rights = array_merge($userOwnRights, $userGroupRights);
+		$this->_userRights[$user->id] = $rights;
 		return $rights;
 	}
 
