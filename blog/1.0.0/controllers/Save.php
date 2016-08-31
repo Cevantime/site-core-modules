@@ -93,7 +93,6 @@ class Save extends BLOG_Controller {
 		if ($is_update) {
 			$new_id = $datas['id'];
 		}
-		$this->user->allowTo('*', $model, $new_id);
 
 		$this->addSuccess(translate('Le post a bien été ') . ($is_update ? translate('mis à jour') : translate('ajouté')));
 
