@@ -20,6 +20,7 @@ class BO_Controller extends MX_Controller {
 		$this->load->helper('memberspace/authorization');
 		$this->load->library('memberspace/loginManager', 'bo/admin');
 		$this->layout->setLayout('bo/layout/bo');
+		$this->load->helper('form');
 		
 		if(!$this->admin->isConnected() || !user_can('access','backoffice')) {
 			redirect('bo/login');
