@@ -27,7 +27,7 @@ class Post extends DATA_Model {
 		$this->db->where('user_id = '.$user_id);
 		return $this->getList();
 	}
-	
+		
 	public function insert($datas = null) {
 		if ($datas == null) {
 			$datas = $this->toArray();
@@ -45,6 +45,7 @@ class Post extends DATA_Model {
 			$this->clear();
 		}
 		$time = time();
+		unset($datas['creation_time']);
 		$datas['update_time'] = $time;
 		return parent::update($datas, $where);
 	}

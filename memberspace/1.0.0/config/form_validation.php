@@ -46,7 +46,7 @@ if ($is_login) {
 		array(
 			'field' => 'password',
 			'label' => translate('Mot de passe'),
-			'rules' => 'required|md5',
+			'rules' => 'required',
 		),
 		array(
 			'field' => 'rememberme',

@@ -31,7 +31,7 @@ class Login extends MX_Controller {
 		if($this->input->post()){
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('login','login','required');
-			$this->form_validation->set_rules('password','password','required|md5');
+			$this->form_validation->set_rules('password','password','required');
 			
 			if($this->form_validation->run()) {
 				$post = $this->input->post();

@@ -11,10 +11,10 @@ if (!function_exists('is_connected')) {
 
 if (!function_exists('require_login')) {
 
-	function require_login() {
+	function require_login($redirect = null) {
 		$CI =& get_instance();
 		$CI->load->library('memberspace/loginManager');
-		return $CI->loginmanager->requireLogin();
+		return $CI->loginmanager->requireLogin($redirect);
 	}
 
 }
@@ -32,10 +32,14 @@ if (!function_exists('user_id')) {
 
 if (!function_exists('user')) {
 
-	function user() {
+	function user($field = null) {
 		$CI =& get_instance();
 		$CI->load->library('memberspace/loginManager');
-		return $CI->loginmanager->getUser();
+		$user = $CI->loginmanager->getUser();
+		if($field) {
+			return $user->$field;
+		}
+		return $user;
 	}
 
 }
