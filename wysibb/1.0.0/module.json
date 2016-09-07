@@ -5,6 +5,12 @@
 				"name" : "wysibb",
 				"version" : "1.0.0"
 			}
+		],
+		"composer": [
+			{
+				"name":"jbbcode/jbbcode",
+				"version": "^1.3"
+			}
 		]
 	}
 }
