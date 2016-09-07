@@ -63,7 +63,7 @@ class FlashMessagesManager implements Iterator {
 
 		$this->session_id = uniqid();
 
-		$this->_ci->session->set_userdata($this->session_id);
+		$this->_ci->session->set_userdata('flashmessage',$this->session_id);
 	}
 
 	/**
