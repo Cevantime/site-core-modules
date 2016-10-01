@@ -8,6 +8,7 @@ class LoginManager {
 	private $_ci;
 	private $_cookie;
 	private $_user;
+	private $_userModel;
 	
 	public function __construct($userModel = 'memberspace/user') {
 		if(!$userModel) {
@@ -22,10 +23,15 @@ class LoginManager {
 	}
 	
 	public function setUserModel($userModel = 'memberspace/user'){
+		if($this->_userModel == $userModel) {
+			return;
+		}
+		
 		$this->_ci->load->model($userModel);
 		$exp = explode('/', $userModel);
 		$modelName = end($exp);
 		$this->_user = $this->_ci->{$modelName};
+		$this->_userModel = $userModel;
 		$this->connectUserIfAny();
 	}
 
@@ -101,7 +107,7 @@ class LoginManager {
 		}
 		$user = $this->_user->checkUser($post['login'],$post['password']);
 		if(!$user) {
-			add_error(translate('Le nom d\'utilisateur entré est invalide (email ou pseudo).'));
+			add_error(translate('Les données de connexion sont invalides.'));
 			return ;
 		}
 		
