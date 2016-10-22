@@ -5,9 +5,9 @@ if (!defined('BASEPATH'))
 
 class FlashMessagesManager implements Iterator {
 	
-	const TYPE_SUCCESS = 1;
-	const TYPE_ERROR = 2;
-	const TYPE_WARNING = 3;
+	const TYPE_SUCCESS = 'success';
+	const TYPE_ERROR = 'error';
+	const TYPE_WARNING = 'warning';
 	
 	private $_ci;
 
