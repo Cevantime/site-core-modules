@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class Connection extends MY_Controller {
+class Connection extends MX_Controller {
 	
 	public function __construct() {
 		parent::__construct();

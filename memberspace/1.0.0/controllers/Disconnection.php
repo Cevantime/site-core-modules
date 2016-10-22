@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class Disconnection extends MY_Controller {
+class Disconnection extends MX_Controller {
 	
 	public function basic($redirect = null) {
 		$this->doDisconnect($redirect);

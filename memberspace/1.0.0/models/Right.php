@@ -31,8 +31,11 @@ class Right extends DATA_Model {
 		$this->load->model('memberspace/user');
 		$userGroups = $this->user->getGroups($userId);
 		$groupIds = array();
-		foreach ($userGroups as $group) {
-			$groupIds[] = $group->id;
+		if($userGroups) {
+			foreach ($userGroups as $group) {
+				$groupIds[] = $group->id;
+			}
+			
 		}
 		$userOwnRights = $this->getThrough(Linkuserright::$TABLE_NAME, 'user', $userId);
 		$userGroupRights = $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupIds);

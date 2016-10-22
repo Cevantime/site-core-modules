@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class Register extends MY_Controller {
+class Register extends MX_Controller {
 	
 	public function __construct() {
 		parent::__construct();
