@@ -106,6 +106,15 @@ class Right extends DATA_Model {
 		$rightId = $this->createAndSaveRight($action, $type, $value);
 		$this->load->model('memberspace/linkgroupright');
 		$this->linkgroupright->link($groupId, $rightId);
+		
+		// if using session clear any rights from it
+		if($this->useSession()) {
+			foreach ($_SESSION as $key => $value) {
+				if(strpos($key, 'user_rights_') !== FALSE) {
+					$this->session->unset_userdata($key);
+				}
+			}
+		}
 	}
 
 	public function userCan($user, $action, $type = '*', $value = '*') {
