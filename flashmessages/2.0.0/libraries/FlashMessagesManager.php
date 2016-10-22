@@ -4,7 +4,10 @@ if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
 class FlashMessagesManager implements Iterator {
-	private $session_id;
+	
+	const TYPE_SUCCESS = 1;
+	const TYPE_ERROR = 2;
+	const TYPE_WARNING = 3;
 	
 	private $_ci;
 
