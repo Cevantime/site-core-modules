@@ -16,7 +16,7 @@
 <?php else: ?>
 	<li class="file file-file" data-type="<?php echo $file->type; ?>" data-source="<?php echo $file->file; ?>" data-file="<?php echo $file->id; ?>" id="file-<?php echo $file->id; ?>">
 		<div class="file-row">
-			<span class="file-icon"><img src="<?php echo imageresize($file->file, 20, 20); ?>" title="<?php echo $file->name; ?>"/></span>
+			<span class="file-icon"><?php $this->load->view('filebrowser/includes/_file_icon', array('file'=>$file)) ?></span>
 			<a class="file-name" href="#"><?php echo $file->name; ?></a>
 			<div class="file-actions">
 				<a title="Supprimer le fichier" href="#" class="action" data-action="delete" data-file="<?php echo $file->id; ?>"><i class="fa fa-trash"></i></a>
