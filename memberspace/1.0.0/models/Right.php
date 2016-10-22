@@ -14,36 +14,67 @@
 class Right extends DATA_Model {
 
 	public static $TABLE_NAME = 'rights';
-	
 	public $_userRights = array();
+	public $_useSession;
 
 	public function getTableName() {
 		return self::$TABLE_NAME;
 	}
 
 	public function getUserRights($user) {
-		if(isset($this->_userRights[$user->id])){
+
+		if (isset($this->_userRights[$user->id])) {
 			return $this->_userRights[$user->id];
 		}
 		$userId = $user->id;
+
+		// try to get rights from session if using session
+		
+		if ($this->useSession()) {
+			// user rights are presents in session, return them
+			$this->load->library('session');
+			$rights = $this->session->userdata('user_rights_' . $userId);
+
+			if ($rights) {
+				return $rights;
+			}
+		}
+
+		// fetch rights in db
+
 		$this->load->model('memberspace/linkuserright');
 		$this->load->model('memberspace/linkgroupright');
 		$this->load->model('memberspace/user');
 		$userGroups = $this->user->getGroups($userId);
 		$groupIds = array();
-		if($userGroups) {
+		if ($userGroups) {
 			foreach ($userGroups as $group) {
 				$groupIds[] = $group->id;
 			}
-			
 		}
 		$userOwnRights = $this->getThrough(Linkuserright::$TABLE_NAME, 'user', $userId);
 		$userGroupRights = $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupIds);
-		if(!$userOwnRights) $userOwnRights = array();
-		if(!$userGroupRights) $userGroupRights = array();
+		if (!$userOwnRights)
+			$userOwnRights = array();
+		if (!$userGroupRights)
+			$userGroupRights = array();
 		$rights = array_merge($userOwnRights, $userGroupRights);
 		$this->_userRights[$user->id] = $rights;
+
+		// store rights in session if using session
+		if($this->useSession()) {
+			$this->session->set_userdata('user_rights_'.$userId, $rights);
+		}
+
 		return $rights;
+	}
+
+	public function useSession() {
+		if (!$this->_useSession) {
+			$config = Modules::load_multiple('rights', 'memberspace', 'config/', 'config');
+			$this->_useSession = $config['rights_use_session'] !== FALSE;
+		}
+		return $this->_useSession;
 	}
 
 	public function getGroupRights($groupId) {
@@ -55,6 +86,11 @@ class Right extends DATA_Model {
 		$right_id = $this->createAndSaveRight($action, $type, $value);
 		$this->load->model('memberspace/linkuserright');
 		$this->linkuserright->link($userId, $right_id);
+
+		// clear user rights in session if any
+		if($this->useSession()) {
+			$this->session->unset_userdata('user_rights_' . $userId);
+		}
 	}
 
 	private function createAndSaveRight($action, $type = '*', $value = '*') {
@@ -70,35 +106,34 @@ class Right extends DATA_Model {
 		$rightId = $this->createAndSaveRight($action, $type, $value);
 		$this->load->model('memberspace/linkgroupright');
 		$this->linkgroupright->link($groupId, $rightId);
-		
 	}
 
 	public function userCan($user, $action, $type = '*', $value = '*') {
 		$rights = $this->getUserRights($user);
-		foreach($rights as $right) {
-			if($this->rightAllows($user,$right,$action,$type,$value)){
+		foreach ($rights as $right) {
+			if ($this->rightAllows($user, $right, $action, $type, $value)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
-	public function rightAllows($user, $right,$action,$type,$value) {
-		return $this->checkAction($action, $right->name)
-				&& $this->checkType($type, $right->type)
-				&& $this->checkValue($user, $type, $value, $right->object_key);
+	public function rightAllows($user, $right, $action, $type, $value) {
+		return $this->checkAction($action, $right->name) && $this->checkType($type, $right->type) && $this->checkValue($user, $type, $value, $right->object_key);
 	}
-	
+
 	public function checkAction($action, $rightAction) {
 		return $rightAction == '*' OR in_array($action, explode(',', $rightAction));
 	}
+
 	public function checkType($type, $rightType) {
 		return $this->checkAction($type, $rightType);
 	}
 
 	private function checkValue($user, $type, $object_key, $right_value) {
-		if($right_value =='*')  return true;
+		if ($right_value == '*')
+			return true;
 		$varreg = '([0-9a-zA-Z]+)';
 		$regex = '#^' . $varreg . '?\[' . $varreg . '\]::' . $varreg . '\((.*?)\)$#';
 		if (preg_match($regex, $right_value, $matches)) {
@@ -125,8 +160,10 @@ class Right extends DATA_Model {
 			$exploded = explode('/', $type);
 			$classRad = end($exploded);
 			$primaries = $this->$classRad->getPrimaryColumns();
-			if(count($primaries)>1) {
-				$object_key = '{'.  implode(';', array_map(function($r) use ($object_key) {return $object_key->$r;}, $primaries)).'}';
+			if (count($primaries) > 1) {
+				$object_key = '{' . implode(';', array_map(function($r) use ($object_key) {
+									return $object_key->$r;
+								}, $primaries)) . '}';
 			} else {
 				$object_key = $object_key->{$primaries[0]};
 			}
