@@ -77,15 +77,20 @@ class BBCodeParser extends JBBCode\Parser {
 		$builder = new JBBCode\CodeDefinitionBuilder('justify', '<div align="justify">{param}</div>');
 		$this->addCodeDefinition($builder->build());
 
-		/*		 * ********** la suite est non implémentée à ce jour côté javascript !! ** */
-		$builder = new JBBCode\CodeDefinitionBuilder('h2', '<h2 class="section" id="{option}">{param}</h2>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h2', '<h2 class="section">{param}</h1>');
 		//$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('h3', '<h3 class="section" >{param}</h3>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h3', '<h3 class="section" >{param}</h2>');
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('h4', '<h4 class="section" >{param}</h4>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h4', '<h4 class="section" >{param}</h2>');
+		$this->addCodeDefinition($builder->build());
+
+		$builder = new JBBCode\CodeDefinitionBuilder('b', '<strong>{param}</strong>');
+		$this->addCodeDefinition($builder->build());
+
+		$builder = new JBBCode\CodeDefinitionBuilder('i', '<em>{param}</em>');
 		$this->addCodeDefinition($builder->build());
 
 		$builder = new JBBCode\CodeDefinitionBuilder('p', '<p>{param}</p>');
@@ -118,8 +123,8 @@ class BBCodeParser extends JBBCode\Parser {
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('table', '<table class="{option}">{param}</table>');
-		$builder->setUseOption(true);
+		$builder = new JBBCode\CodeDefinitionBuilder('table', '<table class="table table-striped">{param}</table>');
+//		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
 		$builder = new JBBCode\CodeDefinitionBuilder('td', '<td>{param}</td>');
@@ -131,20 +136,38 @@ class BBCodeParser extends JBBCode\Parser {
 		$builder = new JBBCode\CodeDefinitionBuilder('br', '<br/>');
 		$this->addCodeDefinition($builder->build());
 		
-		
+		$code = new JBBCode\codedefinitions\FileCodeDefinition();
+		$code->setUseOption(true);
+		$this->addCodeDefinition($code);
+	}
+
+	public function parse($str) {
+		$newstr = $this->clean($str);
+		$newstr = html_escape($newstr);
+		parent::parse($newstr);
+		$treeRoot = &$this->treeRoot;
+		$i = 0;
+		$chren = $treeRoot->getChildren();
+		$children = &$chren;
+		foreach ($children as &$child) {
+			if ($child instanceof \JBBCode\ElementNode && $child->getTagName() == 'section1') {
+				$child->setAttribute('tuto-section-' . $i++);
+			}
+		}
+
 		$code = new JBBCode\codedefinitions\FileCodeDefinition();
 		$code->setUseOption(true);
 		$this->addCodeDefinition($code);
 		
 	}
 
-	public function parse($str) {
+	public function clean($str) {
 		$str = str_replace("\t", "    ", $str);
-		$regex = "#(.*?)\r\n#";
-		$regex2 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\]\r\n#";
+		$regex = "#(.*?)(\r)?\n#";
+		$regex2 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\](\r)?\n#";
 		$str = preg_replace($regex, "[p]$1[/p]\r\n", $str . "\r\n");
 		$str = preg_replace($regex2, "$1$2$5\r\n", $str);
-		$str = html_escape($str);
+
 		$newstr = '';
 		$min = 0;
 		$max = 0;
@@ -159,19 +182,7 @@ class BBCodeParser extends JBBCode\Parser {
 		}
 		$newstr .= substr($str, $max, strlen($str) - $max - 1);
 		$newstr = str_replace('[p][/p]', '', $newstr);
-		parent::parse($newstr);
-		$treeRoot = &$this->treeRoot;
-		$i = 0;
-		$chren = $treeRoot->getChildren();
-		$children = &$chren;
-		foreach ($children as &$child) {
-			if ($child instanceof \JBBCode\ElementNode && $child->getTagName() == 'section1') {
-				$child->setAttribute('tuto-section-' . $i++);
-			}
-		}
-		/*		 * * on convertit les smilies ** */
-		$smileyVisitor = new \JBBCode\visitors\SmileyVisitor();
-		$this->accept($smileyVisitor);
+		return $newstr;
 	}
 
 	public function getTreeRoot() {
@@ -183,6 +194,106 @@ class BBCodeParser extends JBBCode\Parser {
 		$content = $this->getAsHTML();
 	}
 
+	public function convertToLatex($str) {
+
+		// traitement spécial pour les fichiers
+		$newstr = $str;
+		$newstr = $this->clean($newstr);
+		
+		$CI = & get_instance();
+		$CI->load->helper('latex_escape');
+
+		$newstr = latex_special_chars($newstr);
+		
+		$map = array(
+			'[h2](.*?)[/h2]' => '\section{$1}' . "\n" . '',
+			'[h3](.*?)[/h3]' => '\subsection{$1}' . "\n" . '',
+			'[h4](.*?)[/h4]' => '\subsubsection{$1}' . "\n" . '',
+			'[p](.*?)[/p]' => '\paragraph{}' . "\n" . '$1',
+			'[code](.*?)[/code]' => function($matches) {
+				return "\begin{lstlisting}\n".latex_decode($matches[1])."\n". '\end{lstlisting}';
+			},
+			'[code=(.*?)](.*?)[/code]' => function($matches) {
+				return '\lstset{language='.$matches[1].'}' . "\n" . '\begin{lstlisting}' . "\n" . latex_decode($matches[2]) . "\n" . '\end{lstlisting}';
+			},
+			'[list](.*?)[/list]' => '\begin{itemize}' . "\n" . '$1' . "\n" . '\end{itemize}',
+			'[list=1](.*?)[/list]' => '\begin{enumerate}' . "\n" . '$1' . "\n" . '\end{enumerate}',
+			'[ul](.*?)[/ul]' => '\begin{itemize}' . "\n" . '$1' . "\n" . '\end{itemize}',
+			'[ol](.*?)[/ol]' => '\begin{enumerate}' . "\n" . '$1' . "\n" . '\end{enumerate}',
+			'[\*](.*?)[/\*]' => '\item $1' . "\n" . '',
+			'[li](.*?)[/li]' => '\item $1' . "\n" . '',
+			'[sectioncode](.*?)[/sectioncode]' =>  function($matches) {
+				return '\begin{lstlisting}' . "\n" . latex_decode($matches[1]) . "\n" . '\end{lstlisting}';
+			},
+			'[sectioncode=(.*)](.*?)[/sectioncode]' =>function($matches) {
+				return '\lstset{language='.$matches[1].'}' . "\n" . '\begin{lstlisting}' . "\n" . latex_decode($matches[2]) . "\n" . '\end{lstlisting}';
+			}, 
+			'[legend](.*?)[/legend]' => '\paragraph{}' . "\n" . '$1',
+			'[quote](.*?)[/quote]' => "``$1''",
+			'[becareful](.*?)[/becareful]' => '\paragraph{}' . "\n" . '$1',
+			'[info](.*?)[/info]' => '\paragraph{}' . "\n" . '$1',
+			'[left](.*?)[/left]' => '\paragraph{}' . "\n" . '$1',
+			'[center](.*?)[/center]' => '\paragraph{}' . "\n" . '$1',
+			'[leftedcode](.*?)[/leftedcode]' => '\paragraph{}' . "\n" . '$1',
+			'[a=(.*?)](.*?)[/a]' => function($matches) {
+				return '\href{'.latex_decode($matches[1]).'}{'.$matches[2].'}';
+			},
+			'[url=(.*?)](.*?)[/url]' => function($matches) {
+				return '\href{'.latex_decode($matches[1]).'}{'.$matches[2].'}';
+			},
+			'[file=(.*?)](.*?)[/file]' => function($matches) {
+				$filerealpath = realpath(latex_decode($matches[2]));
+				if($filerealpath) {
+					$infos = getimagesize($filerealpath);
+					$maxwidth = 380;
+					$width = min(array($infos[0], $maxwidth));;
+					return '\includegraphics[width='.$width.'px]{' . realpath(latex_decode($matches[2])) . '}';
+					
+				} else {
+					return translate('image non trouvée');
+				}
+			},
+			'[video](.*?)[/video]' => function($matches) {
+				return '\href{'.latex_decode($matches[1]).'}';
+			},
+			'[b](.*?)[/b]' => '\textbf{$1}',
+			'[i](.*?)[/i]' => '\textit{$1}',
+			'[h5](.*?)[/h5]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
+			'[h6](.*?)[/h6]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
+			'[table](.*?)[/table]' => function($matches){
+				$content = $matches[1];
+				$nbTr = substr_count($content, '[tr]');
+				$nbTd = substr_count($content, '[td]');
+				$nbCol = $nbTd / $nbTr;
+				$colWidth = 380 / $nbCol;
+				$latex = '\begin{tabular}{|';
+				for($i = 0; $i< $nbCol; $i++) {
+					$latex .= 'L{'.$colWidth.'px}|';
+				}
+				$latex .= "}\hline \n" . $content . "\n" . '\end{tabular}';
+				return $latex;
+			},
+			'[tr](.*?)[/tr]' => '$1'. "\\\\\\\\"."\hline \n",
+			'[/td]( *?)[td]' => ' & ',
+			'[td]' => '',
+			'[/td]' => '',
+		);
+
+		foreach ($map as $regex => $replace) {
+			$regex = str_replace(array('[', ']'), array('\[', '\]'), $regex);
+			
+			if(is_callable($replace)) {
+				$newstr = preg_replace_callback('#' . $regex . '#', $replace, $newstr);
+				$newstr = preg_replace_callback('#' . $regex . '#s', $replace, $newstr);
+			} else {
+				$newstr = preg_replace('#' . $regex . '#', $replace, $newstr);
+				$newstr = preg_replace('#' . $regex . '#s', $replace, $newstr);
+				
+			}
+		}
+		return $newstr;
+	}
+
 	public function convertToText(&$content) {
 		$this->parse($content);
 		$content = $this->getAsText();
@@ -192,9 +303,6 @@ class BBCodeParser extends JBBCode\Parser {
 		$this->parse($content);
 		$content = $this->getAsBBCode();
 	}
-
-	/*	 * ** fonction qui permet de convertir le html re�u en BBCode ** */
-	/*	 * * utile pour changement de mode : passage en mode bbCode * */
 
 	public function decode($texte) {
 		$test = 'test';
@@ -212,7 +320,7 @@ class BBCodeParser extends JBBCode\Parser {
 			"[/code]", "[code=java]");
 		$texte = str_replace($html, $bbcode, $texte);
 
-		/*		 * ***** balise sp�ciales avec attribut ****** */
+		/* balise sp�ciales avec attribut */
 		//$texte = preg_replace('#<a href="(.+)" target="_blank">#i', '[url=$1]', $texte); //oui si un seul lien !!
 		//$texte = preg_replace("/<a href(.*?)<\/a>/si", "", $texte);//remplace tous les liens par du vide !
 		//$texte = preg_replace('#<a href="(.*?)">#i', '[url=$1]', $texte); //ok
