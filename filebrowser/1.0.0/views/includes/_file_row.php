@@ -14,7 +14,7 @@
 		</div>
 	</li>
 <?php else: ?>
-	<li class="file file-file" data-type="<?php echo $file->type; ?>" data-source="<?php echo $file->file; ?>" data-file="<?php echo $file->id; ?>" id="file-<?php echo $file->id; ?>">
+	<li class="file file-file" data-type="<?php echo $file->type; ?>" data-source="<?php echo $file->file; ?>" data-infos="<?php echo htmlentities(json_encode($file), ENT_QUOTES, 'UTF-8'); ?>" data-file="<?php echo $file->id; ?>" id="file-<?php echo $file->id; ?>">
 		<div class="file-row">
 			<span class="file-icon"><?php $this->load->view('filebrowser/includes/_file_icon', array('file'=>$file)) ?></span>
 			<a class="file-name" href="#"><?php echo $file->name; ?></a>

@@ -379,11 +379,14 @@ function onSelect($elm) {
 	var id = $elm.data('file');
 	var src = $elm.data('source');
 	var type = $elm.data('type');
+	var infos = $elm.data('infos');
 	var obj = {
 		id: id,
 		src: src,
-		type: type
+		type: type,
+		infos: infos
 	};
+	
 	filebrowser_callback(obj);
 	window.close();
 }

@@ -236,9 +236,9 @@ class File extends DATA_Model {
 				$this->deleteFile($child);
 			}
 		}
-		if ($file->file)
+		if($this->deleteId($file->id) && $file->file) {
 			unlink($file->file);
-		$this->deleteId($file->id);
+		}
 	}
 
 }
