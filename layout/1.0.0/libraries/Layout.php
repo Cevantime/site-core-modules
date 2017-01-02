@@ -23,7 +23,7 @@ class Layout {
 	private $block_list, $block_new, $block_replace = false;
 	private $layout_view;
 
-	function Layout() {
+	function __construct() {
 		$this->obj = & get_instance();
 		$this->layout_view = 'layout/layout/default';
 		// Grab layout from called controller
