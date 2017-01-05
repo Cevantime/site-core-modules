@@ -48,7 +48,7 @@ class Users extends BO_Controller {
 		$userModel = $this->filterModel($userModel);
 		$this->load->helper('memberspace/authorization');
 		if(user_can('delete',$userModel,$id)){
-			$this->load->model('user');
+			$this->load->model('memberspace/user');
 			$this->user->deleteId($id);
 			add_success(translate('L\'utilisateur a bien été supprimé'));
 		} else {
