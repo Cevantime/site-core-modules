@@ -92,7 +92,7 @@ class Users extends BO_Controller {
 		return $datas;
 	}
 	
-	private function filterModel($model) {
+	protected function filterModel($model) {
 		return str_replace('-', '/', $model);
 	}
 
