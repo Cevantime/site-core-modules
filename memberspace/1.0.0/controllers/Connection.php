@@ -26,7 +26,7 @@ class Connection extends MX_Controller {
 
 	public function tryLogin($userModel = 'memberspace/user') {
 		$this->load->library('memberspace/loginManager');
-		$this->loginManager->setUserModel($userModel);
+		$this->loginmanager->setUserModel($userModel);
 		$this->loginmanager->connectUserFromPost();
 	}
 }
