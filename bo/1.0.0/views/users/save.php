@@ -1,7 +1,7 @@
 <?php function userVal($key, $pop){
 	return isset($pop) && isset($pop[$key]) ? $pop[$key] : set_value($key); 
 } ?>
-<?php echo form_open(current_url()); ?>>
+<?php echo form_open(current_url()); ?>
 	<div class="form-group">
 		<label for="InputUserName">Nom d'utilisateur<sup>*</sup></label>
 		<input type="text" class="form-control" id="InputUserName" name="login" value="<?php echo userVal('login', $popSaveUser) ?>">
