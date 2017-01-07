@@ -6,182 +6,262 @@
  * and open the template in the editor.
  */
 
-/**
- * Description of Right
- *
- * @author thibault
- */
-class Right extends DATA_Model {
+class File extends DATA_Model {
 
-	public static $TABLE_NAME = 'rights';
-	public $_userRights = array();
-	public $_useSession;
+	const TABLE_NAME = 'files';
+
+	public $infos = array();
+	
+	protected $_owned = array();
+
+	public function getInfos($filename) {
+		return $this->infos[$filename];
+	}
 
 	public function getTableName() {
-		return self::$TABLE_NAME;
+		return self::TABLE_NAME;
 	}
 
-	public function getUserRights($user) {
+	public function validationRulesForInsert($datas) {
+		$m = $this;
+		$rules = array(
+			'is_folder' => array(
+				'field' => 'is_folder',
+				'label' => translate('Est un répertoire'),
+				'rules' => 'required|in_list[0,1]'
+			),
+			'parend_id' => array(
+				'field' => 'parent_id',
+				'label' => translate('Dossier parent'),
+				'rules' => array(
+					array('is_natural_or_empty', function($v) {
+							$this->load->library('form_validation');
+							return $this->form_validation->is_natural($v) || $v === '';
+						})
+				)
+			)
+		);
+		if (isset($datas['is_folder']) && $datas['is_folder']) {
 
-		if (isset($this->_userRights[$user->id])) {
-			return $this->_userRights[$user->id];
+			$rules['name'] = array(
+				'field' => 'name',
+				'label' => translate('Nom de fichier'),
+				'rules' => array(
+					'required',
+					'regex_match[/^([a-zA-ZÀ-ÿ\-_ 0-9\.]+)$/]',
+					array('is_parent_uniq', function($name) use ($datas) {
+							$userId = $datas['user_id'];
+							if (!isset($datas['parent_id']))
+								return true;
+							$parentId = $datas['parent_id'];
+							if (!$parentId) {
+								$parentId = null;
+							}
+							return $this->isParentUniq($name, $parentId, $userId);
+						}
+					))
+			);
+		} else {
+			$rules['file'] = array(
+				'field' => 'file',
+				'label' => translate('Fichier'),
+				'rules' => 'file_required|file_allowed_type[image,image_icon,application,document,compress]'
+			);
 		}
-		$userId = $user->id;
-
-		// try to get rights from session if using session
-		
-		if ($this->useSession()) {
-			// user rights are presents in session, return them
-			$this->load->library('session');
-			$rights = $this->session->userdata('user_rights_' . $userId);
-
-			if ($rights) {
-				return $rights;
-			}
-		}
-
-		// fetch rights in db
-
-		$this->load->model('memberspace/linkuserright');
-		$this->load->model('memberspace/linkgroupright');
-		$this->load->model('memberspace/user');
-		$userGroups = $this->user->getGroups($userId);
-		$groupIds = array();
-		if ($userGroups) {
-			foreach ($userGroups as $group) {
-				$groupIds[] = $group->id;
-			}
-		}
-		$userOwnRights = $this->getThrough(Linkuserright::$TABLE_NAME, 'user', $userId);
-		$userGroupRights = $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupIds);
-		if (!$userOwnRights)
-			$userOwnRights = array();
-		if (!$userGroupRights)
-			$userGroupRights = array();
-		$rights = array_merge($userOwnRights, $userGroupRights);
-		$this->_userRights[$user->id] = $rights;
-
-		// store rights in session if using session
-		if($this->useSession()) {
-			$this->session->set_userdata('user_rights_'.$userId, $rights);
-		}
-
-		return $rights;
+		return $rules;
 	}
 
-	public function useSession() {
-		if (!$this->_useSession) {
-			$config = Modules::load_multiple('rights', 'memberspace', 'config/', 'config');
-			$this->_useSession = $config['rights_use_session'] !== FALSE;
+	public function validationRulesForUpdate($datas) {
+		$model = $this;
+		$rules['id'] = array(
+			'field' => 'id',
+			'label' => 'Id',
+			'rules' => array(
+				'required',
+				'is_natural',
+				array('exists', array($model, 'exists'))
+			)
+		);
+		$rules['name'] = array(
+			'field' => 'name',
+			'label' => translate('Nom de fichier'),
+			'rules' => array(
+				'regex_match[/^([a-zA-ZÀ-ÿ\-_ 0-9\.]+)$/]',
+				array('is_parent_uniq', function($name) use ($datas) {
+						$userId = $datas['user_id'];
+						$parentId = isset($datas['parent_id']) ? $datas['parent_id'] : null;
+						if (!isset($datas['parent_id']))
+							return $parentId = null;
+
+						else {
+							$parentId = $datas['parent_id'];
+						}
+
+						if (!$parentId) {
+							$parentId = null;
+						}
+						return $this->isParentUniq($name, $parentId, $userId);
+					}
+				))
+		);
+
+		$rules['parent_id'] = array(
+			'field' => 'parent_id',
+			'label' => translate('Dossier parent'),
+			'rules' => array(
+				array('is_natural_or_empty', function($v) {
+						$this->load->library('form_validation');
+						return $this->form_validation->is_natural($v) || $v === '';
+					}),
+				array('is_not_self_containing', function($v) use($datas) {
+						if ($v === $datas['id']) {
+							return false;
+						}
+						$parent = $this->getId($v);
+						if (!$parent)
+							return true;
+						$hierarchy = explode('/', $parent->hierarchy);
+						if (in_array($datas['id'], $hierarchy)) {
+							return false;
+						}
+
+						return true;
+					})
+			)
+		);
+		return $rules;
+	}
+
+	public function isParentUniq($name, $parentId, $userId = null) {
+		if (!$userId) {
+			$userId = user_id();
 		}
-		return $this->_useSession;
+		if (!$parentId)
+			$parentId = null;
+		return $this->get(array('user_id' => $userId, 'name' => $name, 'parent_id' => $parentId)) == FALSE;
 	}
 
-	public function getGroupRights($groupId) {
-		$this->load->model('memberspace/linkgroupright');
-		return $this->getThrough(Linkgroupright::$TABLE_NAME, 'group', $groupId);
+	public function fromDatas($datas = null) {
+		$this->infos = array();
+		return parent::fromDatas($datas);
 	}
 
-	public function allowUserTo($userId, $action, $type = '*', $value = '*') {
-		$right_id = $this->createAndSaveRight($action, $type, $value);
-		$this->load->model('memberspace/linkuserright');
-		$this->linkuserright->link($userId, $right_id);
-
-		// clear user rights in session if any
-		if($this->useSession()) {
-			$this->session->unset_userdata('user_rights_' . $userId);
+	protected function doUpload(&$datas, $uploadPath, $key) {
+		if (isset($datas['id']) && $datas['id']) {
+			return true;
 		}
-	}
-
-	private function createAndSaveRight($action, $type = '*', $value = '*') {
-		$right = $this->getRow(array('name' => $action, 'type' => $type, 'object_key' => $value));
-		if (!$right) {
-			return $this->insert(array('name' => $action, 'type' => $type, 'object_key' => $value));
-		}
-
-		return $right->id;
-	}
-
-	public function allowGroupTo($groupId, $action, $type = '*', $value = '*') {
-		$rightId = $this->createAndSaveRight($action, $type, $value);
-		$this->load->model('memberspace/linkgroupright');
-		$this->linkgroupright->link($groupId, $rightId);
-		
-		// if using session clear any rights from it
-		if($this->useSession()) {
-			foreach ($_SESSION as $key => $value) {
-				if(strpos($key, 'user_rights_') !== FALSE) {
-					$this->session->unset_userdata($key);
+		if (isset($_FILES[$key])) {
+			$this->upload->initialize(array('upload_path' => './' . $uploadPath, 'allowed_types' => '*'));
+			if ($this->upload->do_upload($key)) {
+				$this->infos[$key] = $this->upload->data();
+				if ($datas) {
+					$datas[$key] = $uploadPath . '/' . $this->upload->file_name;
+				} else {
+					$_POST[$key] = $uploadPath . '/' . $this->upload->file_name;
 				}
+			} else {
+				return false;
 			}
 		}
+		return true;
 	}
 
-	public function userCan($user, $action, $type = '*', $value = '*') {
-		$rights = $this->getUserRights($user);
-		foreach ($rights as $right) {
-			if ($this->rightAllows($user, $right, $action, $type, $value)) {
+	protected function beforeInsert(&$to_insert = null) {
+		if (array_key_exists('parent_id', $to_insert) && !$to_insert['parent_id'])
+			$to_insert['parent_id'] = null;
+
+		if (array_key_exists('parent_id', $to_insert)) {
+			$parent = $this->getId($to_insert['parent_id']);
+		} else {
+			$parent = null;
+		}
+		$to_insert['hierarchy'] = $parent ? $parent->hierarchy . '/' . $parent->id : '';
+		if (!isset($to_insert['is_folder']) || !$to_insert['is_folder']) {
+			$to_insert['infos'] = $this->infos['file'];
+			$to_insert['name'] = $this->infos['file']['file_name'];
+			$to_insert['type'] = $this->infos['file']['file_type'];
+		} else {
+			$to_insert['file'] = null;
+			$to_insert['infos'] = null;
+		}
+
+
+		parent::beforeInsert($to_insert);
+	}
+
+	protected function beforeUpdate(&$datas = null, $where = null) {
+		if (array_key_exists('parent_id', $datas) && !$datas['parent_id']) {
+			$datas['parent_id'] = null;
+		}
+
+		if (array_key_exists('parent_id', $datas)) {
+			$parent = $this->getId($datas['parent_id']);
+		} else {
+			$parent = null;
+		}
+		unset($datas['is_folder']);
+		unset($datas['infos']);
+		unset($datas['file']);
+		if (array_key_exists('parent_id', $datas)) {
+			$parent = $this->getId($datas['parent_id']);
+			$datas['hierarchy'] = $parent ? $parent->hierarchy . '/' . $parent->id : '';
+		}
+		parent::beforeUpdate($datas, $where);
+	}
+
+	public function getGrouped($where = null, $filters = null, $type = 'object', $columns = null) {
+		$this->db->order_by('is_folder DESC, name ASC');
+		if ($filters && !in_array('all', $filters)) {
+			$this->db->group_start()
+					->where_in('type', $filters)
+					->or_where('type', null)
+					->group_end();
+		}
+		if ($where) {
+			$this->db->where($where);
+		}
+		return parent::get(NULL, $type, $columns);
+	}
+	
+	public function getOwnedBy($userId, $refresh = false) {
+		if( ! isset($this->_owned[$userId]) || $refresh) {
+			$this->_owned[$userId] = $this->get(array('user_id' => $userId));
+		}
+		return $this->_owned[$userId];
+	}
+
+	public function isOwnedBy($file, $user) {
+		if(is_object($file)) {
+			return $file->user_id == $user->id;
+		}
+		if(is_array($file)) {
+			return $file['user_id'] = $user->id;
+		}
+		$owned = $this->getOwnedBy($user->id);
+		if(!$owned) return false;
+		foreach($owned as $own) {
+			if($own->id == $file){
 				return true;
 			}
 		}
-
+		
 		return false;
 	}
 
-	public function rightAllows($user, $right, $action, $type, $value) {
-		return $this->checkAction($action, $right->name) && $this->checkType($type, $right->type) && $this->checkValue($user, $type, $value, $right->object_key);
+	public function uploadPaths() {
+		return array('file' => 'uploads/filebrowser');
 	}
 
-	public function checkAction($action, $rightAction) {
-		return $rightAction == '*' OR in_array($action, explode(',', $rightAction));
-	}
-
-	public function checkType($type, $rightType) {
-		return $this->checkAction($type, $rightType);
-	}
-
-	private function checkValue($user, $type, $object_key, $right_value) {
-		if ($right_value == '*')
-			return true;
-		$varreg = '([0-9a-zA-Z]+)';
-		$classreg = '([0-9a-z/A-Z]+)';
-		$regex = '#^' . $varreg . '?\[' . $classreg . '\]::' . $varreg . '\((.*?)\)$#';
-		if (preg_match($regex, $right_value, $matches)) {
-			$type = $matches[1];
-			$class = $matches[2];
-			$method = $matches[3];
-			$args = explode(',', $matches[4]);
-			foreach ($args as $k => $v) {
-				if ($v === '{object}') {
-					$args[$k] = $object_key;
-				} else if ($v === '{user}') {
-					$args[$k] = $user;
-				}
+	public function deleteFile($file) {
+		$children = $this->get(array('parent_id' => $file->id));
+		if ($children) {
+			foreach ($children as $child) {
+				$this->deleteFile($child);
 			}
-			$this->load->$type($class);
-			$exploded = explode('/', $class);
-			$classRad = end($exploded);
-			$obj = $this->$classRad;
-			if (call_user_func_array(array($obj, $method), $args) === TRUE) {
-				return TRUE;
-			}
-		} else if(is_object($object_key)){
-				
-			$this->load->model($type);
-			$exploded = explode('/', $type);
-			$classRad = end($exploded);
-			$primaries = $this->$classRad->getPrimaryColumns();
-			if (count($primaries) > 1) {
-				$object_key = '{' . implode(';', array_map(function($r) use ($object_key) {
-									return $object_key->$r;
-								}, $primaries)) . '}';
-			} else {
-				$object_key = $object_key->{$primaries[0]};
-				
-			}
-			return in_array($object_key, explode(',', $right_value));
 		}
-		return FALSE;
+		if($this->deleteId($file->id) && $file->file) {
+			unlink($file->file);
+		}
 	}
 
 }
