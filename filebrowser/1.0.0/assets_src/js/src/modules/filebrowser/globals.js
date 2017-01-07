@@ -107,7 +107,7 @@ function renameFile(fileId) {
 	$formToAppend.append(
 		$('<input>').attr('type', 'hidden').attr('name', 'id').attr('value', fileId)
 	);
-//	$formToAppend.click(function(e){e.preventDefault(); return false;})
+	$formToAppend.click(function(e){e.stopPropagation(); return false;})
 	$formToAppend.submit(function (e) {
 		e.preventDefault();
 		addWait(fileId);
