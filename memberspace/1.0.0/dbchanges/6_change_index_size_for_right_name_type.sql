@@ -1,0 +1,1 @@
+ALTER TABLE `rights` DROP INDEX `name_type`, ADD UNIQUE `name_type` (`name`, `type`, `object_key`) USING BTREE;
