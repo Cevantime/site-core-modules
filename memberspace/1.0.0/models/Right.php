@@ -174,7 +174,9 @@ class Right extends DATA_Model {
 									return $object_key->$r;
 								}, $primaries)) . '}';
 			} else {
-				$object_key = $object_key->{$primaries[0]};
+				if(is_object($object_key)) {
+					$object_key = $object_key->{$primaries[0]};
+				}
 			}
 			return in_array($object_key, explode(',', $right_value));
 		}
