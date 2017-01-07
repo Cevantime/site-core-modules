@@ -116,17 +116,21 @@ class Index extends FILEBROWSER_Controller {
 
 	public function save($id = null, $redirect = null) {
 		
-		if(!user_can('save','file', $id ? $id : '*')){
-			die(translate('Vous ne pouvez pas accéder à cette ressource.'));
-		}
-		
 		$post = $this->input->post();
 
 		if (!$id && !$post)
 			return array();
 
-		if ($id)
+		if ($id){
+			if( ! user_can('update','file',$id)){
+				return array();
+			}
 			$file = $this->{$this->modelName}->get($id, 'array');
+		} else {
+			if( ! user_can('add','file')){
+				return array();
+			}
+		}
 
 		if (!$post)
 			return $file;
