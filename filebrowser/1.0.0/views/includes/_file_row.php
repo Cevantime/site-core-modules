@@ -4,11 +4,16 @@
 			<span class="file-icon"><i class="fa fa-folder"></i></span>
 			<a href="#" class="folder-name"><?php echo $file->name; ?></a> 
 			<div class="file-actions">
+				<?php if(user_can('delete', 'file', $file)) : ?>
 				<a title="Supprimer le dossier" href="#" class="action" data-action="delete" data-file="<?php echo $file->id; ?>"><i class="fa fa-trash"></i></a>
+				<?php endif; ?>
+				<?php if(user_can('add', 'file')) : ?>
 				<a title ="Ajouter un dossier" href="#" class="action" data-action="add-folder" data-file="<?php echo $file->id; ?>"><i class="fa fa-folder"></i></a>
 				<a title="Ajouter un fichier" href="#" class="action" data-action="add-file" data-file="<?php echo $file->id; ?>"><i class="fa fa-file"></i></a>
+				<?php endif; ?>
+				<?php if(user_can('update', 'file', $file)) : ?>
 				<a title="Renommer un fichier" href="#" class="action" data-action="rename" data-file="<?php echo $file->id; ?>"><i class="fa fa-edit"></i></a>
-				
+				<?php endif; ?>
 			</div>
 
 		</div>
@@ -19,8 +24,12 @@
 			<span class="file-icon"><?php $this->load->view('filebrowser/includes/_file_icon', array('file'=>$file)) ?></span>
 			<a class="file-name" href="#"><?php echo $file->name; ?></a>
 			<div class="file-actions">
+				<?php if(user_can('delete', 'file', $file)) : ?>
 				<a title="Supprimer le fichier" href="#" class="action" data-action="delete" data-file="<?php echo $file->id; ?>"><i class="fa fa-trash"></i></a>
+				<?php endif; ?>
+				<?php if(user_can('update', 'file', $file)) : ?>
 				<a title="Renommer un fichier" href="#" class="action" data-action="rename" data-file="<?php echo $file->id; ?>"><i class="fa fa-edit"></i></a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</li>
