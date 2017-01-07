@@ -95,9 +95,6 @@ function renameFile(fileId) {
 	var $nameField = $formToAppend.find('[name="name"]');
 
 	$nameField.val(defaultName);
-	$nameField.blur(function () {
-		$filename.html(defaultName);
-	});
 	var $fileParent = $file.parent().parent();
 	if ($fileParent.hasClass('file')) {
 		$formToAppend.find('[name="parent_id"]').val($fileParent.data('file'));
@@ -107,8 +104,13 @@ function renameFile(fileId) {
 	$formToAppend.append(
 		$('<input>').attr('type', 'hidden').attr('name', 'id').attr('value', fileId)
 	);
-	$formToAppend.click(function(e){e.stopPropagation(); return false;})
+	
 	$formToAppend.submit(function (e) {
+		
+		if(defaultName === $nameField.val()) {
+			$filename.html(defaultName);
+			return;
+		}
 		e.preventDefault();
 		addWait(fileId);
 		var datas = $formToAppend.serialize();
