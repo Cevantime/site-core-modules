@@ -11,6 +11,8 @@ class File extends DATA_Model {
 	const TABLE_NAME = 'files';
 
 	public $infos = array();
+	
+	protected $_owned = array();
 
 	public function getInfos($filename) {
 		return $this->infos[$filename];
@@ -220,9 +222,31 @@ class File extends DATA_Model {
 		}
 		return parent::get(NULL, $type, $columns);
 	}
+	
+	public function getOwnedBy($userId, $refresh = false) {
+		if( ! isset($this->_owned[$userId]) || $refresh) {
+			$this->_owned[$userId] = $this->get(array('user_id' => $userId));
+		}
+		return $this->_owned[$userId];
+	}
 
 	public function isOwnedBy($file, $user) {
-		return $file->user_id == $user->id;
+		if(is_object($file)) {
+			return $file->user_id == $user->id;
+		}
+		if(is_array($file)) {
+			return $file['user_id'] = $user->id;
+		}
+		if(is_int($file)) {
+			$owned = $this->getOwnedBy($user->id);
+			if(!$owned) return false;
+			foreach($owned as $own) {
+				if($own->id == $file){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public function uploadPaths() {
