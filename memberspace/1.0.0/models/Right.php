@@ -164,7 +164,8 @@ class Right extends DATA_Model {
 			if (call_user_func_array(array($obj, $method), $args) === TRUE) {
 				return TRUE;
 			}
-		} else {
+		} else if(is_object($object_key)){
+				
 			$this->load->model($type);
 			$exploded = explode('/', $type);
 			$classRad = end($exploded);
@@ -174,9 +175,8 @@ class Right extends DATA_Model {
 									return $object_key->$r;
 								}, $primaries)) . '}';
 			} else {
-				if(is_object($object_key)) {
-					$object_key = $object_key->{$primaries[0]};
-				}
+				$object_key = $object_key->{$primaries[0]};
+				
 			}
 			return in_array($object_key, explode(',', $right_value));
 		}
