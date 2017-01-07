@@ -116,7 +116,7 @@ class Index extends FILEBROWSER_Controller {
 
 	public function save($id = null, $redirect = null) {
 		
-		if(!user_can('save','file')){
+		if(!user_can('save','file', $id ? $id : '*')){
 			die(translate('Vous ne pouvez pas accéder à cette ressource.'));
 		}
 		
