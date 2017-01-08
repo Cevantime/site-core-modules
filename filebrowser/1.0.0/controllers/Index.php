@@ -88,7 +88,7 @@ class Index extends FILEBROWSER_Controller {
 	}
 
 	private function seeFolder($folder = null) {
-		$children = $this->{$this->modelName}->getGrouped(array('parent_id' => $folder ? $folder->id : null), $this->filters);
+		$children = $this->{$this->modelName}->getGrouped(array('user_id' =>user_id(), 'parent_id' => $folder ? $folder->id : null), $this->filters);
 		$this->load->view('filebrowser/see-folder', array('files' => $children, 'folder' => $folder ? $folder->name : 'root'));
 	}
 
@@ -96,12 +96,12 @@ class Index extends FILEBROWSER_Controller {
 		if(!user_can('see','file',$folderId)) {
 			die(translate('Vous ne pouvez pas accéder à cette ressource'));
 		}
-		$children = $this->{$this->modelName}->getGrouped(array('parent_id' => $folderId), $this->filters);
+		$children = $this->{$this->modelName}->getGrouped(array('user_id' =>user_id(), 'parent_id' => $folderId), $this->filters);
 		$this->load->view('filebrowser/includes/_folder', array('files' => $children));
 	}
 
 	private function seeFile($file) {
-		$this->load->view('filebrowser/see-file', array('file' => $file));
+		$this->load->view('filebrowser/see-file', array('user_id' =>user_id(),'file' => $file));
 	}
 
 	public function add($redirect = null) {
