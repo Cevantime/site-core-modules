@@ -235,7 +235,7 @@ class File extends DATA_Model {
 			return $file->user_id == $user->id;
 		}
 		if(is_array($file)) {
-			return $file['user_id'] = $user->id;
+			return $file['user_id'] == $user->id;
 		}
 		$owned = $this->getOwnedBy($user->id);
 		if(!$owned) return false;
