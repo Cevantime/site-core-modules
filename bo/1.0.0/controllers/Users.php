@@ -73,10 +73,12 @@ class Users extends BO_Controller {
 				$is_update = true;
 				if(!user_can('update',$userModel, $_POST['id'])){
 					add_error(translate('Vous ne pouvez pas modifier cet utilisateur'));
+					return $datas;
 				}
 			} else {
 				if(!user_can('add',$userModel)) {
 					add_error(translate('Vous ne pouvez pas ajouter cet utilisateur'));
+					return $datas;
 				}
 			}
 			if($this->$model->fromPost()) {
