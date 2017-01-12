@@ -26,7 +26,7 @@ class UserManager {
 	public function setUserModel($userModel) {
 		$config = Modules::load_multiple('user-management', 'bo', 'config/', 'config');
 		$this->userModel = $userModel;
-		if(is_array($config[$userModel])) {
+		if(isset($config[$userModel]) && is_array($config[$userModel])) {
 			$this->config = array_merge($this->defaultConfig, $config[$userModel]);
 		} else {
 			$this->config = $this->defaultConfig;
