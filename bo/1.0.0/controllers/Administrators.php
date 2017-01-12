@@ -14,6 +14,11 @@ if (!defined('BASEPATH'))
  * @author thibault
  */
 class Administrators extends BO_Controller {
+	
+	public function __construct() {
+		parent::__construct();
+		$this->load->library('bo/userManager');
+	}
 
 	public function index() {
 		$this->all();
@@ -34,66 +39,25 @@ class Administrators extends BO_Controller {
 	
 	public function add($adminModel = 'bo/admin') {
 		$adminModel = $this->filterModel($adminModel);
-		$datas = $this->save(null,$adminModel);
+		$this->usermanager->setUserModel($adminModel);
+		$datas = $this->usermanager->save(null,'bo/administrators' );
 		$this->layout->view('bo/administrators/save', array('popSaveAdmin'=> $datas,'modelName'=>$adminModel));
 	}
 	
 	public function edit($id,$adminModel = 'bo/admin') {
 		$adminModel = $this->filterModel($adminModel);
-		$datas = $this->save($id,$adminModel);
+		$this->usermanager->setUserModel($adminModel);
+		$datas = $this->usermanager->save($id,'bo/administrators');
 		$this->layout->view('bo/administrators/save', array('popSaveAdmin'=> $datas, 'isEditAdmin'=>true,'modelName'=>$adminModel));
 	}
 	
 	public function delete($id,$adminModel = 'bo/admin') {
 		$adminModel = $this->filterModel($adminModel);
-		$this->load->helper('memberspace/authorization');
-		if(user_can('delete',$adminModel,$id)){
-			$this->load->model($adminModel);
-			$this->user->deleteId($id);
-			add_success(translate('L\'administrateur a bien été supprimé'));
-		} else {
-			add_error(translate('Vous n\'avez pas le droit de supprimer cet administrateur'));
-		}
-		redirect('bo/administrators/all/'.  str_replace('/', '-', $adminModel));
-	}
-	
-	public function save($id = null,$adminModel = 'bo/admin') {
-		$adminModel = $this->filterModel($adminModel);
-		$model = pathinfo($adminModel)['filename'];
-		$this->load->helper('memberspace/authorization');
-		$this->load->helper('flashmessages/flashmessages');
-		$this->load->model($adminModel);
-		$this->load->helper('form');
-		$datas = array();
-		if(isset($_POST) && isset($_POST['save-admin'])) {
-			$datas = $_POST;
-			unset($_POST['save-admin']);
-			$is_update = false;
-			if(isset($_POST['id']) && $_POST['id']) {
-				$is_update = true;
-				if(!user_can('update',$adminModel, $_POST['id'])){
-					add_error(translate('Vous ne pouvez pas modifier cet administrateur'));
-				}
-			} else {
-				if(!user_can('add',$adminModel)) {
-					add_error(translate('Vous ne pouvez pas ajouter cet administrateur'));
-				}
-			}
-			if($this->$model->fromPost() !== false) {
-				add_success(translate('L\'administrateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
-				redirect('bo/administrators/all/'.  str_replace('/', '-', $adminModel));
-			} else {
-				add_error($this->form_validation->error_string());
-			}
-			
-		} else if($id){
-			$datas = $this->$model->getId($id,'array');
-		}
-		return $datas;
+		$this->usermanager->setUserModel($adminModel);
+		$this->usermanager->delete($id,'bo/administrators/all/'.  str_replace('/', '-', $adminModel));
 	}
 	
 	private function filterModel($model) {
-		
 		return str_replace('-', '/', $model);
 	}
 }

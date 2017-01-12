@@ -14,6 +14,11 @@ if (!defined('BASEPATH'))
  * @author thibault
  */
 class Users extends BO_Controller {
+	
+	public function __construct() {
+		parent::__construct();
+		$this->load->library('bo/userManager');
+	}
 
 	public function index($userModel = 'memberspace/user') {
 		$this->all($userModel);
@@ -34,70 +39,26 @@ class Users extends BO_Controller {
 	
 	public function add($userModel = 'memberspace/user') {
 		$userModel = $this->filterModel($userModel);
-		$datas = $this->save(null,$userModel);
+		$this->usermanager->setUserModel($userModel);
+		$datas = $this->usermanager->save(null);
 		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas,'modelName'=>$userModel));
 	}
 	
 	public function edit($id,$userModel = 'memberspace/user') {
 		$userModel = $this->filterModel($userModel);
-		$datas = $this->save($id,$userModel);
+		$this->usermanager->setUserModel($userModel);
+		$datas = $this->usermanager->save($id);
 		$this->layout->view('bo/users/save', array('popSaveUser'=> $datas, 'isEditUser'=>true,'modelName'=>$userModel));
 	}
 	
 	public function delete($id,$userModel = 'memberspace/user') {
-		$userModel = $this->filterModel($userModel);
-		$this->load->helper('memberspace/authorization');
-		if(user_can('delete',$userModel,$id)){
-			$this->load->model('memberspace/user');
-			$this->user->deleteId($id);
-			add_success(translate('L\'utilisateur a bien été supprimé'));
-		} else {
-			add_error(translate('Vous n\'avez pas le droit de supprimer cet utilisateur'));
-		}
-		redirect('bo/users/all/'.  str_replace('/', '-', $userModel));
-	}
-	
-	public function save($id = null,$userModel = 'memberspace/user') {
-		$userModel = $this->filterModel($userModel);
-		$model = pathinfo($userModel)['filename'];
-		$this->load->helper('memberspace/authorization');
-		$this->load->helper('flashmessages/flashmessages');
-		$this->load->model($userModel);
-		$this->load->helper('form');
-		$datas = array();
-		if(isset($_POST) && isset($_POST['save-user'])) {
-			$datas = $_POST;
-			unset($_POST['save-user']);
-			$is_update = false;
-			if(isset($_POST['id']) && $_POST['id']) {
-				$is_update = true;
-				if(!user_can('update',$userModel, $_POST['id'])){
-					add_error(translate('Vous ne pouvez pas modifier cet utilisateur'));
-					return $datas;
-				}
-			} else {
-				if(!user_can('add',$userModel)) {
-					add_error(translate('Vous ne pouvez pas ajouter cet utilisateur'));
-					return $datas;
-				}
-			}
-			if($this->$model->fromPost()) {
-				add_success(translate('L\'utilisateur a bien été ').($is_update ? translate('mis à jour') : translate('ajouté')));
-				redirect('bo/users/all/'.  str_replace('/', '-', $userModel));
-			} else {
-				add_error($this->form_validation->error_string());
-			}
-			
-		} else if($id){
-			$datas = $this->$model->getId($id,'array');
-		}
-		return $datas;
+		$this->usermanager->setUserModel($userModel);
+		$this->usermanager->delete($id, 'bo/users/all/'.  str_replace('/', '-', $userModel));
 	}
 	
 	protected function filterModel($model) {
 		return str_replace('-', '/', $model);
 	}
-
 }
 
 ?>
