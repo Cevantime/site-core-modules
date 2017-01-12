@@ -81,10 +81,16 @@ class BBCodeParser extends JBBCode\Parser {
 		//$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('h3', '<h3 class="section" >{param}</h2>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h3', '<h3 class="section" >{param}</h3>');
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('h4', '<h4 class="section" >{param}</h2>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h4', '<h4 class="section" >{param}</h4>');
+		$this->addCodeDefinition($builder->build());
+		
+		$builder = new JBBCode\CodeDefinitionBuilder('h5', '<h5 class="section" >{param}</h5>');
+		$this->addCodeDefinition($builder->build());
+		
+		$builder = new JBBCode\CodeDefinitionBuilder('h6', '<h6 class="section" >{param}</h6>');
 		$this->addCodeDefinition($builder->build());
 
 		$builder = new JBBCode\CodeDefinitionBuilder('b', '<strong>{param}</strong>');
