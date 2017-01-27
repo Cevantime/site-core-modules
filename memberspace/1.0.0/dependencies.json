@@ -1,8 +1,0 @@
-{
-	"composer": [
-		{
-			"name" : "ircmaxell/password-compat",
-			"version" : "^1.0"
-		}
-	]
-}

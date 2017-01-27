@@ -144,7 +144,8 @@ class Right extends DATA_Model {
 		if ($right_value == '*')
 			return true;
 		$varreg = '([0-9a-zA-Z]+)';
-		$regex = '#^' . $varreg . '?\[' . $varreg . '\]::' . $varreg . '\((.*?)\)$#';
+		$classreg = '([0-9a-z/A-Z]+)';
+		$regex = '#^' . $varreg . '?\[' . $classreg . '\]::' . $varreg . '\((.*?)\)$#';
 		if (preg_match($regex, $right_value, $matches)) {
 			$type = $matches[1];
 			$class = $matches[2];

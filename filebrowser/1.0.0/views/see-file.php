@@ -9,7 +9,8 @@
 	<i class="fa fa-file-archive-o"></i>
 	<?php break; ?>
 <?php case 'application/pdf' : ?>
-	<i class="fa fa-file-pdf-o"></i>
+	<?php $this->load->helper('images/pdfthumb'); ?>
+	<img src="<?php echo pdfthumb($file->file); ?>"/>
 	<?php break; ?>
 <?php default : ?>
 	<i class="fa fa-file"></i>
