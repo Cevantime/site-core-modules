@@ -266,6 +266,7 @@ var $draggedIn = null;
 function parseNewFiles() {
 
 	$('.file-row:not(.parsed)').addClass('parsed').click(function (e) {
+		e.preventDefault();
 		doSelect($(this));
 	}).on({
 		dragstart: function (e) {
