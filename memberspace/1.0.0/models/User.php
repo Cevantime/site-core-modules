@@ -72,6 +72,7 @@ class User extends DATA_Model {
 			}
 			return $this->rights;
 		}
+		
 		return $this->right->getUserRights($userId);
 	}
 	
@@ -114,11 +115,13 @@ class User extends DATA_Model {
 	}
 
 	public function notExistingLogin($login) {
-		return !$this->getRow(array('login' => $login));
+		$this->load->model('memberspace/user');
+		return !$this->user->getRow(array('login' => $login));
 	}
 
 	public function notExistingEmail($email) {
-		return !$this->getRow(array('email' => $email));
+		$this->load->model('memberspace/user');
+		return !$this->user->getRow(array('email' => $email));
 	}
 
 	public function addToGroup($groupId, $userId = null) {
@@ -249,12 +252,20 @@ class User extends DATA_Model {
 			array(
 				'field' => 'password',
 				'label' => translate('Mot de passe'),
-				'rules' => 'trim|min_length[5]|max_length[50]'
+				'rules' => array(
+					'trim',
+					'min_length[5]',
+					'max_length[50]',
+					array('valid_password', function($r) use($datas) {
+						return !empty($datas['oldpassword']);
+					}),
+					'matches[passwordconfirm]'
+				)
 			),
 			array(
 				'field' => 'passwordconfirm',
 				'label' => translate('Mot de passe de confirmation'),
-				'rules' => 'trim|min_length[5]|max_length[50]|matches[password]'
+				'rules' => 'trim'
 			),
 			array(
 				'field' => 'oldpassword',
@@ -269,5 +280,6 @@ class User extends DATA_Model {
 			)
 		);
 	}
+	
 
 }
