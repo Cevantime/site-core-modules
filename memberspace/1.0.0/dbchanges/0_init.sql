@@ -56,8 +56,7 @@ CREATE TABLE IF NOT EXISTS `links_users_groups` (
 --
 
 INSERT INTO `links_users_groups` (`user_id`, `group_id`) VALUES
-(1, 1),
-(2, 1);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -72,14 +71,6 @@ CREATE TABLE IF NOT EXISTS `links_users_rights` (
   PRIMARY KEY (`user_id`,`right_id`,`group_id`),
   KEY `right_id` (`right_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `links_users_rights`
---
-
-INSERT INTO `links_users_rights` (`user_id`, `right_id`, `group_id`) VALUES
-(1, 1, 1),
-(2, 1, 1);
 
 -- --------------------------------------------------------
 
