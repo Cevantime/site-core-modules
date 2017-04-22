@@ -41,9 +41,9 @@ class UserManager {
 		$CI->load->helper('flashmessages/flashmessages');
 		$CI->load->model($userModel);
 		$CI->load->helper('form');
-		$datas = array();
+		$datas = $CI->$model->getId($id,'array');
 		if(isset($_POST) && isset($_POST['save-user'])) {
-			$datas = $_POST;
+			$datas = array_merge($datas,$_POST);
 			unset($_POST['save-user']);
 			$is_update = false;
 			if(isset($_POST['id']) && $_POST['id']) {
@@ -72,8 +72,6 @@ class UserManager {
 				add_error($CI->form_validation->error_string());
 			}
 			
-		} else if($id){
-			$datas = $CI->$model->getId($id,'array');
 		}
 		return $datas;
 	}

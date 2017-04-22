@@ -24,3 +24,5 @@ $(function () {
 	parseModal();
 	$(document).ajaxComplete(parseModal);
 });
+
+module.exports = parseModal;

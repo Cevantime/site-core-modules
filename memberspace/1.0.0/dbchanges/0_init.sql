@@ -124,8 +124,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`, `email`) VALUES
-(1, 'Cevantime', 'e57521ce558d6f58a3d6ea36b4852148', 'thibault.truffert@gmail.com'),
-(2, 'Alto', '3b37936dd94036f48b47226b3c2d0adb', 'gwadaldesign@gmail.com');
+(1, 'root', '$2y$10$37DKwcBVUHOUUvohiWMAJegw4sTBtS5veTrRlVJpmobpsNgLbigJW', 'admin@noreply.com');
 
 --
 -- Contraintes pour les tables exportées
