@@ -10,7 +10,8 @@
 	<?php break; ?>
 <?php case 'application/pdf' : ?>
 	<?php $this->load->helper('images/pdfthumb'); ?>
-	<img src="<?php echo pdfthumb($file->file); ?>"/>
+	<!-- <img src="<?php // echo base_url(pdfthumb($file->file)); ?>"/> -->
+	<i class="fa fa-file-pdf-o"></i>
 	<?php break; ?>
 <?php default : ?>
 	<i class="fa fa-file"></i>

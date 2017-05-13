@@ -151,9 +151,13 @@ class File extends DATA_Model {
 			return true;
 		}
 		if (isset($_FILES[$key])) {
-			$this->upload->initialize(array('upload_path' => './' . $uploadPath, 'allowed_types' => '*'));
+			if( ! file_exists('./'.$uploadPath)) {
+				mkdir('./'.$uploadPath);
+			}
+			$this->upload->initialize(array('upload_path' => './' . $uploadPath, 'allowed_types' => '*', 'file_name' => uniqid()));
 			if ($this->upload->do_upload($key)) {
 				$this->infos[$key] = $this->upload->data();
+				$this->infos[$key]['original_name'] = $_FILES[$key]['name'];
 				if ($datas) {
 					$datas[$key] = $uploadPath . '/' . $this->upload->file_name;
 				} else {
@@ -178,7 +182,7 @@ class File extends DATA_Model {
 		$to_insert['hierarchy'] = $parent ? $parent->hierarchy . '/' . $parent->id : '';
 		if (!isset($to_insert['is_folder']) || !$to_insert['is_folder']) {
 			$to_insert['infos'] = $this->infos['file'];
-			$to_insert['name'] = $this->infos['file']['file_name'];
+			$to_insert['name'] = $this->infos['file']['original_name'];
 			$to_insert['type'] = $this->infos['file']['file_type'];
 		} else {
 			$to_insert['file'] = null;
