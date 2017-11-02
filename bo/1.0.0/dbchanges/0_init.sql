@@ -14,9 +14,7 @@ CREATE TABLE IF NOT EXISTS `users_admin` (
 --
 
 INSERT INTO `users_admin` (`id`, `name`, `forname`) VALUES
-(1, 'Thibault', 'Truffert');
-INSERT INTO `users_admin` (`id`, `name`, `forname`) VALUES
-(2, 'Alex', 'Taurisano');
+(1, 'Admin', 'Admin');
 
 --
 -- Contraintes pour la table `users_admin`

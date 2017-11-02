@@ -1,3 +1,5 @@
+<?php $this->load->helper('form'); ?>
+
 <?php echo form_open(current_url()); ?>
 	<div class="form-group">
 		<div class="input-group login-input">

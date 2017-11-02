@@ -1,6 +1,7 @@
-var $ = require('jquery');
+var $ = window.jQuery || require('jquery');
 
 global.jQuery = $;
+
 require('bootstrap');
 
 $("[rel=tooltip]").tooltip();

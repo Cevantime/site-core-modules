@@ -1,4 +1,4 @@
-var $ = require('jquery');
+var $ = window.jQuery || require('jquery');
 
 $('#lang').change(function () {
 	window.location = window.baseURL+"traductions/index/translate/" + $(this).val();

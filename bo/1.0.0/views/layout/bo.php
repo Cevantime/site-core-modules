@@ -177,7 +177,7 @@ and open the template in the editor.
 							</div>
 							<div class="modal-footer">
 								<a href="" class="btn btn-danger">OK</a>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+								<button type="button" class="btn btn-confirm btn-default" data-dismiss="modal">Annuler</button>
 							</div>
 						</div>
 					</div>

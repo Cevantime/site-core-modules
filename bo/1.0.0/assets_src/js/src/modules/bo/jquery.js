@@ -1,1 +1,1 @@
-global.jQuery = require('jquery');
+global.jQuery = window.jQuery || require('jquery');

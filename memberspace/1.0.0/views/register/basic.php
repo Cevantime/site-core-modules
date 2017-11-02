@@ -1,3 +1,5 @@
+<?php $this->load->helper('form'); ?>
+
 <?php echo form_open(current_url()); ?>
 	<p>
 		<label for="InputUserName">Nom d'utilisateur<sup>*</sup></label>
