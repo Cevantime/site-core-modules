@@ -15,13 +15,14 @@ class BBCodeParser extends JBBCode\Parser {
 	public function __construct() {
 		parent::__construct();
 		$this->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-
+		
+		$baseUrl = base_url();
 
 		$builder = new JBBCode\CodeDefinitionBuilder('code', '<pre><code class="{option}">{param}</code></pre>');
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('image', '<img src="{option}" alt="{param}"/>');
+		$builder = new JBBCode\CodeDefinitionBuilder('image', '<img src="'.$baseUrl.'{option}" alt="{param}"/>');
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
@@ -44,11 +45,11 @@ class BBCodeParser extends JBBCode\Parser {
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('zip', '<a href="{option}" target="_blank" class="ziplink resourcelink">{param}</a>');
+		$builder = new JBBCode\CodeDefinitionBuilder('zip', '<a href="'.$baseUrl.'{option}" target="_blank" class="ziplink resourcelink">{param}</a>');
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('pdf', '<a href="{option}" target="_blank" class="pdflink resourcelink">{param}</a>');
+		$builder = new JBBCode\CodeDefinitionBuilder('pdf', '<a href="'.$baseUrl.'{option}" target="_blank" class="pdflink resourcelink">{param}</a>');
 		$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
@@ -77,7 +78,7 @@ class BBCodeParser extends JBBCode\Parser {
 		$builder = new JBBCode\CodeDefinitionBuilder('justify', '<div align="justify">{param}</div>');
 		$this->addCodeDefinition($builder->build());
 
-		$builder = new JBBCode\CodeDefinitionBuilder('h2', '<h2 class="section">{param}</h1>');
+		$builder = new JBBCode\CodeDefinitionBuilder('h2', '<h2 class="section">{param}</h2>');
 		//$builder->setUseOption(true);
 		$this->addCodeDefinition($builder->build());
 
@@ -149,7 +150,7 @@ class BBCodeParser extends JBBCode\Parser {
 
 	public function parse($str) {
 		$newstr = $this->clean($str);
-		$newstr = html_escape($newstr);
+		$newstr = htmlspecialchars($newstr);
 		parent::parse($newstr);
 		$treeRoot = &$this->treeRoot;
 		$i = 0;
@@ -169,10 +170,14 @@ class BBCodeParser extends JBBCode\Parser {
 
 	public function clean($str) {
 		$str = str_replace("\t", "    ", $str);
-		$regex = "#(.*?)(\r)?\n#";
-		$regex2 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\](\r)?\n#";
-		$str = preg_replace($regex, "[p]$1[/p]\r\n", $str . "\r\n");
-		$str = preg_replace($regex2, "$1$2$5\r\n", $str);
+		$regex1 = "#(.*?)(\r)?\n#";
+        $regex2 = "#(\[(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])#";
+        $regex25 = "#(\[/(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)\])#";
+		$regex3 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\](\r)?\n#";
+		$str = preg_replace($regex2, "\r\n$1", $str . "\r\n");
+		$str = preg_replace($regex25, "$1\r\n", $str . "\r\n");
+		$str = preg_replace($regex1, "[p]$1[/p]\r\n", $str . "\r\n");
+		$str = preg_replace($regex3, "$1$2$5\r\n", $str);
 
 		$newstr = '';
 		$min = 0;
@@ -188,6 +193,7 @@ class BBCodeParser extends JBBCode\Parser {
 		}
 		$newstr .= substr($str, $max, strlen($str) - $max - 1);
 		$newstr = str_replace('[p][/p]', '', $newstr);
+        $newstr = trim(preg_replace("#((\r?)\n)+#","\r\n", $newstr));
 		return $newstr;
 	}
 
@@ -210,6 +216,21 @@ class BBCodeParser extends JBBCode\Parser {
 		$CI->load->helper('latex_escape');
 
 		$newstr = latex_special_chars($newstr);
+		
+		$baseUrl = base_url();
+		
+		$parseFiles = function($matches) {
+			$filerealpath = realpath(latex_decode($matches[2]));
+			if($filerealpath) {
+				$infos = getimagesize($filerealpath);
+				$maxwidth = 380;
+				$width = min(array($infos[0], $maxwidth));;
+				return '\includegraphics[width='.$width.'px]{' . realpath(latex_decode($matches[2])) . '}';
+
+			} else {
+				return translate('image non trouvée');
+			}
+		} ;
 		
 		$map = array(
 			'[h2](.*?)[/h2]' => '\section{$1}' . "\n" . '',
@@ -247,18 +268,8 @@ class BBCodeParser extends JBBCode\Parser {
 			'[url=(.*?)](.*?)[/url]' => function($matches) {
 				return '\href{'.latex_decode($matches[1]).'}{'.$matches[2].'}';
 			},
-			'[file=(.*?)](.*?)[/file]' => function($matches) {
-				$filerealpath = realpath(latex_decode($matches[2]));
-				if($filerealpath) {
-					$infos = getimagesize($filerealpath);
-					$maxwidth = 380;
-					$width = min(array($infos[0], $maxwidth));;
-					return '\includegraphics[width='.$width.'px]{' . realpath(latex_decode($matches[2])) . '}';
-					
-				} else {
-					return translate('image non trouvée');
-				}
-			},
+			'[file=(.*?)](.*?)[/file]' => $parseFiles,
+			'[image=(.*?)](.*?)[/image]' => $parseFiles,
 			'[video](.*?)[/video]' => function($matches) {
 				return '\href{'.latex_decode($matches[1]).'}';
 			},
@@ -266,6 +277,8 @@ class BBCodeParser extends JBBCode\Parser {
 			'[i](.*?)[/i]' => '\textit{$1}',
 			'[h5](.*?)[/h5]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
 			'[h6](.*?)[/h6]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
+			'[keynotion](.*?)[/keynotion]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
+			'[warning](.*?)[/warning]' => '\paragraph{}' . "\n" . '\textbf{$1}' . "\n",
 			'[table](.*?)[/table]' => function($matches){
 				$content = $matches[1];
 				$nbTr = substr_count($content, '[tr]');
