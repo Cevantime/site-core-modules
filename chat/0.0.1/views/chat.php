@@ -2,7 +2,7 @@
     <head>
         <title>Tchat</title>
 
-        <link href="<?php echo base_url("assets/local/css/chat/chat.css"); ?>" rel="stylesheet" />
+        <link href="<?php echo base_url("assets/local/css/modules/chat/chat.css"); ?>" rel="stylesheet" />
     </head>
     <body>
         <div id="chat-templates" style="display: none">

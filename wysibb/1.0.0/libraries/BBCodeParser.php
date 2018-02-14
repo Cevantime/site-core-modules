@@ -170,14 +170,14 @@ class BBCodeParser extends JBBCode\Parser {
 
 	public function clean($str) {
 		$str = str_replace("\t", "    ", $str);
-		$regex1 = "#(.*?)(\r)?\n#";
-        $regex2 = "#(\[(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])#";
-        $regex25 = "#(\[/(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)\])#";
-		$regex3 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\](\r)?\n#";
-		$str = preg_replace($regex2, "\r\n$1", $str . "\r\n");
-		$str = preg_replace($regex25, "$1\r\n", $str . "\r\n");
-		$str = preg_replace($regex1, "[p]$1[/p]\r\n", $str . "\r\n");
-		$str = preg_replace($regex3, "$1$2$5\r\n", $str);
+        $regex1 = "#(\[(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])#";
+        $regex2 = "#(\[/(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)\])#";
+		$regex3 = "#(.*?)(\r)?\n#";
+		$regex4 = "#\[p\](.*?)(\[/?(h1|h2|h3|h4|h5|h6|li|ul|div|pre|code|sectioncode|legend|quote|becareful|info|left|leftedcode|center|justify|section2|section3|p|ol|list|\*|youtube|video|table|td|tr|th)(=.*?)?\])(.*?)\[/p\](\r)?\n#";
+		$str = preg_replace($regex1, "\r\n$1", $str . "\r\n");
+		$str = preg_replace($regex2, "$1\r\n", $str . "\r\n");
+		$str = preg_replace($regex3, "[p]$1[/p]\r\n", $str . "\r\n");
+		$str = preg_replace($regex4, "$1$2$5\r\n", $str);
 
 		$newstr = '';
 		$min = 0;
